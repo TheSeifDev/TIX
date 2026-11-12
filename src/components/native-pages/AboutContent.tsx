@@ -71,31 +71,32 @@ export function AboutContent() {
       </div>
     </section>
 
-    <section className="touchpoints" data-touchpoints aria-label="Built across every touchpoint">
-      <div className="touchpoints__stage">
-        <img className="touchpoints__art" src="/assets/images/Group%20109.webp" alt="" aria-hidden="true" />
+    <section className="touchpoints !relative !h-auto !w-full !bg-[#080808]" data-touchpoints aria-label="Built across every touchpoint">
+      <div className="touchpoints__stage !relative !inset-auto !mx-0 !w-full !max-w-none !aspect-auto !h-[clamp(42rem,58vw,52rem)] !overflow-hidden !bg-[#080808] max-[700px]:!mx-auto max-[700px]:!w-[calc(100vw-46px)] max-[700px]:!aspect-[590/745] max-[700px]:!h-auto">
+        <div className="pointer-events-none absolute inset-0 z-[1] bg-[linear-gradient(160deg,#170204_0%,#310407_58%,#120103_100%)] [clip-path:polygon(0_0,100%_0,100%_4.8%,50%_16%,0_4.8%)]" aria-hidden="true" />
+        <img className="touchpoints__art !absolute !inset-0 !z-[2] !block !h-full !w-full !max-w-none !object-fill !transform-none" src="/assets/images/Group%20109.webp" alt="" aria-hidden="true" />
 
-        <div className="touchpoints__copy">
-          <p className="touchpoints__kicker">ONE STUDIO. MULTIPLE CREATIVE SYSTEMS.</p>
-          <h2>Built across<br />every touchpoint.</h2>
-          <p>One studio. Multiple creative systems. Unified brand experiences.</p>
+        <div className="touchpoints__copy !absolute !left-1/2 !top-[18.5%] !z-[6] !w-[78%] !-translate-x-1/2 !text-center">
+          <p className="touchpoints__kicker !mb-[0.35rem] !text-[clamp(0.45rem,0.66vw,0.66rem)] !tracking-[0.17em]">ONE STUDIO. MULTIPLE CREATIVE SYSTEMS.</p>
+          <h2 className="!text-[clamp(1.4rem,2.25vw,2rem)] !leading-[0.98]">Built across<br />every touchpoint.</h2>
+          <p className="!mx-auto !mt-[0.7rem] !max-w-[25ch] !text-[clamp(0.7rem,0.95vw,0.92rem)] !leading-[1.45]">One studio. Multiple creative systems. Unified brand experiences.</p>
         </div>
 
-        <img className="touchpoints__logo" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
+        <img className="touchpoints__logo !absolute !left-1/2 !top-[52.5%] !z-[3] !w-[clamp(112px,10vw,176px)] !-translate-x-1/2 !-translate-y-1/2 max-[700px]:!w-[20%]" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
 
         <div className="touchpoints__cards" aria-label="Our connected disciplines">
-          <img className="touchpoints__card touchpoints__card--1" src="/assets/images/card1.webp" alt="Strategy: marketing strategy, performance campaigns, social media management, and brand positioning" data-flight-card="0" />
-          <img className="touchpoints__card touchpoints__card--2" src="/assets/images/card2.webp" alt="Production: commercial filming, photography, motion graphics, and event coverage" data-flight-card="1" />
-          <img className="touchpoints__card touchpoints__card--3" src="/assets/images/card3.webp" alt="Digital: UI/UX design, website development, and interactive experiences" data-flight-card="2" />
-          <img className="touchpoints__card touchpoints__card--4" src="/assets/images/card4.webp" alt="Visuals: graphic design, brand systems, creative direction, and packaging" data-flight-card="3" />
+          <img className="touchpoints__card touchpoints__card--1 !absolute !left-[calc(50%_-_min(36vw,_650px))] !top-[39%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!left-[2.5%] max-[700px]:!top-[31%] max-[700px]:!w-[34%]" src="/assets/images/card1.webp" alt="Strategy: marketing strategy, performance campaigns, social media management, and brand positioning" data-flight-card="0" />
+          <img className="touchpoints__card touchpoints__card--2 !absolute !right-[calc(50%_-_min(36vw,_650px))] !top-[39%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!right-[2.5%] max-[700px]:!top-[31%] max-[700px]:!w-[34%]" src="/assets/images/card2.webp" alt="Production: commercial filming, photography, motion graphics, and event coverage" data-flight-card="1" />
+          <img className="touchpoints__card touchpoints__card--3 !absolute !left-[calc(50%_-_min(36vw,_650px))] !top-[56%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!left-[2.5%] max-[700px]:!top-[58.5%] max-[700px]:!w-[34%]" src="/assets/images/card3.webp" alt="Digital: UI/UX design, website development, and interactive experiences" data-flight-card="2" />
+          <img className="touchpoints__card touchpoints__card--4 !absolute !right-[calc(50%_-_min(36vw,_650px))] !top-[56%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!right-[2.5%] max-[700px]:!top-[58.5%] max-[700px]:!w-[34%]" src="/assets/images/card4.webp" alt="Visuals: graphic design, brand systems, creative direction, and packaging" data-flight-card="3" />
         </div>
 
         <div className="touchpoints__wipe touchpoints__wipe--one" aria-hidden="true"></div>
         <div className="touchpoints__wipe touchpoints__wipe--two" aria-hidden="true"></div>
         <div className="touchpoints__wipe touchpoints__wipe--three" aria-hidden="true"></div>
-        <div className="touchpoints__chevrons" aria-hidden="true">
-          <span className="touchpoints__chevron touchpoints__chevron--burgundy" />
-          <span className="touchpoints__chevron touchpoints__chevron--red" />
+        <div className="touchpoints__chevrons !absolute !inset-x-0 !bottom-0 !z-[7] !h-[22%] !pointer-events-none" aria-hidden="true">
+          <span className="touchpoints__chevron touchpoints__chevron--burgundy !absolute !inset-x-0 !bottom-[8%] !h-[84%] !bg-[#5d0710] [clip-path:polygon(0_0,50%_45%,100%_0,100%_100%,0_100%)]" />
+          <span className="touchpoints__chevron touchpoints__chevron--red !absolute !inset-x-0 !bottom-[4%] !h-[57%] !bg-[#a71721] [clip-path:polygon(0_0,50%_45%,100%_0,100%_100%,0_100%)]" />
         </div>
       </div>
     </section>

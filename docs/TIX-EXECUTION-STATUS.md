@@ -14,7 +14,8 @@ Updated: 2026-11-12 (Africa/Cairo)
 | 07 SEO/accessibility | IN PROGRESS | Sitemap, robots, metadata baseline, and legacy accessibility behaviors retained; audits remain. |
 | 08 Security/contact | IN PROGRESS | Zod API, honeypot, size limit, headers, and truthful provider configuration response added. Audit found 7 moderate transitive findings; shared-store rate limiting and provider configuration remain. |
 | 09 Automated QA | IN PROGRESS | 23/23 Playwright tests pass across five Studio viewports, image integrity, reduced motion, touchpoint scroll behavior, clean routes, legacy redirects, mobile nav, Work geometry, Services motion, and Contact; axe/Lighthouse remain. |
-| 10 Vercel deployment | NOT STARTED | No deployment or DNS changes made. Requires project access and explicit production approval. |
+| 10 Tailwind migration | IN PROGRESS | Tailwind v4/PostCSS and TIX theme tokens are installed; Touchpoints has utility-owned styling. Seven legacy public stylesheets remain linked for routes not yet converted. |
+| 11 Vercel deployment | NOT STARTED | No deployment or DNS changes made. Requires project access and explicit production approval. |
 
 ## Current blockers
 

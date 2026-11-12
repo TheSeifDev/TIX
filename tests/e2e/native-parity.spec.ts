@@ -110,7 +110,11 @@ test.describe('native route parity', () => {
 
       const stageBox = await stage.boundingBox();
       expect(stageBox).not.toBeNull();
-      expect(Math.abs((stageBox!.width / stageBox!.height) - (590 / 745))).toBeLessThan(0.025);
+      if (viewport.width <= 700) {
+        expect(Math.abs((stageBox!.width / stageBox!.height) - (590 / 745))).toBeLessThan(0.025);
+      } else {
+        expect(stageBox!.width).toBeGreaterThanOrEqual(viewport.width - 2);
+      }
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       expect((await section.boundingBox())?.height ?? Infinity).toBeLessThan(viewport.width < 700 ? 560 : 850);
 
