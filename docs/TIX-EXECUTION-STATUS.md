@@ -21,3 +21,16 @@ Updated: 2026-11-12 (Africa/Cairo)
 - Contact delivery is intentionally not marked complete until `RESEND_API_KEY`, `CONTACT_TO`, and `CONTACT_FROM` are configured in the deployment environment.
 - `css/home.css` contains a fallback reference to missing `hero-girl-bg.jpg`; the build remains safe because legacy CSS is served as a public file, but the visual fallback needs an asset decision.
 - No production deployment was attempted, and no DNS or upstream Nginx configuration was changed.
+
+## Correction checkpoints
+
+- `491ae9e` — native React pages, Navbar, SitePage, contextual footer, language attributes, and removal of the runtime legacy page bridge.
+- `0a52bc2` — WebP derivatives, animation/parity reports, Playwright configuration, and browser regression tests.
+- `f4b530f` — removed the obsolete duplicate WebP collision derivative.
+
+## Verified correction evidence
+
+- Chromium Playwright: 8 passed — six routes, mobile navigation open/escape, and portfolio lightbox keyboard close.
+- Native runtime reference scan: 0 route/component references to `LegacyPage`, `dangerouslySetInnerHTML`, `layout.js`, or `main.js`.
+- WebP validation: 197 source derivatives, 197 public derivatives, and 197 manifest rows.
+- Build gates: typecheck, lint, Vitest, and Next production build passed before the final generated-asset cleanup.
