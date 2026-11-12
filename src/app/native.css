@@ -1,0 +1,8 @@
+.tix-portfolio-lightbox { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 2rem; color: #fff; }
+.tix-portfolio-lightbox__backdrop { position: absolute; inset: 0; border: 0; background: rgba(0, 0, 0, .92); cursor: default; }
+.tix-portfolio-lightbox__content { position: relative; z-index: 1; display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 1rem; width: min(1100px, 100%); }
+.tix-portfolio-lightbox__image { display: block; width: min(80vw, 900px); max-height: 82vh; object-fit: contain; }
+.tix-portfolio-lightbox__close, .tix-portfolio-lightbox__previous, .tix-portfolio-lightbox__next { color: #fff; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.3); border-radius: 999px; cursor: pointer; }
+.tix-portfolio-lightbox__close { position: absolute; right: 0; top: -3rem; width: 2.5rem; height: 2.5rem; font-size: 1.5rem; }
+.tix-portfolio-lightbox__previous, .tix-portfolio-lightbox__next { width: 3rem; height: 3rem; font-size: 2rem; }
+.tix-portfolio-lightbox__counter { position: absolute; bottom: -2rem; left: 50%; transform: translateX(-50%); margin: 0; }

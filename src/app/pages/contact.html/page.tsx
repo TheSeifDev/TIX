@@ -1,2 +1,4 @@
-import { LegacyPage } from '@/components/legacy-page';
-export default function Contact() { return <LegacyPage page="contact" />; }
+import { SitePage } from '@/components/layout/SitePage';
+import { ContactContent } from '@/components/native-pages/ContactContent';
+import { PageInteractions } from '@/components/PageInteractions';
+export default function Contact() { return <SitePage contact><ContactContent /><PageInteractions page="contact" /></SitePage>; }
