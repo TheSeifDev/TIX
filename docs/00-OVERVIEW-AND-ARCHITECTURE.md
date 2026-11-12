@@ -11,7 +11,7 @@ Welcome to the technical documentation for the official **TIX Creative Agency** 
 ### Core Development Principles:
 1. **Zero Runtime Framework Overhead**: Built using standard HTML5, CSS3 with CSS Custom Properties, and vanilla ES6+ JavaScript. No React, Vue, jQuery, or bloated libraries. This delivers near-instant Time to First Byte (TTFB), minimal First Contentful Paint (FCP), and exceptional Core Web Vitals.
 2. **Motion with Purpose**: Smooth scroll triggers, custom cursor, 3D folder interactions, and parallax animations without blocking the main browser thread.
-3. **Bilingual Foundation**: Engineered for English (`/`) and Arabic (`/ar/`) with bidirectional support (`ltr` and `rtl`).
+3. **Bilingual Foundation**: Engineered for English (`/`) and Arabic (`/ar`) with bidirectional support (`ltr` and `rtl`).
 4. **Resilient GitHub Pages Deployment**: Fully static architecture capable of hosting on GitHub Pages, Netlify, Cloudflare Pages, or traditional static hosting.
 
 ---

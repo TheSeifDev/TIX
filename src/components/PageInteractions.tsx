@@ -39,6 +39,90 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const folderCards = gsap.utils.toArray<HTMLElement>('.folder-card');
       folderCards.forEach((card, index) => gsap.fromTo(card, { autoAlpha: 0.35, y: 32 }, { autoAlpha: 1, y: 0, duration: 0.65, delay: index * 0.05, ease: 'power2.out', scrollTrigger: { trigger: card, start: 'top 88%', once: true } }));
     }
+    if (page === 'about') {
+      const section = document.querySelector<HTMLElement>('[data-touchpoints]');
+      const stage = section?.querySelector<HTMLElement>('.touchpoints__stage');
+      const cards = section ? gsap.utils.toArray<HTMLElement>('[data-flight-card]', section) : [];
+      const wipes = section ? gsap.utils.toArray<HTMLElement>('.touchpoints__wipe', section) : [];
+
+      if (stage) {
+        ScrollTrigger.create({
+          trigger: stage,
+          start: 'top 98%',
+          once: true,
+          onEnter: () => stage.classList.add('is-entered'),
+        });
+      }
+
+      if (section && stage && cards.length === 4) {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const rotations = [-8, 8, -6, 7];
+        const entryRotations = [-30, 29, -26, 28];
+        const wipeScales = [1.08, 1.05, 1.02];
+        const wipeStarts = [0.82, 0.87, 0.92];
+        const shadow = 'drop-shadow(0 24px 24px rgba(0, 0, 0, 0.25))';
+
+        if (reducedMotion) {
+          stage.classList.add('is-entered');
+          gsap.set(cards, { x: 0, y: 0, rotation: 0, scale: 1, autoAlpha: 1, filter: shadow });
+          gsap.set(wipes, { autoAlpha: 0, y: 0 });
+        } else {
+          const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
+          const easeOut = (value: number) => 1 - Math.pow(1 - value, 3);
+
+          const renderProgress = (progress: number) => {
+            const travelX = window.innerWidth * 1.05;
+            const travelY = window.innerHeight * 0.2;
+
+            cards.forEach((card, index) => {
+              const start = 0.02 + index * 0.19;
+              const enter = easeOut(clamp01((progress - start) / 0.15));
+              const side = index % 2 === 0 ? -1 : 1;
+              const vertical = index < 2 ? -travelY : travelY;
+              const rotation = entryRotations[index] * (1 - enter) + rotations[index] * enter;
+              const x = side * travelX * (1 - enter);
+              const y = vertical * (1 - enter);
+              const scale = 0.58 + 0.42 * enter;
+              const blur = (1 - enter) * 14;
+
+              gsap.set(card, {
+                x,
+                y,
+                rotation,
+                scale,
+                autoAlpha: enter,
+                filter: `blur(${blur.toFixed(2)}px) ${shadow}`,
+                transformOrigin: 'center center',
+                force3D: true,
+              });
+            });
+
+            wipes.forEach((wipe, index) => {
+              const wipeProgress = clamp01((progress - wipeStarts[index]) / (1 - wipeStarts[index]));
+              const y = window.innerHeight * 0.72 * (1 - wipeProgress);
+              gsap.set(wipe, {
+                autoAlpha: wipeProgress > 0 ? 1 : 0,
+                y,
+                scale: wipeScales[index],
+                force3D: true,
+              });
+            });
+          };
+
+          renderProgress(0);
+          ScrollTrigger.create({
+            trigger: section,
+            start: 'top top',
+            end: 'bottom bottom',
+            scrub: true,
+            invalidateOnRefresh: true,
+            onUpdate: (self) => renderProgress(self.progress),
+            onRefresh: (self) => renderProgress(self.progress),
+          });
+        }
+      }
+    }
+
     const disrupt = document.querySelector<HTMLElement>('[data-disrupt-pin]');
     const disruptSticky = disrupt?.querySelector<HTMLElement>('.disrupt__sticky');
     const disruptTrack = disrupt?.querySelector<HTMLElement>('[data-disrupt-track]');
@@ -56,6 +140,39 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       ScrollTrigger.create({ trigger: lens, start: 'top top', end: () => `+=${Math.ceil(getTravel())}`, pin: lensSticky, scrub: true, invalidateOnRefresh: true, onUpdate: self => { lensTrack.style.transform = `translate3d(${(-self.progress * getTravel()).toFixed(1)}px, 0, 0)`; } });
     }
   }, { dependencies: [page], revertOnUpdate: true });
+
+  useEffect(() => {
+    if (page !== 'about') return;
+    const main = document.querySelector<HTMLElement>('#main-content');
+    if (!main) return;
+
+    let refreshFrame: number | undefined;
+    const scheduleRefresh = () => {
+      if (refreshFrame !== undefined) return;
+      refreshFrame = window.requestAnimationFrame(() => {
+        refreshFrame = undefined;
+        ScrollTrigger.refresh();
+      });
+    };
+    const images = Array.from(main.querySelectorAll('img'));
+    const pendingImages = images.filter((image) => !image.complete);
+    pendingImages.forEach((image) => {
+      image.addEventListener('load', scheduleRefresh);
+      image.addEventListener('error', scheduleRefresh);
+    });
+    const resizeObserver = new ResizeObserver(scheduleRefresh);
+    resizeObserver.observe(main);
+    scheduleRefresh();
+
+    return () => {
+      if (refreshFrame !== undefined) window.cancelAnimationFrame(refreshFrame);
+      pendingImages.forEach((image) => {
+        image.removeEventListener('load', scheduleRefresh);
+        image.removeEventListener('error', scheduleRefresh);
+      });
+      resizeObserver.disconnect();
+    };
+  }, [page]);
 
   useEffect(() => {
     const cleanups: Array<() => void> = [];

@@ -73,7 +73,7 @@ export function AboutContent() {
 
     <section className="touchpoints" data-touchpoints aria-label="Built across every touchpoint">
       <div className="touchpoints__stage">
-        <img className="touchpoints__art" src="../assets/images/Group%20109.webp" alt="" aria-hidden="true" />
+        <img className="touchpoints__art" src="/assets/images/Group%20109.webp" alt="" aria-hidden="true" />
 
         <div className="touchpoints__copy">
           <p className="touchpoints__kicker">ONE STUDIO. MULTIPLE CREATIVE SYSTEMS.</p>
@@ -81,13 +81,13 @@ export function AboutContent() {
           <p>Unified brand experiences, made to move together.</p>
         </div>
 
-        <img className="touchpoints__logo" src="../assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
+        <img className="touchpoints__logo" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
 
         <div className="touchpoints__cards" aria-label="Our connected disciplines">
-          <img className="touchpoints__card touchpoints__card--1" src="../assets/images/card1.webp" alt="Strategy: marketing strategy, performance campaigns, social media management, and brand positioning" data-flight-card="0" />
-          <img className="touchpoints__card touchpoints__card--2" src="../assets/images/card2.webp" alt="Production: commercial filming, photography, motion graphics, and event coverage" data-flight-card="1" />
-          <img className="touchpoints__card touchpoints__card--3" src="../assets/images/card3.webp" alt="Digital: UI/UX design, website development, and interactive experiences" data-flight-card="2" />
-          <img className="touchpoints__card touchpoints__card--4" src="../assets/images/card4.webp" alt="Visuals: graphic design, brand systems, creative direction, and packaging" data-flight-card="3" />
+          <img className="touchpoints__card touchpoints__card--1" src="/assets/images/card1.webp" alt="Strategy: marketing strategy, performance campaigns, social media management, and brand positioning" data-flight-card="0" />
+          <img className="touchpoints__card touchpoints__card--2" src="/assets/images/card2.webp" alt="Production: commercial filming, photography, motion graphics, and event coverage" data-flight-card="1" />
+          <img className="touchpoints__card touchpoints__card--3" src="/assets/images/card3.webp" alt="Digital: UI/UX design, website development, and interactive experiences" data-flight-card="2" />
+          <img className="touchpoints__card touchpoints__card--4" src="/assets/images/card4.webp" alt="Visuals: graphic design, brand systems, creative direction, and packaging" data-flight-card="3" />
         </div>
 
         <div className="touchpoints__wipe touchpoints__wipe--one" aria-hidden="true"></div>
@@ -116,7 +116,7 @@ export function AboutContent() {
           </div>
 
           <div className="connection__watch" data-reveal="right">
-            <img src="../assets/images/mmm.webp" alt="Luxury watch close-up" />
+            <img src="/assets/images/mmm.webp" alt="Luxury watch close-up" />
           </div>
         </div>
       </div>
@@ -128,13 +128,7 @@ export function AboutContent() {
         <div className="refused__inner" data-reveal>
           
           <div className="refused__left">
-            <img src="../assets/images/ppp.webp" alt="Perfume bottle product shot" />
-            <div
-              style={{"width": "100%", "height": "100%", "background": "linear-gradient(135deg,#08080f 0%,#12121e 100%)", "display": "flex", "alignItems": "center", "justifyContent": "center"}}>
-              <span
-                style={{"fontFamily": "var(--font-display)", "fontSize": ".65rem", "fontWeight": "700", "letterSpacing": ".1em", "textTransform": "uppercase", "color": "var(--muted-2)"}}>REPLACE
-                — Perfume Image</span>
-            </div>
+            <img src="/assets/images/ppp.webp" alt="Perfume bottle product shot" />
           </div>
           
           <div className="refused__right">
@@ -142,11 +136,6 @@ export function AboutContent() {
             <p>From the first strategic idea to the final frame, every detail is crafted to make your brand impossible
               to
               ignore.</p>
-          </div>
-          
-          <div className="refused__img-right"
-            style={{"display": "none"}}>
-            
           </div>
         </div>
       </div>
@@ -179,47 +168,19 @@ export function AboutContent() {
         
         <div className="bts__grid" data-stagger>
           <div className="bts__img bts__img--wide">
-            <img src="../assets/images/bts1.webp" alt="Studio setup during commercial shoot" />
-            <div
-              style={{"width": "100%", "height": "100%", "background": "linear-gradient(135deg,#000000 0%,#000000 100%)", "display": "flex", "alignItems": "center", "justifyContent": "center", "aspectRatio": "16/9"}}>
-              <span
-                style={{"fontFamily": "var(--font-display)", "fontSize": ".7rem", "fontWeight": "700", "letterSpacing": ".12em", "textTransform": "uppercase", "color": "var(--muted-2)"}}></span>
-            </div>
+            <img src="/assets/images/bts1.webp" alt="Studio setup during commercial shoot" />
           </div>
           <div className="bts__img bts__img--tall">
-            <img src="../assets/images/bts2.webp" alt="Studio setup during commercial shoot" />
-            <div
-              style={{"width": "100%", "height": "100%", "background": "linear-gradient(135deg,#120808 0%,#1e0e0e 100%)", "minHeight": "180px", "display": "flex", "alignItems": "center", "justifyContent": "center"}}>
-              <span
-                style={{"fontFamily": "var(--font-display)", "fontSize": ".6rem", "fontWeight": "700", "letterSpacing": ".1em", "textTransform": "uppercase", "color": "var(--muted-2)"}}>REPLACE</span>
-            </div>
+            <img src="/assets/images/bts2.webp" alt="Studio setup during commercial shoot" />
           </div>
           <div className="bts__img bts__img--sq">
-            <img src="../assets/images/bts3.webp" alt="Studio setup during commercial shoot" />
-
-            <div
-              style={{"width": "100%", "height": "100%", "background": "linear-gradient(135deg,#0f0505 0%,#1a0b0b 100%)", "minHeight": "140px", "display": "flex", "alignItems": "center", "justifyContent": "center"}}>
-              <span
-                style={{"fontFamily": "var(--font-display)", "fontSize": ".6rem", "fontWeight": "700", "letterSpacing": ".1em", "textTransform": "uppercase", "color": "var(--muted-2)"}}>REPLACE</span>
-            </div>
+            <img src="/assets/images/bts3.webp" alt="Studio setup during commercial shoot" />
           </div>
           <div className="bts__img bts__img--sq">
-            <img src="../assets/images/bts5.webp" alt="Studio setup during commercial shoot" />
-
-            <div
-              style={{"width": "100%", "height": "100%", "background": "linear-gradient(135deg,#150909 0%,#200e0e 100%)", "minHeight": "140px", "display": "flex", "alignItems": "center", "justifyContent": "center"}}>
-              <span
-                style={{"fontFamily": "var(--font-display)", "fontSize": ".6rem", "fontWeight": "700", "letterSpacing": ".1em", "textTransform": "uppercase", "color": "var(--muted-2)"}}>REPLACE</span>
-            </div>
+            <img src="/assets/images/bts5.webp" alt="Studio setup during commercial shoot" />
           </div>
           <div className="bts__img bts__img--tall">
-            <img src="../assets/images/bts4.webp" alt="Studio setup during commercial shoot" />
-
-            <div
-              style={{"width": "100%", "height": "100%", "background": "linear-gradient(135deg,#0e0606 0%,#1c0c0c 100%)", "minHeight": "180px", "display": "flex", "alignItems": "center", "justifyContent": "center"}}>
-              <span
-                style={{"fontFamily": "var(--font-display)", "fontSize": ".6rem", "fontWeight": "700", "letterSpacing": ".1em", "textTransform": "uppercase", "color": "var(--muted-2)"}}>REPLACE</span>
-            </div>
+            <img src="/assets/images/bts4.webp" alt="Studio setup during commercial shoot" />
           </div>
         </div>
 

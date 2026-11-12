@@ -10,13 +10,14 @@ const securityHeaders = [
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
+  trailingSlash: false,
   async headers() {
     return [{ source: '/(.*)', headers: securityHeaders }];
   },
   async redirects() {
     return [
       { source: '/index.html', destination: '/', permanent: true },
-      { source: '/ar/index.html', destination: '/ar/', permanent: true },
+      { source: '/ar/index.html', destination: '/ar', permanent: true },
       { source: '/pages/about.html', destination: '/about', permanent: true },
       { source: '/pages/services.html', destination: '/services', permanent: true },
       { source: '/pages/work.html', destination: '/work', permanent: true },
