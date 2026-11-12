@@ -1290,7 +1290,7 @@
 
 @media (max-width: 560px) {
   .impact-hero {
-    min-height: 92svh;
+    min-height: clamp(29rem, 64svh, 36rem);
     padding-top: calc(var(--nav-height) + 1.5rem);
     padding-bottom: 2.5rem;
   }
@@ -1361,7 +1361,7 @@
 /* ── SCROLL-DRIVEN TOUCHPOINTS FLIGHT ───────────────────── */
 .touchpoints {
   position: relative;
-  height: 520vh;
+  height: 175vh;
   background: #080808;
   isolation: isolate;
 }
@@ -1373,7 +1373,7 @@
   min-height: 620px;
   overflow: hidden;
   background: #080808;
-  clip-path: polygon(50% 0, 100% 34%, 100% 100%, 0 100%, 0 34%);
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
   transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -1494,7 +1494,7 @@
 
 @media (max-width: 700px) {
   .touchpoints {
-    height: 390vh;
+    height: 125svh;
   }
 
   .touchpoints__stage {

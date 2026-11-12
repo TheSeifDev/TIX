@@ -11,7 +11,14 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
   useGSAP(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.utils.toArray<HTMLElement>('[data-reveal], .observer-target').forEach((target) => {
-      gsap.fromTo(target, { autoAlpha: 0, y: 28 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out', scrollTrigger: { trigger: target, start: 'top 86%', once: true } });
+      const isAboutHero = page === 'about' && Boolean(target.closest('.impact-hero'));
+      gsap.fromTo(target, { autoAlpha: 0, y: isAboutHero ? 18 : 28 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: target, start: 'top 86%', once: true } }) });
+    });
+    gsap.utils.toArray<HTMLElement>('[data-stagger]').forEach((group) => {
+      const children = Array.from(group.children) as HTMLElement[];
+      if (!children.length) return;
+      const isAboutHero = page === 'about' && Boolean(group.closest('.impact-hero'));
+      gsap.fromTo(children, { autoAlpha: 0, y: isAboutHero ? 14 : 28 }, { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.08, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: group, start: 'top 86%', once: true } }) });
     });
     if (page === 'home') {
       const hero = document.querySelector('.hero__content');
@@ -71,8 +78,11 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
           const easeOut = (value: number) => 1 - Math.pow(1 - value, 3);
 
           const renderProgress = (progress: number) => {
-            const travelX = window.innerWidth * 1.05;
-            const travelY = window.innerHeight * 0.2;
+            // Keep the composition readable before and after the flight. The
+            // original implementation moved cards completely off-canvas at
+            // progress 0, which made the section appear empty on first paint.
+            const travelX = Math.min(window.innerWidth * 1.05, 60);
+            const travelY = Math.min(window.innerHeight * 0.2, 40);
 
             cards.forEach((card, index) => {
               const start = 0.02 + index * 0.19;
@@ -90,8 +100,8 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
                 y,
                 rotation,
                 scale,
-                autoAlpha: enter,
-                filter: `blur(${blur.toFixed(2)}px) ${shadow}`,
+                autoAlpha: 1,
+                filter: `blur(${Math.min(blur, 2).toFixed(2)}px) ${shadow}`,
                 transformOrigin: 'center center',
                 force3D: true,
               });

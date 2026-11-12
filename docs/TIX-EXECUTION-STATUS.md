@@ -8,12 +8,12 @@ Updated: 2026-11-12 (Africa/Cairo)
 | 01 Repository audit | IN PROGRESS | Static inventory started; 197 images and 136,951,179 bytes measured. |
 | 02 Production baseline | NOT STARTED | Requires authorized external inspection. |
 | 03 Next.js foundation | VERIFIED | App Router routes, strict TypeScript, metadata, headers, API skeleton; build verified. |
-| 04 Page migration | IN PROGRESS | All six clean routes now render native React trees; legacy `.html` routes redirect compatibly. |
-| 05 Animation re-engineering | IN PROGRESS | GSAP/useGSAP reveal, hero, Disrupt, WorkLens, Services chevrons, basket tilt, phone bounce, and width-only gallery expansion are implemented; broader visual regression remains. |
+| 04 Page migration | IN PROGRESS | All six clean routes now render native React trees; legacy `.html` routes redirect compatibly. Studio visual reconstruction is documented in `docs/migration/STUDIO-VISUAL-AUDIT.md`. |
+| 05 Animation re-engineering | IN PROGRESS | GSAP/useGSAP reveal and stagger fallbacks, touchpoint flight, Disrupt, WorkLens, Services chevrons, basket tilt, phone bounce, and width-only gallery expansion are implemented and browser-tested. |
 | 06 Performance/assets | VERIFIED | 197 eligible raster assets converted to WebP; original assets retained, manifest generated, and application references scanned. |
 | 07 SEO/accessibility | IN PROGRESS | Sitemap, robots, metadata baseline, and legacy accessibility behaviors retained; audits remain. |
 | 08 Security/contact | IN PROGRESS | Zod API, honeypot, size limit, headers, and truthful provider configuration response added. Audit found 7 moderate transitive findings; shared-store rate limiting and provider configuration remain. |
-| 09 Automated QA | IN PROGRESS | 13/13 Playwright tests pass across clean routes, legacy redirects, mobile nav, Work geometry, and Services motion; axe/Lighthouse remain. |
+| 09 Automated QA | IN PROGRESS | 23/23 Playwright tests pass across five Studio viewports, image integrity, reduced motion, touchpoint scroll behavior, clean routes, legacy redirects, mobile nav, Work geometry, Services motion, and Contact; axe/Lighthouse remain. |
 | 10 Vercel deployment | NOT STARTED | No deployment or DNS changes made. Requires project access and explicit production approval. |
 
 ## Current blockers
@@ -30,7 +30,7 @@ Updated: 2026-11-12 (Africa/Cairo)
 
 ## Verified correction evidence
 
-- Chromium Playwright: 8 passed — six routes, mobile navigation open/escape, and portfolio lightbox keyboard close.
+- Chromium Playwright: 23 passed — Studio section/image checks, five viewport touchpoint checks, reduced-motion visibility, six routes, mobile navigation, legacy redirects, Work geometry, Services motion, footer, Contact layout/API.
 - Native runtime reference scan: 0 route/component references to `LegacyPage`, `dangerouslySetInnerHTML`, `layout.js`, or `main.js`.
 - WebP validation: 197 source derivatives, 197 public derivatives, and 197 manifest rows.
 - Build gates: typecheck, lint, Vitest, and Next production build passed before the final generated-asset cleanup.
