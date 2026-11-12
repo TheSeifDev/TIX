@@ -1361,20 +1361,22 @@
 /* ── SCROLL-DRIVEN TOUCHPOINTS FLIGHT ───────────────────── */
 .touchpoints {
   position: relative;
-  height: 175vh;
+  height: auto;
   background: #080808;
   isolation: isolate;
 }
 
 .touchpoints__stage {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  min-height: 620px;
+  position: relative;
+  width: min(590px, calc(100vw - 46px));
+  aspect-ratio: 590 / 745;
+  height: auto;
+  min-height: 0;
+  margin-inline: auto;
   overflow: hidden;
   background: #080808;
   clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  transition: clip-path 1s cubic-bezier(0.16, 1, 0.3, 1);
+  isolation: isolate;
 }
 
 .touchpoints__stage.is-entered {
@@ -1384,30 +1386,40 @@
 .touchpoints__art {
   position: absolute;
   z-index: 2;
-  inset: -20vh auto auto 50%;
+  inset: 0;
   display: block;
-  width: 100vw;
-  height: auto;
-  max-width: none;
-  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  transform: none;
+  pointer-events: none;
+}
+
+.touchpoints__stage::before {
+  content: '';
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(160deg, #170204 0%, #310407 58%, #120103 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 4.8%, 50% 16%, 0 4.8%);
   pointer-events: none;
 }
 
 .touchpoints__copy {
   position: absolute;
   z-index: 6;
-  top: clamp(18%, 20vh, 23%);
+  top: 18.5%;
   left: 50%;
-  width: min(88%, 760px);
+  width: 78%;
   transform: translateX(-50%);
   text-align: center;
   color: #210305;
 }
 
 .touchpoints__kicker {
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.35rem;
   color: #720b11;
-  font-size: clamp(0.62rem, 0.9vw, 0.82rem);
+  font-size: clamp(0.45rem, 0.66vw, 0.66rem);
   font-weight: 800;
   letter-spacing: 0.17em;
 }
@@ -1416,7 +1428,7 @@
   margin: 0;
   color: #720b11;
   font-family: var(--font-display);
-  font-size: clamp(1.9rem, 4vw, 3.65rem);
+  font-size: clamp(1.4rem, 2.25vw, 2rem);
   font-weight: 900;
   line-height: 0.98;
   letter-spacing: -0.045em;
@@ -1425,10 +1437,10 @@
 }
 
 .touchpoints__copy > p:last-child {
-  max-width: 38ch;
-  margin: 0.75rem auto 0;
+  max-width: 25ch;
+  margin: 0.7rem auto 0;
   color: #201719;
-  font-size: clamp(0.82rem, 1.15vw, 1.05rem);
+  font-size: clamp(0.7rem, 0.95vw, 0.92rem);
   font-weight: 600;
   line-height: 1.45;
 }
@@ -1436,9 +1448,9 @@
 .touchpoints__logo {
   position: absolute;
   z-index: 3;
-  top: 55%;
+  top: 52.5%;
   left: 50%;
-  width: clamp(112px, 10vw, 176px);
+  width: 20%;
   height: auto;
   transform: translate(-50%, -50%);
   border-radius: 15px;
@@ -1449,7 +1461,7 @@
   position: absolute;
   z-index: 4;
   display: block;
-  width: clamp(260px, 18vw, 360px);
+  width: 34%;
   height: auto;
   opacity: 1;
   filter: blur(12px) drop-shadow(0 24px 24px rgba(0, 0, 0, 0.25));
@@ -1459,23 +1471,50 @@
 }
 
 .touchpoints__card--1 {
-  top: 39%;
-  left: calc(50% - min(36vw, 650px));
+  top: 31%;
+  left: 2.5%;
 }
 
 .touchpoints__card--2 {
-  top: 39%;
-  right: calc(50% - min(36vw, 650px));
+  top: 31%;
+  right: 2.5%;
 }
 
 .touchpoints__card--3 {
-  top: 67%;
-  left: calc(50% - min(36vw, 650px));
+  top: 58.5%;
+  left: 6%;
 }
 
 .touchpoints__card--4 {
-  top: 67%;
-  right: calc(50% - min(36vw, 650px));
+  top: 58.5%;
+  right: 6%;
+}
+
+.touchpoints__chevrons {
+  position: absolute;
+  z-index: 7;
+  inset: auto 0 0;
+  height: 22%;
+  pointer-events: none;
+}
+
+.touchpoints__chevron {
+  position: absolute;
+  inset: auto 0 0;
+  display: block;
+  height: 84%;
+  bottom: 8%;
+  clip-path: polygon(0 0, 50% 45%, 100% 0, 100% 100%, 0 100%);
+}
+
+.touchpoints__chevron--burgundy {
+  background: #5d0710;
+}
+
+.touchpoints__chevron--red {
+  height: 57%;
+  bottom: 4%;
+  background: #a71721;
 }
 
 .touchpoints__wipe {
@@ -1494,24 +1533,16 @@
 
 @media (max-width: 700px) {
   .touchpoints {
-    height: 125svh;
+    height: auto;
   }
 
   .touchpoints__stage {
-    min-height: 0;
-  }
-
-  .touchpoints__art {
-    inset: 50% auto auto 50%;
-    width: 100%;
-    height: 100%;
-    max-height: none;
-    transform: translate(-50%, -50%);
+    width: calc(100vw - 46px);
   }
 
   .touchpoints__copy {
-    top: 14%;
-    width: 82%;
+    top: 18.5%;
+    width: 78%;
   }
 
   .touchpoints__kicker {
@@ -1520,7 +1551,7 @@
   }
 
   .touchpoints__copy h2 {
-    font-size: clamp(1.55rem, 7.5vw, 2.2rem);
+    font-size: clamp(1.35rem, 7.5vw, 1.85rem);
   }
 
   .touchpoints__copy > p:last-child {
@@ -1529,49 +1560,37 @@
   }
 
   .touchpoints__logo {
-    top: 51%;
-    width: clamp(62px, 14vw, 84px);
+    top: 52.5%;
+    width: 20%;
     border-radius: 10px;
   }
 
-  .touchpoints__wipe {
-    inset: -4%;
-    width: auto;
-    aspect-ratio: auto;
-  }
-
   .touchpoints__card {
-    width: clamp(175px, 44vw, 230px);
-  }
-
-  .touchpoints__card--2,
-  .touchpoints__card--3,
-  .touchpoints__card--4 {
-    width: clamp(185px, 48vw, 240px);
+    width: 34%;
   }
 
   .touchpoints__card--1,
   .touchpoints__card--3 {
-    left: 1%;
+    left: 2.5%;
   }
 
   .touchpoints__card--2,
   .touchpoints__card--4 {
-    right: 1%;
+    right: 2.5%;
   }
 
   .touchpoints__card--1,
   .touchpoints__card--2 {
-    top: 29%;
+    top: 31%;
   }
 
   .touchpoints__card--2 {
-    top: 26%;
+    top: 31%;
   }
 
   .touchpoints__card--3,
   .touchpoints__card--4 {
-    top: 53%;
+    top: 58.5%;
   }
 }
 

@@ -75,13 +75,74 @@ test.describe('native route parity', () => {
       return opacities.some((opacity) => opacity > 0.85);
     }).toBe(true);
     const stageBox = await section.locator('.touchpoints__stage').boundingBox();
-    expect(stageBox?.y).toBeGreaterThanOrEqual(-1);
-    expect(stageBox?.y).toBeLessThanOrEqual(1);
+    expect((stageBox?.y ?? 0) + (stageBox?.height ?? 0)).toBeGreaterThan(0);
     const cards = await section.locator('[data-flight-card]').evaluateAll((elements) => elements.map((element) => ({
       opacity: Number.parseFloat(getComputedStyle(element).opacity),
       transform: getComputedStyle(element).transform,
     })));
     expect(cards.some((card) => card.opacity > 0.85)).toBeTruthy();
+  });
+
+  test('Studio touchpoints preserve the portrait reference composition', async ({ page }) => {
+    const viewports = [
+      { width: 1920, height: 1080 },
+      { width: 1440, height: 900 },
+      { width: 1024, height: 768 },
+      { width: 768, height: 1024 },
+      { width: 390, height: 844 },
+      { width: 375, height: 812 },
+    ];
+
+    for (const viewport of viewports) {
+      await page.setViewportSize(viewport);
+      await page.goto('/about', { waitUntil: 'networkidle' });
+      const section = page.locator('[data-touchpoints]');
+      const stage = section.locator('.touchpoints__stage');
+      const heading = section.locator('.touchpoints__copy h2');
+      const subtitle = section.locator('.touchpoints__copy > p:last-child');
+      await expect(heading).toHaveText('Built acrossevery touchpoint.');
+      await expect(subtitle).toHaveText('One studio. Multiple creative systems. Unified brand experiences.');
+      await expect(section.locator('[data-flight-card]')).toHaveCount(4);
+      await expect(section.locator('.touchpoints__logo')).toBeVisible();
+      await expect(section.locator('.touchpoints__chevron')).toHaveCount(2);
+      await expect(section.locator('.touchpoints__chevron').first()).toBeVisible();
+      await expect(section.locator('.touchpoints__chevron').last()).toBeVisible();
+
+      const stageBox = await stage.boundingBox();
+      expect(stageBox).not.toBeNull();
+      expect(Math.abs((stageBox!.width / stageBox!.height) - (590 / 745))).toBeLessThan(0.025);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+      expect((await section.boundingBox())?.height ?? Infinity).toBeLessThan(viewport.width < 700 ? 560 : 850);
+
+      await stage.scrollIntoViewIfNeeded();
+      const headingBox = await heading.boundingBox();
+      const navBox = await page.locator('#main-nav').boundingBox();
+      expect(headingBox && navBox && headingBox.y).toBeGreaterThanOrEqual((navBox?.y ?? 0) + (navBox?.height ?? 0));
+    }
+  });
+
+  test('Studio touchpoint motion reverses without duplicate triggers', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/about', { waitUntil: 'networkidle' });
+    const section = page.locator('[data-touchpoints]');
+    const card = section.locator('[data-flight-card]').first();
+    await section.evaluate((element) => {
+      window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+    });
+    await page.waitForTimeout(250);
+    const start = await card.evaluate((element) => getComputedStyle(element).transform);
+    await section.evaluate((element) => {
+      window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY + element.clientHeight - innerHeight, behavior: 'instant' });
+    });
+    await page.waitForTimeout(500);
+    const end = await card.evaluate((element) => getComputedStyle(element).transform);
+    expect(end).not.toBe(start);
+    await section.evaluate((element) => {
+      window.scrollTo({ top: element.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+    });
+    await page.waitForTimeout(700);
+    const reversed = await card.evaluate((element) => getComputedStyle(element).transform);
+    expect(reversed).not.toBe(end);
   });
 
   test('mobile navigation opens and closes with Escape', async ({ page }) => {
@@ -262,8 +323,7 @@ test.describe('native route parity', () => {
         return cards.every((card) => card.opacity > 0.9 && card.loaded && card.onScreen);
       }).toBe(true);
       const stageBox = await stage.boundingBox();
-      expect(stageBox?.y).toBeGreaterThanOrEqual(-1);
-      expect(stageBox?.y).toBeLessThanOrEqual(1);
+      expect((stageBox?.y ?? 0) + (stageBox?.height ?? 0)).toBeGreaterThan(0);
       await expect(section.locator('.touchpoints__copy h2')).toBeVisible();
     }
   });

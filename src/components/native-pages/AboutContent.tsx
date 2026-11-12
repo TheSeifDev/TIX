@@ -78,7 +78,7 @@ export function AboutContent() {
         <div className="touchpoints__copy">
           <p className="touchpoints__kicker">ONE STUDIO. MULTIPLE CREATIVE SYSTEMS.</p>
           <h2>Built across<br />every touchpoint.</h2>
-          <p>Unified brand experiences, made to move together.</p>
+          <p>One studio. Multiple creative systems. Unified brand experiences.</p>
         </div>
 
         <img className="touchpoints__logo" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
@@ -93,6 +93,10 @@ export function AboutContent() {
         <div className="touchpoints__wipe touchpoints__wipe--one" aria-hidden="true"></div>
         <div className="touchpoints__wipe touchpoints__wipe--two" aria-hidden="true"></div>
         <div className="touchpoints__wipe touchpoints__wipe--three" aria-hidden="true"></div>
+        <div className="touchpoints__chevrons" aria-hidden="true">
+          <span className="touchpoints__chevron touchpoints__chevron--burgundy" />
+          <span className="touchpoints__chevron touchpoints__chevron--red" />
+        </div>
       </div>
     </section>
 

@@ -50,7 +50,6 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const section = document.querySelector<HTMLElement>('[data-touchpoints]');
       const stage = section?.querySelector<HTMLElement>('.touchpoints__stage');
       const cards = section ? gsap.utils.toArray<HTMLElement>('[data-flight-card]', section) : [];
-      const wipes = section ? gsap.utils.toArray<HTMLElement>('.touchpoints__wipe', section) : [];
 
       if (stage) {
         ScrollTrigger.create({
@@ -65,70 +64,50 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const rotations = [-8, 8, -6, 7];
         const entryRotations = [-30, 29, -26, 28];
-        const wipeScales = [1.08, 1.05, 1.02];
-        const wipeStarts = [0.82, 0.87, 0.92];
         const shadow = 'drop-shadow(0 24px 24px rgba(0, 0, 0, 0.25))';
 
         if (reducedMotion) {
           stage.classList.add('is-entered');
           gsap.set(cards, { x: 0, y: 0, rotation: 0, scale: 1, autoAlpha: 1, filter: shadow });
-          gsap.set(wipes, { autoAlpha: 0, y: 0 });
         } else {
-          const clamp01 = (value: number) => Math.min(1, Math.max(0, value));
-          const easeOut = (value: number) => 1 - Math.pow(1 - value, 3);
+          const timeline = gsap.timeline({
+            defaults: { duration: 0.82, ease: 'power3.out' },
+            scrollTrigger: {
+              trigger: section,
+              start: 'top 86%',
+              end: 'bottom 14%',
+              scrub: 0.65,
+              invalidateOnRefresh: true,
+            },
+          });
 
-          const renderProgress = (progress: number) => {
-            // Keep the composition readable before and after the flight. The
-            // original implementation moved cards completely off-canvas at
-            // progress 0, which made the section appear empty on first paint.
-            const travelX = Math.min(window.innerWidth * 1.05, 60);
-            const travelY = Math.min(window.innerHeight * 0.2, 40);
-
-            cards.forEach((card, index) => {
-              const start = 0.02 + index * 0.19;
-              const enter = easeOut(clamp01((progress - start) / 0.15));
-              const side = index % 2 === 0 ? -1 : 1;
-              const vertical = index < 2 ? -travelY : travelY;
-              const rotation = entryRotations[index] * (1 - enter) + rotations[index] * enter;
-              const x = side * travelX * (1 - enter);
-              const y = vertical * (1 - enter);
-              const scale = 0.58 + 0.42 * enter;
-              const blur = (1 - enter) * 14;
-
-              gsap.set(card, {
-                x,
-                y,
-                rotation,
-                scale,
+          cards.forEach((card, index) => {
+            const side = index % 2 === 0 ? -1 : 1;
+            const vertical = index < 2 ? -18 : 18;
+            timeline.fromTo(card,
+              {
+                x: side * 24,
+                y: vertical,
+                rotation: entryRotations[index],
+                scale: 0.98,
                 autoAlpha: 1,
-                filter: `blur(${Math.min(blur, 2).toFixed(2)}px) ${shadow}`,
+                filter: `blur(1px) ${shadow}`,
                 transformOrigin: 'center center',
                 force3D: true,
-              });
-            });
-
-            wipes.forEach((wipe, index) => {
-              const wipeProgress = clamp01((progress - wipeStarts[index]) / (1 - wipeStarts[index]));
-              const y = window.innerHeight * 0.72 * (1 - wipeProgress);
-              gsap.set(wipe, {
-                autoAlpha: wipeProgress > 0 ? 1 : 0,
-                y,
-                scale: wipeScales[index],
+              },
+              {
+                x: 0,
+                y: 0,
+                rotation: rotations[index],
+                scale: 1,
+                autoAlpha: 1,
+                filter: shadow,
                 force3D: true,
-              });
-            });
-          };
-
-          renderProgress(0);
-          ScrollTrigger.create({
-            trigger: section,
-            start: 'top top',
-            end: 'bottom bottom',
-            scrub: true,
-            invalidateOnRefresh: true,
-            onUpdate: (self) => renderProgress(self.progress),
-            onRefresh: (self) => renderProgress(self.progress),
+              },
+              index * 0.08,
+            );
           });
+
         }
       }
     }

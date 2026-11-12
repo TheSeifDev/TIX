@@ -22,15 +22,15 @@ Audit of the native `/about` route against the supplied Studio reference and the
 1. `public/css/tokens.css` initialized every `[data-reveal]` and `[data-stagger] > *` element at `opacity: 0`. The native interaction layer handled `[data-reveal]` but not stagger groups, so proof cards and the BTS gallery could remain hidden.
 2. The generic reveal timeline used `fromTo()` with an implicit immediate render. Elements below the fold were therefore hidden before their ScrollTrigger entered, which made full-page capture and non-scrolling access look empty.
 3. The touchpoints render function used the archived flight distances (`105vw` and `20vh`) and `autoAlpha: enter`, making all four cards fully off-canvas and invisible at initial progress.
-4. The touchpoints section used `520vh` on desktop and `390vh` on mobile. Combined with the sticky stage, that produced a disproportionately long black scroll interval for the reference composition.
+4. The touchpoints section used oversized viewport-based heights on desktop and mobile. Combined with the sticky stage, that produced a disproportionately long black scroll interval for the reference composition.
 5. The initial stage clip path began at a narrow top point, so the pattern and cards were visually clipped until the observer fired.
 
 ## Corrections
 
 - Static CSS now keeps essential content visible when JavaScript or motion is unavailable; GSAP still supplies the entrance animation when enabled.
 - Native GSAP initializes both reveal and stagger groups, with hero groups animating immediately and below-fold groups using `immediateRender: false`.
-- Touchpoint cards retain their scroll choreography but use bounded entry offsets, remain visible, and preserve their final composition.
-- Touchpoints use shorter responsive pin ranges and a full-width initial stage; the pattern, central logo, and four cards are available without waiting for a special scroll position.
+- Touchpoint cards retain their scroll choreography in one scoped scrubbed GSAP timeline with bounded entry offsets, remain visible, and preserve their final composition.
+- Touchpoints use an in-flow portrait artboard with the reference `590 / 745` ratio; the pattern, central logo, four cards, top chevron, and bottom chevrons are available without waiting for a special scroll position.
 - Existing assets and original section order were preserved.
 
 ## Remaining verification
