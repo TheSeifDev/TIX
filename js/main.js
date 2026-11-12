@@ -283,20 +283,49 @@ const ContactForm = (() => {
     const form = document.querySelector('.contact-form form');
     if (!form) return;
 
-    form.addEventListener('submit', e => {
+    const honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = 'company';
+    honeypot.tabIndex = -1;
+    honeypot.autocomplete = 'off';
+    honeypot.setAttribute('aria-hidden', 'true');
+    honeypot.style.position = 'absolute';
+    honeypot.style.left = '-10000px';
+    form.appendChild(honeypot);
+
+    form.addEventListener('submit', async e => {
       e.preventDefault();
       const btn = form.querySelector('.form-submit');
+      if (!btn || btn.disabled) return;
       const original = btn.textContent;
-      btn.textContent = 'Message Sent ✓';
-      btn.style.background = 'var(--crimson)';
-      btn.style.color = 'var(--white)';
+      const status = document.createElement('p');
+      status.className = 'form-status';
+      status.setAttribute('role', 'status');
+      form.appendChild(status);
+      btn.textContent = 'Sending...';
       btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = original;
-        btn.style.background = '';
-        btn.style.color = '';
-        btn.disabled = false;
+
+      try {
+        const response = await fetch('/api/contact', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(Object.fromEntries(new FormData(form))),
+        });
+        const result = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(result.error || 'Unable to send your message.');
+        status.textContent = 'Message sent. We will be in touch soon.';
+        btn.textContent = 'Message Sent';
         form.reset();
+      } catch (error) {
+        status.textContent = error instanceof Error ? error.message : 'Unable to send your message.';
+        btn.textContent = original;
+        btn.disabled = false;
+      }
+
+      if (status.textContent.startsWith('Message sent')) setTimeout(() => {
+        btn.textContent = original;
+        btn.disabled = false;
+        status.remove();
       }, 3500);
     });
   }
