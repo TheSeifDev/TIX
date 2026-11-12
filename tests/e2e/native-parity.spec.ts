@@ -278,6 +278,12 @@ test.describe('native route parity', () => {
       await expect(page.locator('[data-contact-footer] [aria-label^="TIX on "]')).toHaveCount(5);
       await expect(formCard.locator('.form-submit')).toHaveText('Start The Project →');
       await expect(page.locator('[data-contact-footer] > div > a')).toHaveCount(0);
+      const panelRect = await page.locator('[data-contact-panel]').boundingBox();
+      const contactInfoRect = await page.locator('[data-contact-footer] h3').first().boundingBox();
+      expect(panelRect).not.toBeNull();
+      expect(contactInfoRect).not.toBeNull();
+      expect(contactInfoRect!.x).toBeGreaterThanOrEqual(panelRect!.x - 1);
+      expect(contactInfoRect!.x + contactInfoRect!.width).toBeLessThanOrEqual(panelRect!.x + panelRect!.width + 1);
       if (viewport.width <= 640) {
         const heroRect = await page.locator('[data-contact-hero]').boundingBox();
         const formSectionRect = await page.locator('.contact-single-section').boundingBox();

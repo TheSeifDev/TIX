@@ -24,6 +24,8 @@ The composition uses Tailwind utilities and real React elements for the hero, fo
 
 The supplied Figma capture is a compact portrait frame (approximately 376 × 856 CSS pixels in the editor capture). The portrait breakpoint is implemented as a fixed-composition responsive band: 232px hero, 240px form panel, and 384px character/contact section. This preserves the measured vertical relationships without stretching the portrait frame across desktop. Wide viewports use the same hierarchy with full-width, readable scaling and the existing desktop footer composition.
 
+The footer composition uses one relative/isolate coordinate system. At the 862 × 880 footer reference capture, the red panel begins at approximately 36% of the composition height, the character’s visible silhouette is centered on the same axis, and the contact/social grid shares the panel’s horizontal bounds with inner padding. The WebP’s visible alpha bounds are 445 × 698 inside its 832 × 833 source; the CSS wrapper is sized and positioned against that visible silhouette so both feet meet the panel naturally.
+
 ## Validation
 
 The complete Contact page was inspected at 1440 × 900 and 390 × 844. The WebP loads with `image/webp`, the hero is not obscured by the fixed navigation, and no horizontal overflow was observed. Contact form behavior remains on the existing API path. The current browser regression suite passes all 26 tests.
