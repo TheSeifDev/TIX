@@ -263,7 +263,7 @@ test.describe('native route parity', () => {
       await expect(page.locator('#main-content > section')).toHaveCount(3);
       await expect(page.locator('.contact-hero, .contact-footer-section')).toHaveCount(0);
       await expect(page.locator('[data-contact-hero]')).toBeVisible();
-      await expect(page.locator('#contact-hero-heading')).toContainText('What do you');
+      await expect(page.locator('#contact-hero-heading')).toHaveCount(0);
       await expect(formCard).toBeVisible();
       const rect = await formCard.boundingBox();
       expect(rect).not.toBeNull();

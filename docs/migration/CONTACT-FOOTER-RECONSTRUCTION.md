@@ -12,7 +12,7 @@
 
 The native `/contact` route now renders one continuous composition in this order:
 
-1. `ContactHero.tsx` — patterned introduction with the “What do you want the world to feel?” message, TIX mark, and discipline labels.
+1. `ContactHero.tsx` — compact patterned introduction with the TIX mark, two-by-two discipline labels, and right-aligned supporting copy.
 2. `ContactContent.tsx` — the existing validated form and API submission behavior, with the `Start The Project →` submit CTA restored to the bottom of the form panel.
 3. `ContactFooter.tsx` — split headline, centered transparent character, red contact-information panel, social links, and legal row.
 
