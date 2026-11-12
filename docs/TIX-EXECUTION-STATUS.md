@@ -7,13 +7,13 @@ Updated: 2026-11-12 (Africa/Cairo)
 | 00 Preflight | VERIFIED | Clean `main` worktree at `f110dd74b3498d19f1da61a3d07c3d9c2d397198`; remote is `TheSeifDev/TIX`. |
 | 01 Repository audit | IN PROGRESS | Static inventory started; 197 images and 136,951,179 bytes measured. |
 | 02 Production baseline | NOT STARTED | Requires authorized external inspection. |
-| 03 Next.js foundation | VERIFIED | App Router routes, strict TypeScript, metadata, headers, API skeleton; build verified once after legacy directory move. |
-| 04 Page migration | IN PROGRESS | Existing HTML is served through exact App Router URLs; component-level migration and browser parity remain. |
-| 05 Animation re-engineering | NOT STARTED | Existing vanilla animation modules retained for parity; GSAP replacement not yet started. |
-| 06 Performance/assets | IN PROGRESS | Public asset preservation in place; optimization and measured CWV remain. |
+| 03 Next.js foundation | VERIFIED | App Router routes, strict TypeScript, metadata, headers, API skeleton; build verified. |
+| 04 Page migration | IN PROGRESS | All six routes now render native React trees with native shared layout; visual regression and deeper interaction parity remain. |
+| 05 Animation re-engineering | IN PROGRESS | GSAP/useGSAP reveal and hero layer added; Disrupt, WorkLens, lightbox, and services parity remain. |
+| 06 Performance/assets | VERIFIED | 197 eligible raster assets converted to WebP; original assets retained, manifest generated, and application references scanned. |
 | 07 SEO/accessibility | IN PROGRESS | Sitemap, robots, metadata baseline, and legacy accessibility behaviors retained; audits remain. |
 | 08 Security/contact | IN PROGRESS | Zod API, honeypot, size limit, headers, and truthful provider configuration response added. Audit found 7 moderate transitive findings; shared-store rate limiting and provider configuration remain. |
-| 09 Automated QA | IN PROGRESS | Typecheck, lint, build, and 2 API unit tests run; Playwright/axe/Lighthouse suites remain. |
+| 09 Automated QA | IN PROGRESS | Six-route Chromium smoke pass is clean at desktop size; viewport matrix, axe, and full interaction suite remain. |
 | 10 Vercel deployment | NOT STARTED | No deployment or DNS changes made. Requires project access and explicit production approval. |
 
 ## Current blockers
