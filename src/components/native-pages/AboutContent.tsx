@@ -87,14 +87,14 @@ export function AboutContent() {
         <div className="touchpoints__cards" aria-label="Our connected disciplines">
           <img className="touchpoints__card touchpoints__card--1 !absolute !left-[calc(50%_-_min(36vw,_650px))] !top-[39%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!left-[2.5%] max-[700px]:!top-[31%] max-[700px]:!w-[34%]" src="/assets/images/card1.webp" alt="Strategy: marketing strategy, performance campaigns, social media management, and brand positioning" data-flight-card="0" />
           <img className="touchpoints__card touchpoints__card--2 !absolute !right-[calc(50%_-_min(36vw,_650px))] !top-[39%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!right-[2.5%] max-[700px]:!top-[31%] max-[700px]:!w-[34%]" src="/assets/images/card2.webp" alt="Production: commercial filming, photography, motion graphics, and event coverage" data-flight-card="1" />
-          <img className="touchpoints__card touchpoints__card--3 !absolute !left-[calc(50%_-_min(36vw,_650px))] !top-[56%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!left-[2.5%] max-[700px]:!top-[58.5%] max-[700px]:!w-[34%]" src="/assets/images/card3.webp" alt="Digital: UI/UX design, website development, and interactive experiences" data-flight-card="2" />
-          <img className="touchpoints__card touchpoints__card--4 !absolute !right-[calc(50%_-_min(36vw,_650px))] !top-[56%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!right-[2.5%] max-[700px]:!top-[58.5%] max-[700px]:!w-[34%]" src="/assets/images/card4.webp" alt="Visuals: graphic design, brand systems, creative direction, and packaging" data-flight-card="3" />
+          <img className="touchpoints__card touchpoints__card--3 !absolute !left-[calc(50%_-_min(36vw,_650px))] !top-[44%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!left-[2.5%] max-[700px]:!top-[58.5%] max-[700px]:!w-[34%]" src="/assets/images/card3.webp" alt="Digital: UI/UX design, website development, and interactive experiences" data-flight-card="2" />
+          <img className="touchpoints__card touchpoints__card--4 !absolute !right-[calc(50%_-_min(36vw,_650px))] !top-[44%] !z-[4] !block !h-auto !w-[clamp(260px,18vw,360px)] !will-change-transform max-[700px]:!right-[2.5%] max-[700px]:!top-[58.5%] max-[700px]:!w-[34%]" src="/assets/images/card4.webp" alt="Visuals: graphic design, brand systems, creative direction, and packaging" data-flight-card="3" />
         </div>
 
         <div className="touchpoints__wipe touchpoints__wipe--one" aria-hidden="true"></div>
         <div className="touchpoints__wipe touchpoints__wipe--two" aria-hidden="true"></div>
         <div className="touchpoints__wipe touchpoints__wipe--three" aria-hidden="true"></div>
-        <div className="touchpoints__chevrons !absolute !inset-x-0 !bottom-0 !z-[7] !h-[22%] !pointer-events-none" aria-hidden="true">
+        <div className="touchpoints__chevrons !absolute !inset-x-0 !bottom-0 !z-[3] !h-[22%] !pointer-events-none" aria-hidden="true">
           <span className="touchpoints__chevron touchpoints__chevron--burgundy !absolute !inset-x-0 !bottom-[8%] !h-[84%] !bg-[#5d0710] [clip-path:polygon(0_0,50%_45%,100%_0,100%_100%,0_100%)]" />
           <span className="touchpoints__chevron touchpoints__chevron--red !absolute !inset-x-0 !bottom-[4%] !h-[57%] !bg-[#a71721] [clip-path:polygon(0_0,50%_45%,100%_0,100%_100%,0_100%)]" />
         </div>
