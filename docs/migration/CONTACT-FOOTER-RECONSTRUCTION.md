@@ -1,4 +1,4 @@
-# Contact Footer Reconstruction
+# Contact Page Reconstruction
 
 ## Asset
 
@@ -10,10 +10,16 @@
 
 ## React integration
 
-`ContactFooter.tsx` is rendered only inside the native `/contact` page. `SitePage` skips the generic contextual image footer for Contact, preventing duplicate footer content while leaving every other route unchanged.
+The native `/contact` route now renders one continuous composition in this order:
 
-The composition uses Tailwind utilities and real React elements for the CTA, split headline, red panel, transparent character, contact data, social links, and legal row. The supplied legacy project values are retained: `tix@gmail.com`, Alexandria/Elraml Station, Agami/Elbetash, and the existing social URLs.
+1. `ContactHero.tsx` — patterned introduction with the “What do you want the world to feel?” message, TIX mark, and discipline labels.
+2. `ContactContent.tsx` — the existing validated form and API submission behavior, with the `Start The Project →` submit CTA restored to the bottom of the form panel.
+3. `ContactFooter.tsx` — split headline, centered transparent character, red contact-information panel, social links, and legal row.
+
+`SitePage` skips the generic contextual image footer for Contact, preventing duplicate footer content while leaving every other route unchanged.
+
+The composition uses Tailwind utilities and real React elements for the hero, form, split headline, red panel, transparent character, contact data, social links, and legal row. The supplied legacy project values are retained: `tix@gmail.com`, Alexandria/Elraml Station, Agami/Elbetash, and the existing social URLs.
 
 ## Validation
 
-The Contact footer was inspected at 1440 × 900 and 390 × 844. The WebP loads with `image/webp` and no horizontal overflow was observed. Contact form behavior remains on the existing API path.
+The complete Contact page was inspected at 1440 × 900 and 390 × 844. The WebP loads with `image/webp`, the hero is not obscured by the fixed navigation, and no horizontal overflow was observed. Contact form behavior remains on the existing API path. The current browser regression suite passes all 26 tests.

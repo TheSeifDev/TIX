@@ -260,8 +260,10 @@ test.describe('native route parity', () => {
     await page.goto('/contact', { waitUntil: 'networkidle' });
     for (const viewport of viewports) {
       await page.setViewportSize(viewport);
-      await expect(page.locator('#main-content > section')).toHaveCount(2);
+      await expect(page.locator('#main-content > section')).toHaveCount(3);
       await expect(page.locator('.contact-hero, .contact-footer-section')).toHaveCount(0);
+      await expect(page.locator('[data-contact-hero]')).toBeVisible();
+      await expect(page.locator('#contact-hero-heading')).toContainText('What do you');
       await expect(formCard).toBeVisible();
       const rect = await formCard.boundingBox();
       expect(rect).not.toBeNull();
@@ -274,6 +276,8 @@ test.describe('native route parity', () => {
       await expect(page.locator('[data-contact-footer]')).toBeVisible();
       await expect(page.locator('[data-contact-footer] [data-contact-character]')).toBeVisible();
       await expect(page.locator('[data-contact-footer] [aria-label^="TIX on "]')).toHaveCount(5);
+      await expect(formCard.locator('.form-submit')).toHaveText('Start The Project →');
+      await expect(page.locator('[data-contact-footer] > div > a')).toHaveCount(0);
     }
     await expect(page.locator('.tix-section, .tix-footer')).toHaveCount(0);
     const footerFollowsMain = await page.evaluate(() => {
