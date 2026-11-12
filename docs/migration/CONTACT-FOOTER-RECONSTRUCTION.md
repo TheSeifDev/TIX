@@ -20,6 +20,10 @@ The native `/contact` route now renders one continuous composition in this order
 
 The composition uses Tailwind utilities and real React elements for the hero, form, split headline, red panel, transparent character, contact data, social links, and legal row. The supplied legacy project values are retained: `tix@gmail.com`, Alexandria/Elraml Station, Agami/Elbetash, and the existing social URLs.
 
+## Reference viewport treatment
+
+The supplied Figma capture is a compact portrait frame (approximately 376 × 856 CSS pixels in the editor capture). The portrait breakpoint is implemented as a fixed-composition responsive band: 232px hero, 240px form panel, and 384px character/contact section. This preserves the measured vertical relationships without stretching the portrait frame across desktop. Wide viewports use the same hierarchy with full-width, readable scaling and the existing desktop footer composition.
+
 ## Validation
 
 The complete Contact page was inspected at 1440 × 900 and 390 × 844. The WebP loads with `image/webp`, the hero is not obscured by the fixed navigation, and no horizontal overflow was observed. Contact form behavior remains on the existing API path. The current browser regression suite passes all 26 tests.

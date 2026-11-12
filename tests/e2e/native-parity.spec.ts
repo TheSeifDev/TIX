@@ -278,6 +278,20 @@ test.describe('native route parity', () => {
       await expect(page.locator('[data-contact-footer] [aria-label^="TIX on "]')).toHaveCount(5);
       await expect(formCard.locator('.form-submit')).toHaveText('Start The Project →');
       await expect(page.locator('[data-contact-footer] > div > a')).toHaveCount(0);
+      if (viewport.width <= 640) {
+        const heroRect = await page.locator('[data-contact-hero]').boundingBox();
+        const formSectionRect = await page.locator('.contact-single-section').boundingBox();
+        const footerRect = await page.locator('[data-contact-footer]').boundingBox();
+        const characterRect = await page.locator('[data-contact-character]').boundingBox();
+        const legalRect = await page.locator('[data-contact-footer] nav[aria-label="Legal links"]').boundingBox();
+        expect(heroRect?.height).toBeCloseTo(232, 0);
+        expect(formSectionRect?.height).toBeCloseTo(240, 0);
+        expect(footerRect?.height).toBeCloseTo(384, 0);
+        expect(characterRect).not.toBeNull();
+        expect(Math.abs((characterRect!.x + characterRect!.width / 2) - viewport.width / 2)).toBeLessThan(2);
+        expect(legalRect).not.toBeNull();
+        expect(legalRect!.y + legalRect!.height).toBeLessThanOrEqual((footerRect?.y ?? 0) + (footerRect?.height ?? 0) + 1);
+      }
     }
     await expect(page.locator('.tix-section, .tix-footer')).toHaveCount(0);
     const footerFollowsMain = await page.evaluate(() => {
