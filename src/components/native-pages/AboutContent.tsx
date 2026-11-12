@@ -81,7 +81,7 @@ export function AboutContent() {
           <p className="!mx-auto !mt-[1.8%] !w-[89.5%] !max-w-none !text-[clamp(0.72rem,2.6vw,3rem)] !leading-[1.3]">One studio. Multiple creative{' '}<br />systems. Unified brand{' '}<br />experiences.</p>
         </div>
 
-        <img className="touchpoints__logo !absolute !left-1/2 !top-[60%] !z-[5] !w-[22%] !-translate-x-1/2 !-translate-y-1/2" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
+        <img className="touchpoints__logo !absolute !inset-x-0 !top-[60%] !z-[5] !mx-auto !w-[22%] ![transform:translateY(-50%)]" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
 
         <div className="touchpoints__cards" aria-label="Our connected disciplines">
           <img className="touchpoints__card touchpoints__card--1 !absolute !left-[4%] !top-[30.5%] !z-[4] !block !h-auto !w-[37.3%] !will-change-transform" src="/assets/images/card1.webp" alt="Strategy: marketing strategy, performance campaigns, social media management, and brand positioning" data-flight-card="0" />

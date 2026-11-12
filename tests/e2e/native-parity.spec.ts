@@ -123,6 +123,30 @@ test.describe('native route parity', () => {
     }
   });
 
+  test('Studio Touchpoints central logo stays aligned to the frame center', async ({ page }) => {
+    for (const viewport of [
+      { width: 1920, height: 1080 },
+      { width: 1440, height: 900 },
+      { width: 1024, height: 768 },
+      { width: 768, height: 1024 },
+      { width: 390, height: 844 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/about', { waitUntil: 'networkidle' });
+      const centers = await page.evaluate(() => {
+        const stage = document.querySelector<HTMLElement>('.touchpoints__stage')?.getBoundingClientRect();
+        const logo = document.querySelector<HTMLElement>('.touchpoints__logo')?.getBoundingClientRect();
+        return {
+          stage: stage ? stage.left + stage.width / 2 : null,
+          logo: logo ? logo.left + logo.width / 2 : null,
+        };
+      });
+      expect(centers.stage).not.toBeNull();
+      expect(centers.logo).not.toBeNull();
+      expect(Math.abs((centers.logo ?? 0) - (centers.stage ?? 0))).toBeLessThan(1);
+    }
+  });
+
   test('Studio touchpoint motion reverses without duplicate triggers', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/about', { waitUntil: 'networkidle' });
