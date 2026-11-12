@@ -1,6 +1,8 @@
 /* Native single-section Contact page: one centered inquiry form. */
 'use client';
 
+import { ContactFooter } from '@/components/contact/ContactFooter';
+
 export function ContactContent() {
   return (
     <main id="main-content" className="contact-single-page">
@@ -37,6 +39,7 @@ export function ContactContent() {
           </div>
         </div>
       </section>
+      <ContactFooter />
     </main>
   );
 }

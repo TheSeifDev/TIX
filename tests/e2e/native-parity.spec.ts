@@ -239,8 +239,8 @@ test.describe('native route parity', () => {
   });
 
 
-  test('shared footer is present on every public route', async ({ page }) => {
-    for (const route of ['/', '/ar', '/about', '/services', '/work', '/contact']) {
+  test('shared footer is present on non-contact public routes', async ({ page }) => {
+    for (const route of ['/', '/ar', '/about', '/services', '/work']) {
       await page.goto(route, { waitUntil: 'networkidle' });
       await expect(page.locator('.tix-section .cta-card')).toHaveCount(1);
       await expect(page.locator('.tix-footer')).toHaveCount(1);
@@ -248,7 +248,7 @@ test.describe('native route parity', () => {
     }
   });
 
-  test('Contact is one centered form section and retains the shared footer', async ({ page }) => {
+  test('Contact preserves the form and renders the dedicated reference footer', async ({ page }) => {
     const formCard = page.locator('.contact-single-section .contact-form');
     const viewports = [
       { width: 1440, height: 900 },
@@ -260,7 +260,7 @@ test.describe('native route parity', () => {
     await page.goto('/contact', { waitUntil: 'networkidle' });
     for (const viewport of viewports) {
       await page.setViewportSize(viewport);
-      await expect(page.locator('#main-content > section')).toHaveCount(1);
+      await expect(page.locator('#main-content > section')).toHaveCount(2);
       await expect(page.locator('.contact-hero, .contact-footer-section')).toHaveCount(0);
       await expect(formCard).toBeVisible();
       const rect = await formCard.boundingBox();
@@ -271,15 +271,20 @@ test.describe('native route parity', () => {
       await expect(formCard.locator('input[name="email"]')).toBeVisible();
       await expect(formCard.locator('input[name="building"]')).toBeVisible();
       await expect(formCard.locator('textarea[name="help"]')).toBeVisible();
+      await expect(page.locator('[data-contact-footer]')).toBeVisible();
+      await expect(page.locator('[data-contact-footer] [data-contact-character]')).toBeVisible();
+      await expect(page.locator('[data-contact-footer] [aria-label^="TIX on "]')).toHaveCount(5);
     }
-    await expect(page.locator('.tix-footer')).toHaveCount(1);
-    await expect(page.locator('.tix-footer')).toBeVisible();
+    await expect(page.locator('.tix-section, .tix-footer')).toHaveCount(0);
     const footerFollowsMain = await page.evaluate(() => {
       const main = document.querySelector('#main-content');
-      const footer = document.querySelector('.tix-footer');
+      const footer = document.querySelector('[data-contact-footer]');
       return Boolean(main && footer && (main.compareDocumentPosition(footer) & Node.DOCUMENT_POSITION_FOLLOWING));
     });
     expect(footerFollowsMain).toBe(true);
+    const webpResponse = await page.request.get(new URL('/assets/images/contact_boy.webp', page.url()).toString());
+    expect(webpResponse.status()).toBe(200);
+    expect(webpResponse.headers()['content-type']).toContain('image/webp');
   });
 
   test('Contact form submits to the contact API', async ({ page }) => {
