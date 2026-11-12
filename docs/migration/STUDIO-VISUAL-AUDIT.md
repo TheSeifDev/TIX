@@ -30,9 +30,23 @@ Audit of the native `/about` route against the supplied Studio reference and the
 - Static CSS now keeps essential content visible when JavaScript or motion is unavailable; GSAP still supplies the entrance animation when enabled.
 - Native GSAP initializes both reveal and stagger groups, with hero groups animating immediately and below-fold groups using `immediateRender: false`.
 - Touchpoint cards retain their scroll choreography in one scoped scrubbed GSAP timeline with bounded entry offsets, remain visible, and preserve their final composition.
-- Touchpoints use an in-flow portrait artboard with the reference `590 / 745` ratio; the pattern, central logo, four cards, top chevron, and bottom chevrons are available without waiting for a special scroll position.
+- Touchpoints now use the measured primary supplied frame ratio `1852 / 2067` (0.89599) at every viewport. The frame is full-width on desktop and scales proportionally on tablet/mobile; it is no longer constrained to the earlier 590px/590:745 artboard.
 - Existing assets and original section order were preserved.
+
+## Measured supplied-frame specification
+
+Figma MCP access was unavailable for the referenced file, so this specification is grounded in the supplied captures and their visible selection readouts. No hidden Figma properties are inferred as facts.
+
+| Element | Supplied measurement | Normalized primary-frame value | Treatment |
+|---|---:|---:|---|
+| Primary Touchpoints frame | 1852 × 2067 | 100% × 100% | Implemented as the section aspect ratio. |
+| Alternate Touchpoints frame | 1852 × 2049 | 100% × 99.13% | Treated as an 18px revision/alternate capture; not averaged. |
+| Heading selection | 991 × 198 | 53.51% × 9.58% | Width and centered placement implemented; text height follows responsive type scale. |
+| Subtitle selection | 887 × 189 | 47.90% × 9.14% | Width implemented inside the centered copy block; three-line wrap preserved. |
+| Selected rotated card bounds | 691.04 × 864.37 | 37.31% × 41.82% | Card image width follows the measured selection width; rotation remains GSAP-controlled. |
+
+The following positions are screenshot-derived and therefore explicitly inferred rather than exposed Figma coordinates: heading top 17%, upper cards top 30.5% with 4% side insets, lower cards top 52.5% with 6% side insets, logo visual center at approximately 52% (the image box is placed at 60% because the supplied logo asset includes internal white framing), and the existing layered chevron boundary at the bottom of the frame.
 
 ## Remaining verification
 
-The exact reference screenshot is a single supplied mobile image; Figma node data was not available. Responsive browser checks and full-page screenshots are required after each visual change.
+The exact supplied captures were used for the measured reconstruction. Figma node data was not available because the referenced file returned access denied. Responsive browser checks and full-page screenshots remain required after each visual change.
