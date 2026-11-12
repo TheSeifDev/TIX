@@ -4,7 +4,6 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect } from 'react';
-import { PortfolioLightbox } from '@/components/portfolio/PortfolioLightbox';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -17,6 +16,28 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
     if (page === 'home') {
       const hero = document.querySelector('.hero__content');
       if (hero) gsap.fromTo(hero, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' });
+    }
+    if (page === 'services') {
+      const stage = document.querySelector<HTMLElement>('#svchero-stage');
+      const basket = stage?.querySelector<HTMLElement>('.svchero__basket-wrap');
+      const calls = document.querySelector<HTMLElement>('#creativity-calls');
+      const phone = document.querySelector<HTMLElement>('.svc-calls__phone-wrapper');
+      const phoneStage = document.querySelector<HTMLElement>('.svc-calls__phone-stage');
+      const button = document.querySelector<HTMLElement>('.svc-calls__button-wrap');
+      const leftHeading = document.querySelector<HTMLElement>('.svc-calls__side--left');
+      const rightHeading = document.querySelector<HTMLElement>('.svc-calls__side--right');
+      if (stage && basket && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const chevrons = stage.querySelectorAll<HTMLElement>('.svchero__chevron-item');
+        gsap.timeline({ delay: 0.45 }).set(stage, { className: '+=is-open' }).fromTo(chevrons, { autoAlpha: 0.8 }, { autoAlpha: 1, duration: 0.35, stagger: 0.04 }, 0);
+      } else if (stage) {
+        stage.classList.add('is-open');
+      }
+      if (calls && phone && phoneStage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const phoneTimeline = gsap.timeline({ paused: true, scrollTrigger: { trigger: calls, start: 'top 82%', once: true, onEnter: () => { calls.classList.add('is-visible'); phoneStage.classList.add('is-visible'); } } });
+        phoneTimeline.fromTo(button, { autoAlpha: 0, y: -24 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0).fromTo([leftHeading, rightHeading], { autoAlpha: 0, x: (index) => index ? 28 : -28 }, { autoAlpha: 1, x: 0, duration: 0.55, stagger: 0.08, ease: 'power2.out' }, 0.08).fromTo(phone, { autoAlpha: 0, y: -130, scaleY: 0.7, scaleX: 1.08 }, { autoAlpha: 1, y: 0, scaleY: 1, scaleX: 1, duration: 1.6, ease: 'elastic.out(1, 0.55)' }, 0.16);
+      }
+      const folderCards = gsap.utils.toArray<HTMLElement>('.folder-card');
+      folderCards.forEach((card, index) => gsap.fromTo(card, { autoAlpha: 0.35, y: 32 }, { autoAlpha: 1, y: 0, duration: 0.65, delay: index * 0.05, ease: 'power2.out', scrollTrigger: { trigger: card, start: 'top 88%', once: true } }));
     }
     const disrupt = document.querySelector<HTMLElement>('[data-disrupt-pin]');
     const disruptSticky = disrupt?.querySelector<HTMLElement>('.disrupt__sticky');
@@ -61,6 +82,24 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       on(form, 'submit', submit);
       cleanups.push(() => trap.remove());
     }
+    if (page === 'services' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches && window.matchMedia('(pointer: fine)').matches) {
+      const serviceHero = document.querySelector<HTMLElement>('#svchero');
+      const basket = document.querySelector<HTMLElement>('.svchero__basket-wrap');
+      if (serviceHero && basket) {
+        const rotateX = gsap.quickTo(basket, 'rotationX', { duration: 0.35, ease: 'power2.out' });
+        const rotateY = gsap.quickTo(basket, 'rotationY', { duration: 0.35, ease: 'power2.out' });
+        const onMove = (event: Event) => {
+          const pointer = event as PointerEvent;
+          const rect = basket.getBoundingClientRect();
+          rotateX(gsap.utils.clamp(-8, 8, -((pointer.clientY - (rect.top + rect.height / 2)) / (rect.height / 2)) * 6));
+          rotateY(gsap.utils.clamp(-10, 10, ((pointer.clientX - (rect.left + rect.width / 2)) / (rect.width / 2)) * 8));
+        };
+        const reset = () => { rotateX(0); rotateY(0); };
+        serviceHero.addEventListener('pointermove', onMove, { passive: true });
+        serviceHero.addEventListener('pointerleave', reset, { passive: true });
+        cleanups.push(() => { serviceHero.removeEventListener('pointermove', onMove); serviceHero.removeEventListener('pointerleave', reset); reset(); });
+      }
+    }
     if (page === 'work') {
       const gallery = document.querySelector('.work-gallery');
       const filterButton = gallery?.querySelector<HTMLButtonElement>('#work-filter-btn');
@@ -74,14 +113,21 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const toggle = () => { const open = !category.classList.contains('is-open'); category.classList.toggle('is-open', open); if (panel) { if (open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', ''); } };
         category.querySelectorAll<HTMLElement>('.wg-arrow--second, .wg-cat__name').forEach(control => on(control, 'click', toggle));
       });
+      gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
+        const cards = [...strip.querySelectorAll<HTMLElement>('.wg-card')];
+        const lockHeight = () => { const height = strip.getBoundingClientRect().height; if (!height) return; strip.style.height = `${height}px`; cards.forEach(card => { card.style.height = `${height}px`; }); };
+        window.requestAnimationFrame(lockHeight);
+        const restore = () => gsap.to(cards, { flexBasis: '0%', duration: 0.45, ease: 'power2.out', overwrite: true });
+        const expand = (active: HTMLElement) => gsap.to(cards, { flexBasis: (_index, card) => card === active ? '38%' : '12.4%', duration: 0.55, ease: 'power3.out', overwrite: true });
+        cards.forEach(card => { on(card, 'pointerenter', () => expand(card)); on(card, 'focusin', () => expand(card)); });
+        on(strip, 'pointerleave', restore);
+        on(strip, 'focusout', () => { window.setTimeout(() => { if (!strip.contains(document.activeElement)) restore(); }, 0); });
+        cleanups.push(() => { restore(); strip.style.removeProperty('height'); cards.forEach(card => card.style.removeProperty('height')); });
+      });
       on(document, 'click', (event) => { if (filterButton && filterMenu && !filterButton.contains(event.target as Node) && !filterMenu.contains(event.target as Node)) closeFilter(); });
       on(document, 'keydown', (event) => { if ((event as KeyboardEvent).key === 'Escape') closeFilter(); });
     }
-    if (page === 'services') {
-      const stage = document.querySelector<HTMLElement>('.svchero__stage');
-      if (stage) on(stage, 'click', () => stage.classList.toggle('is-open'));
-    }
     return () => cleanups.forEach(cleanup => cleanup());
   }, [page]);
-  return page === 'work' ? <PortfolioLightbox /> : null;
+  return null;
 }

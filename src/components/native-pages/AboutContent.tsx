@@ -111,7 +111,7 @@ export function AboutContent() {
               intentional.
             </p>
             <div style={{"marginTop": "2rem"}}>
-              <a href="../pages/contact.html" className="btn btn--crimson">Start Your Brand →</a>
+              <a href="/contact" className="btn btn--crimson">Start Your Brand →</a>
             </div>
           </div>
 

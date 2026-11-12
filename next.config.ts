@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
     return [
       { source: '/index.html', destination: '/', permanent: true },
       { source: '/ar/index.html', destination: '/ar/', permanent: true },
+      { source: '/pages/about.html', destination: '/about', permanent: true },
+      { source: '/pages/services.html', destination: '/services', permanent: true },
+      { source: '/pages/work.html', destination: '/work', permanent: true },
+      { source: '/pages/contact.html', destination: '/contact', permanent: true },
     ];
   },
 };

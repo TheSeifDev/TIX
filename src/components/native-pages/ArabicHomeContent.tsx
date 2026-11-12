@@ -46,7 +46,7 @@ export function ArabicHomeContent() {
 
           
           <div className="hero__actions">
-            <a href="../pages/about.html" className="btn btn--crimson btn--lg">
+            <a href="/about" className="btn btn--crimson btn--lg">
               اكتشف الاستوديو &larr;
             </a>
           </div>
@@ -382,7 +382,7 @@ export function ArabicHomeContent() {
         </h2>
 
         <div className="trust-section__cta">
-          <a href="../pages/work.html" className="btn btn--outline" lang="en" dir="ltr">See the work</a>
+          <a href="/work" className="btn btn--outline" lang="en" dir="ltr">See the work</a>
         </div>
       </div>
     </section>
