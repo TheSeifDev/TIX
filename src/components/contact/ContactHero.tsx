@@ -1,21 +1,176 @@
-import Image from 'next/image';
 
-const disciplines = ['STRATEGY', 'PRODUCTION', 'DIGITAL', 'VISUALS'];
+import Image from "next/image";
+
+const disciplines = [
+  "STRATEGY",
+  "PRODUCTION",
+  "DIGITAL",
+  "VISUALS",
+];
 
 export function ContactHero() {
   return (
-    <section className="relative isolate min-h-[clamp(240px,24vw,360px)] overflow-hidden bg-[#eee1e0] px-5 !pb-10 !pt-[calc(var(--nav-height,72px)+2rem)] text-[#180305] max-[640px]:!h-[232px] max-[640px]:!min-h-0 max-[640px]:!px-3 max-[640px]:!pb-0 max-[640px]:!pt-0 sm:px-10 lg:px-16" data-contact-hero aria-label="Contact introduction">
-      <div className="absolute inset-0 -z-10 bg-[#eee1e0]" aria-hidden="true" />
-      <Image className="pointer-events-none absolute inset-[-5%] -z-[5] h-[110%] w-full object-cover opacity-35 mix-blend-multiply" src="/assets/images/Group%20109.webp" alt="" width={3704} height={4994} aria-hidden="true" />
-      <div className="absolute inset-0 -z-[4] bg-[radial-gradient(circle_at_50%_40%,rgba(255,255,255,0.82),transparent_62%)]" aria-hidden="true" />
-      <div className="relative !mx-auto flex min-h-[clamp(200px,20vw,300px)] max-w-[1180px] flex-col items-center justify-center text-center max-[640px]:!block max-[640px]:!min-h-0">
-        <Image className="mb-5 h-auto w-[clamp(72px,9vw,132px)] object-contain max-[640px]:absolute max-[640px]:left-1/2 max-[640px]:top-[163px] max-[640px]:z-10 max-[640px]:mb-0 max-[640px]:w-[76px] max-[640px]:-translate-x-1/2" src="/assets/images/tixx.webp" alt="TIX" width={512} height={512} priority />
-        <div className="mt-7 grid w-fit grid-cols-2 items-center justify-items-start gap-x-3 gap-y-1 rounded-full border border-[#710a12]/35 bg-[#710a12] px-3 py-1.5 text-left font-display text-[0.58rem] font-bold tracking-[0.08em] text-white sm:text-[0.68rem] lg:!self-start lg:!ml-28 max-[640px]:absolute max-[640px]:left-3 max-[640px]:top-[135px] max-[640px]:z-10 max-[640px]:mt-0 max-[640px]:w-[40%] max-[640px]:gap-x-1 max-[640px]:gap-y-0 max-[640px]:rounded-md max-[640px]:px-2 max-[640px]:py-0.5 max-[640px]:text-[0.38rem]">
-          {disciplines.map((discipline) => <span key={discipline}>{discipline}{discipline !== 'VISUALS' ? ' /' : ''}</span>)}
+    <section
+      data-contact-hero
+      aria-label="Contact introduction"
+      className="
+        relative z-20 isolate
+        min-h-[clamp(380px,35vw,540px)]
+        overflow-visible
+        bg-[#eee1e0]
+        px-5
+        pt-[calc(var(--nav-height,72px)+3rem)]
+        pb-16
+        text-[#180305]
+        sm:px-10
+        lg:px-16
+      "
+    >
+      {/* Background */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 overflow-hidden"
+      >
+        <Image
+          src="/assets/images/Group%20109.webp"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className="
+            object-cover
+            opacity-35
+            mix-blend-multiply
+          "
+        />
+
+        <div
+          className="
+            absolute inset-0
+            bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.85),transparent_70%)]
+          "
+        />
+      </div>
+
+      {/* Main composition */}
+      <div
+        className="
+          relative mx-auto
+          grid w-full max-w-[1440px]
+          grid-cols-1
+          items-center
+          gap-8
+          text-center
+          sm:grid-cols-[1fr_auto_1fr]
+          sm:gap-6
+          lg:gap-12
+        "
+      >
+        {/* Left: Disciplines */}
+        <div className="flex justify-center sm:justify-start">
+          <div
+            className="
+              flex max-w-[360px]
+              flex-wrap items-center justify-center
+              gap-x-2 gap-y-1
+              rounded-full
+              bg-[#710a12]
+              px-6 py-3
+              font-display
+              text-xs font-bold
+              uppercase tracking-wide
+              text-white
+              sm:text-sm
+              lg:px-8 lg:py-4
+            "
+          >
+            {disciplines.map((discipline, index) => (
+              <span key={discipline}>
+                {discipline}
+                {index !== disciplines.length - 1 && (
+                  <span className="ml-2 text-white/80">/</span>
+                )}
+              </span>
+            ))}
+          </div>
         </div>
-        <p className="mt-4 max-w-[58ch] text-left font-display text-[0.62rem] font-semibold uppercase leading-[1.45] tracking-[0.08em] text-[#5f3034] sm:text-[0.75rem] lg:!self-end lg:!mr-24 lg:max-w-[30ch] max-[640px]:absolute max-[640px]:right-3 max-[640px]:top-[134px] max-[640px]:z-10 max-[640px]:mt-0 max-[640px]:w-[54%] max-[640px]:text-[0.32rem] max-[640px]:leading-[1.05] max-[640px]:tracking-[0.06em]">
-          Tell us what you&apos;re building, what you&apos;re imagining, or what your brand is missing.
+
+        {/* Center: Logo */}
+        <div className="flex items-center justify-center">
+          <Image
+            src="/assets/images/tixx.webp"
+            alt="TIX"
+            width={512}
+            height={512}
+            priority
+            className="
+              h-auto
+              w-[clamp(100px,12vw,180px)]
+              object-contain
+            "
+          />
+        </div>
+
+        {/* Right: Description */}
+        <p
+          className="
+            mx-auto
+            max-w-[340px]
+            font-display
+            text-sm font-semibold
+            uppercase leading-relaxed
+            tracking-[0.08em]
+            text-[#713d40]
+            sm:ml-auto sm:text-left
+            lg:text-base
+          "
+        >
+          Tell us what you&apos;re building, what you&apos;re imagining,
+          or what your brand is missing.
         </p>
+      </div>
+
+      {/* Glass heading — overlaps the contact form top edge */}
+      <div
+        className="
+          absolute
+          bottom-0 left-1/2
+          z-30
+          w-max max-w-[calc(100%-2rem)]
+          -translate-x-1/2
+          translate-y-1/2
+        "
+      >
+        <div
+          className="
+            rounded-full
+            border border-white/50
+            bg-white/25
+            px-7 py-3
+            text-center
+            shadow-[0_8px_32px_rgba(30,0,0,0.18)]
+            backdrop-blur-xl
+            backdrop-saturate-150
+            sm:px-12 sm:py-4
+            lg:px-14 lg:py-4
+          "
+        >
+          <h2
+            className="
+              whitespace-nowrap
+              font-display
+              text-[clamp(1.2rem,4vw,3rem)]
+              font-black
+              uppercase
+              leading-none
+              tracking-tight
+              text-[#790b12]
+              [text-shadow:0_1px_0_rgba(255,255,255,0.9)]
+            "
+          >
+            Let&apos;s Get in Touch
+          </h2>
+        </div>
       </div>
     </section>
   );

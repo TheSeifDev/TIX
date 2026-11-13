@@ -519,9 +519,7 @@
   place-items: center;
   overflow: hidden;
   padding: calc(var(--nav-height, 82px) + clamp(2.5rem, 7vh, 5rem)) 1.25rem clamp(3rem, 7vh, 5rem);
-  background:
-    radial-gradient(ellipse 55% 48% at 50% 48%, rgba(115, 0, 18, 0.22), transparent 72%),
-    linear-gradient(180deg, #090909 0%, #080808 100%);
+  background: rgba(165, 7, 13, 0.25);
 }
 
 .contact-single-section__glow {
