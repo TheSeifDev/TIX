@@ -2,7 +2,10 @@
 // @ts-nocheck
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 export function WorkContent() {
+  const t = useTranslations('WorkPage');
   return (
     <>
 
@@ -27,11 +30,11 @@ export function WorkContent() {
 
       <div className="work-hero__inner">
         <div className="work-hero__copy">
-          <h1 className="work-hero__title">THE WORK</h1>
-          <p className="work-hero__sub">Selected campaigns, productions, and visual systems.</p>
+          <h1 className="work-hero__title">{t('title')}</h1>
+          <p className="work-hero__sub">{t('subtitle')}</p>
           <div className="work-hero__actions">
             <span className="work-hero__pill">
-              24 Projects — 5 Industries
+              {t('projectCount')}
             </span>
           </div>
         </div>
@@ -81,7 +84,7 @@ export function WorkContent() {
         <div className="work-gallery__filter-wrap">
           <button type="button" className="work-gallery__filter" id="work-filter-btn" aria-expanded="true"
             aria-controls="work-filter-menu">
-            Filter work
+            {t('filter')}
             <span className="work-gallery__filter-chevron" aria-hidden="true">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
                 <path d="M2 3.5L5 6.5L8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"
@@ -90,12 +93,7 @@ export function WorkContent() {
             </span>
           </button>
           <ul className="work-gallery__menu" id="work-filter-menu" role="listbox" hidden>
-            <li><a href="#wg-fashion" data-jump="fashion">Fashion</a></li>
-            <li><a href="#wg-jewelry" data-jump="jewelry">Jewelry &amp; Luxury</a></li>
-            <li><a href="#wg-beauty" data-jump="beauty">Perfume / Beauty</a></li>
-            <li><a href="#wg-food" data-jump="food">Food &amp; Beverage</a></li>
-            <li><a href="#wg-events" data-jump="events">Events &amp; Concerts</a></li>
-            <li><a href="#wg-realestate" data-jump="realestate">Real Estate &amp; Corporates</a></li>
+            <li><a href="#wg-fashion" data-jump="fashion">{t('fashion')}</a></li><li><a href="#wg-jewelry" data-jump="jewelry">{t('jewelry')}</a></li><li><a href="#wg-beauty" data-jump="beauty">{t('beauty')}</a></li><li><a href="#wg-food" data-jump="food">{t('food')}</a></li><li><a href="#wg-events" data-jump="events">{t('events')}</a></li><li><a href="#wg-realestate" data-jump="realestate">{t('realestate')}</a></li>
           </ul>
         </div>
 
@@ -111,10 +109,10 @@ export function WorkContent() {
                 </svg>
               </span>
               <span className="wg-cat__tix-text">TIX</span>
-              <h2 className="wg-cat__title">WORK GALLERY</h2>
+              <h2 className="wg-cat__title">{t('gallery')}</h2>
             </div>
             <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">FASHION</h3>
+            <h3 className="wg-cat__name">{t('categories.fashion')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
                 aria-controls="wg-panel-fashion">
                 <svg className="wg-arrow__fallback" width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -128,9 +126,8 @@ export function WorkContent() {
 
           <div className="wg-panel" id="wg-panel-fashion" role="region" aria-label="Fashion gallery">
             <div className="wg-panel__meta">
-              <h4 className="wg-panel__eyebrow">FRAMES OF IDENTITY</h4>
-              <p className="wg-panel__desc">EDITORIAL FASHION PHOTOGRAPHY CRAFTED TO SHAPE PERCEPTION, PRESENCE, AND BRAND
-                DESIRE.</p>
+            <h4 className="wg-panel__eyebrow">{t('eyebrows.fashion')}</h4>
+              <p className="wg-panel__desc">{t('descriptions.fashion')}</p>
             </div>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="STUDIO SESSIONS">
@@ -191,7 +188,7 @@ export function WorkContent() {
         <article className="wg-cat is-open" data-category="jewelry" id="wg-jewelry">
           <header className="wg-cat__head wg-cat__head--zig-right">
             <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">JEWELRY &amp; LUXURY</h3>
+              <h3 className="wg-cat__name">{t('categories.jewelry')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
                 aria-controls="wg-panel-jewelry">
                 <svg className="wg-arrow__fallback wg-arrow__fallback--flip" width="22" height="22" viewBox="0 0 24 24"
@@ -205,8 +202,8 @@ export function WorkContent() {
 
           <div className="wg-panel" id="wg-panel-jewelry" role="region" aria-label="Jewelry gallery">
             <div className="wg-panel__meta">
-              <h4 className="wg-panel__eyebrow">OBJECTS OF DESIRE</h4>
-              <p className="wg-panel__desc">LUXURY PRODUCT PHOTOGRAPHY FOCUSED ON TEXTURE, DETAIL, CRAFTSMANSHIP, AND VISUAL SEDUCTION.</p>
+              <h4 className="wg-panel__eyebrow">{t('eyebrows.jewelry')}</h4>
+              <p className="wg-panel__desc">{t('descriptions.jewelry')}</p>
             </div>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="FINE JEWELRY">
@@ -256,7 +253,7 @@ export function WorkContent() {
         <article className="wg-cat is-open" data-category="beauty" id="wg-beauty">
           <header className="wg-cat__head wg-cat__head--zig-right">
             <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">PERFUME / BEAUTY</h3>
+              <h3 className="wg-cat__name">{t('categories.beauty')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
                 aria-controls="wg-panel-beauty">
                 <svg className="wg-arrow__fallback" width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -270,8 +267,8 @@ export function WorkContent() {
 
           <div className="wg-panel" id="wg-panel-beauty" role="region" aria-label="Beauty gallery">
             <div className="wg-panel__meta">
-              <h4 className="wg-panel__eyebrow">SCENT IN MOTION</h4>
-              <p className="wg-panel__desc">LUXURY BEAUTY AND FRAGRANCE VISUALS SHAPED THROUGH ATMOSPHERE, TEXTURE, AND EMOTION.</p>
+              <h4 className="wg-panel__eyebrow">{t('eyebrows.beauty')}</h4>
+              <p className="wg-panel__desc">{t('descriptions.beauty')}</p>
             </div>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="BOTTLE STILLS">
@@ -319,7 +316,7 @@ export function WorkContent() {
         <article className="wg-cat is-open" data-category="food" id="wg-food">
           <header className="wg-cat__head wg-cat__head--zig-right">
             <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">FOOD &amp; BEVERAGE</h3>
+              <h3 className="wg-cat__name">{t('categories.food')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
                 aria-controls="wg-panel-food">
                 <svg className="wg-arrow__fallback wg-arrow__fallback--flip" width="22" height="22" viewBox="0 0 24 24"
@@ -333,8 +330,8 @@ export function WorkContent() {
 
           <div className="wg-panel" id="wg-panel-food" role="region" aria-label="Food gallery">
             <div className="wg-panel__meta">
-              <h4 className="wg-panel__eyebrow">CRAFTED APPETITE</h4>
-              <p className="wg-panel__desc">VISUAL CAMPAIGNS DESIGNED TO TRANSFORM PRODUCTS INTO SENSORY EXPERIENCES.</p>
+              <h4 className="wg-panel__eyebrow">{t('eyebrows.food')}</h4>
+              <p className="wg-panel__desc">{t('descriptions.food')}</p>
             </div>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="PLATING">
@@ -380,7 +377,7 @@ export function WorkContent() {
         <article className="wg-cat is-open" data-category="events" id="wg-events">
           <header className="wg-cat__head wg-cat__head--zig-right">
             <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">EVENTS &amp; CONCERTS</h3>
+              <h3 className="wg-cat__name">{t('categories.events')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
                 aria-controls="wg-panel-events">
                 <svg className="wg-arrow__fallback" width="22" height="22" viewBox="0 0 24 24" fill="none"
@@ -394,8 +391,8 @@ export function WorkContent() {
 
           <div className="wg-panel" id="wg-panel-events" role="region" aria-label="Events gallery">
             <div className="wg-panel__meta">
-              <h4 className="wg-panel__eyebrow">LIVE IN MOTION</h4>
-              <p className="wg-panel__desc">CONCERTS, CULTURAL EVENTS, AND LIVE EXPERIENCES CAPTURED THROUGH MOVEMENT, ATMOSPHERE, CROWD ENERGY, AND CINEMATIC STORYTELLING.</p>
+              <h4 className="wg-panel__eyebrow">{t('eyebrows.events')}</h4>
+              <p className="wg-panel__desc">{t('descriptions.events')}</p>
             </div>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="LIVE STAGE">
@@ -442,7 +439,7 @@ export function WorkContent() {
         <article className="wg-cat is-open" data-category="realestate" id="wg-realestate">
           <header className="wg-cat__head wg-cat__head--zig-right">
             <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">REAL ESTATE &amp; CORPORATES</h3>
+              <h3 className="wg-cat__name">{t('categories.realestate')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
                 aria-controls="wg-panel-realestate">
                 <svg className="wg-arrow__fallback wg-arrow__fallback--flip" width="22" height="22" viewBox="0 0 24 24"
@@ -456,8 +453,8 @@ export function WorkContent() {
 
           <div className="wg-panel" id="wg-panel-realestate" role="region" aria-label="Real estate gallery">
             <div className="wg-panel__meta">
-              <h4 className="wg-panel__eyebrow">SPACES IN FRAME</h4>
-              <p className="wg-panel__desc">ARCHITECTURAL AND REAL ESTATE VISUALS CRAFTED TO CAPTURE ATMOSPHERE, DESIGN, SCALE, AND MODERN LIVING THROUGH CINEMATIC PHOTOGRAPHY.</p>
+            <h4 className="wg-panel__eyebrow">{t('eyebrows.realestate')}</h4>
+            <p className="wg-panel__desc">{t('descriptions.realestate')}</p>
             </div>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="INTERIOR">
@@ -560,7 +557,7 @@ export function WorkContent() {
         </div>
 
         <div className="work-lens__copy">
-          <h2 className="work-lens__title">Every frame tells part of the story.</h2>
+          <h2 className="work-lens__title">{t('story')}</h2>
           <p className="work-lens__sub">
             From fashion editorials to branded experiences<br />
             and cinematic production.

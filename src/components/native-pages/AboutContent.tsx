@@ -2,7 +2,10 @@
 // @ts-nocheck
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 export function AboutContent() {
+  const t = useTranslations('AboutPage');
   return (
     <>
 
@@ -12,12 +15,11 @@ export function AboutContent() {
     <section className="impact-hero" aria-label="Studio hero">
       <div className="container impact-hero__inner">
         <div className="impact-hero__content">
-          <h1 className="impact-hero__title" data-reveal="left">We build<br /><span className="impact-hero__title-line">brands people</span><br />remember.</h1>
+          <h1 className="impact-hero__title" data-reveal="left">{t('title')}</h1>
           <p className="impact-hero__headline" data-reveal="fade">
-            TIX is a full-service creative and marketing studio based in Alexandria, combining strategy, production
-            and design under one vision.
+            {t('heroDescription')}
           </p>
-          <div className="impact-hero__proof" data-stagger aria-label="Studio specialties">
+          <div className="impact-hero__proof" data-stagger aria-label={t('specialties')}>
             <span className="proof-card proof-card--1">ALEXANDRIA / EST. 2025</span>
             <span className="proof-card proof-card--2">CREATIVE STUDIO</span>
             <span className="proof-card proof-card--3">MARKETING &amp; PRODUCTION</span>
@@ -29,7 +31,7 @@ export function AboutContent() {
     <section className="brand-focus" aria-label="For brands that need attention">
       <div className="container">
         <p className="brand-focus__line" data-reveal="fade">
-          <span>For Brands That Need</span>
+          <span>{t('brandNeed')}</span>
           <span className="brand-focus__window" role="img" aria-label="Attention, Impact, Presence, Movement, Culture">
             <span className="brand-focus__track" aria-hidden="true">
               <span className="word-red">ATTENTION</span>
@@ -44,28 +46,27 @@ export function AboutContent() {
     </section>
 
     
-    <section className="signal-intro" id="signal-intro" aria-label="The Signal">
+    <section className="signal-intro" id="signal-intro" aria-label={t('signal')}>
       <div className="container signal-intro__inner">
         <div className="signal-intro__left" data-reveal="left">
           <h2 className="signal-intro__title">
-            <span>THE</span>
-            <span>SIGNAL</span>
+            <span>{t('signal')}</span>
           </h2>
           <div className="signal-intro__tagline">
-            <p className="signal-intro__tagline-white">Every brand has a story.</p>
-            <p className="signal-intro__tagline-red">We make sure it's heard.</p>
+            <p className="signal-intro__tagline-white">{t('storyTagline')}</p>
+            <p className="signal-intro__tagline-red">{t('heardTagline')}</p>
           </div>
         </div>
 
         <div className="signal-intro__right" data-reveal="fade">
           <p className="signal-intro__p">
-            TIX was born where cinematic storytelling meets strategic execution.
+            {t('signalOne')}
           </p>
           <p className="signal-intro__p">
-            We bring together filmmakers, marketers, designers, and digital builders to create brands that feel impossible to ignore.
+            {t('signalTwo')}
           </p>
           <p className="signal-intro__p">
-            From campaigns and production to websites and visual systems, every discipline inside the studio works together under one creative direction.
+            {t('signalThree')}
           </p>
         </div>
       </div>
@@ -77,8 +78,8 @@ export function AboutContent() {
         <img className="touchpoints__art !absolute !inset-0 !z-[2] !block !h-full !w-full !max-w-none !object-fill !transform-none" src="/assets/images/Group%20109.webp" alt="" aria-hidden="true" />
 
         <div className="touchpoints__copy !absolute !inset-x-0 !left-0 !right-0 !top-[17%] !z-[6] !mx-auto !w-[53.51%] ![transform:none] !text-center">
-          <h2 className="!normal-case !text-[clamp(1.25rem,5.35vw,6rem)] !leading-[0.98]">Built across<br />every touchpoint.</h2>
-          <p className="!mx-auto !mt-[1.8%] !w-[89.5%] !max-w-none !text-[clamp(0.72rem,2.6vw,3rem)] !leading-[1.3]">One studio. Multiple creative{' '}<br />systems. Unified brand{' '}<br />experiences.</p>
+          <h2 className="!normal-case !text-[clamp(1.25rem,5.35vw,6rem)] !leading-[0.98]">{t('touchpoints')}</h2>
+          <p className="!mx-auto !mt-[1.8%] !w-[89.5%] !max-w-none !text-[clamp(0.72rem,2.6vw,3rem)] !leading-[1.3]">{t('touchpointDescription')}</p>
         </div>
 
         <img className="touchpoints__logo !absolute !inset-x-0 !top-[60%] !z-[5] !mx-auto !w-[22%] ![transform:translateY(-50%)]" src="/assets/images/logoback.webp" alt="TIX Marketing &amp; Production Agency" />
@@ -105,17 +106,15 @@ export function AboutContent() {
       <div className="container">
         <div className="connection__inner">
           <div data-reveal="left">
-            <p className="connection__label">Connection Isn't Optional</p>
+            <p className="connection__label">{t('connection')}</p>
             <h2 className="connection__title">
-              If your audience doesn't feel it,<br />
-              it <em>doesn't work.</em>
+              {t('connectionTitle')}
             </h2>
             <p className="connection__body">
-              We design brands that people engage with, not ignore. From awareness to conversion, every move is
-              intentional.
+              {t('connectionBody')}
             </p>
             <div style={{"marginTop": "2rem"}}>
-              <a href="/contact" className="btn btn--crimson">Start Your Brand →</a>
+              <a href="/contact" className="btn btn--crimson">{t('startBrand')}</a>
             </div>
           </div>
 
@@ -136,10 +135,8 @@ export function AboutContent() {
           </div>
           
           <div className="refused__right">
-            <h2 className="refused__headline">The Creative Force Behind Modern Brands</h2>
-            <p>From the first strategic idea to the final frame, every detail is crafted to make your brand impossible
-              to
-              ignore.</p>
+            <h2 className="refused__headline">{t('force')}</h2>
+            <p>{t('refusedDescription')}</p>
           </div>
         </div>
       </div>
@@ -153,19 +150,14 @@ export function AboutContent() {
         <div className="bts__top" data-reveal>
           <p
             style={{"fontFamily": "var(--font-body)", "fontSize": ".8rem", "color": "var(--muted-2)", "letterSpacing": ".06em", "marginBottom": ".3rem"}}>
-            Where strategy, production, and visual storytelling meet</p>
-          <h2 className="sec-title sec-title--md">INSIDE THE FRAME</h2>
-          <p>Fragments from the studio process. Ideas, experimentation, production, and the moments between the final
-            shots.</p>
+            {t('btsLead')}</p>
+          <h2 className="sec-title sec-title--md">{t('inside')}</h2>
+          <p>{t('btsDescription')}</p>
         </div>
 
         
         <div className="bts__filter" aria-label="Gallery filters" role="list">
-          <span className="bts__filter-tag" role="listitem">Frame 024</span>
-          <span className="bts__filter-tag" role="listitem">Light Test</span>
-          <span className="bts__filter-tag" role="listitem">Pre-Production</span>
-          <span className="bts__filter-tag" role="listitem">On Set</span>
-          <span className="bts__filter-tag" role="listitem">Raw Signal</span>
+          <span className="bts__filter-tag" role="listitem">{t('filters.frame')}</span><span className="bts__filter-tag" role="listitem">{t('filters.light')}</span><span className="bts__filter-tag" role="listitem">{t('filters.pre')}</span><span className="bts__filter-tag" role="listitem">{t('filters.set')}</span><span className="bts__filter-tag" role="listitem">{t('filters.raw')}</span>
         </div>
 
         

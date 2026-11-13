@@ -1,17 +1,19 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import './native.css';
+import { getLocale } from 'next-intl/server';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://tixstudio.com'),
-  title: { default: 'TIX Studio | Creative Marketing & Production Agency', template: '%s | TIX Studio' },
+  title: { default: 'TIX Studio | Creative Marketing & Production Agency', template: '%s' },
   description: 'TIX is a full-service creative and marketing studio based in Alexandria, Egypt.',
   icons: { icon: '/assets/images/tix.webp', apple: '/assets/images/tix.webp' },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
   return (
-    <html lang="en">
+    <html lang={locale} dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       <head>
         {/* Legacy styles are served from public unchanged during the parity migration. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />

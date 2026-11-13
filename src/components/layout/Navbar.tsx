@@ -1,8 +1,8 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { Link, usePathname } from '@/i18n/navigation';
+import { useLocale, useTranslations } from 'next-intl';
 import { useEffect, useRef, useState } from 'react';
 
 const links = {
@@ -20,17 +20,23 @@ const links = {
 
 export function Navbar({ arabic = false }: { arabic?: boolean }) {
   const pathname = usePathname();
+  const locale = useLocale();
+  const t = useTranslations('Navigation');
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const wasOpenRef = useRef(false);
 
-  const isArabic = arabic || pathname === '/ar' || pathname.startsWith('/ar/');
-  const localized = isArabic ? links.ar : links.en;
-  const languageHref = isArabic ? '/' : '/ar';
+  const isArabic = locale === 'ar' || arabic;
+  const localized = [
+    { href: '/work' as const, label: t('work'), key: 'work' },
+    { href: '/services' as const, label: t('services'), key: 'services' },
+    { href: '/about' as const, label: t('studio'), key: 'about' },
+  ];
+  const languageHref = pathname;
   const languageLabel = isArabic ? 'EN' : 'AR';
-  const languageAccessibleName = isArabic ? 'Switch to English' : 'التبديل إلى العربية';
+  const languageAccessibleName = isArabic ? t('switchToEnglish') : t('switchToArabic');
 
   // Font + casing: Arabic has no uppercase / letter-spacing
   const labelFont = isArabic
@@ -80,9 +86,12 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
       element.inert = true;
     });
     document.body.style.overflow = 'hidden';
-    menu.querySelector<HTMLElement>('[data-menu-links] a')?.focus();
+    const focusFrame = window.requestAnimationFrame(() => {
+      menu.querySelector<HTMLElement>('[data-menu-links] a')?.focus();
+    });
 
     return () => {
+      window.cancelAnimationFrame(focusFrame);
       background.forEach((element, index) => {
         element.inert = previousInert[index];
       });
@@ -138,7 +147,7 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
       {/* ============ NAV BAR ============ */}
       <nav
         id="main-nav"
-        aria-label={isArabic ? 'التنقل الرئيسي' : 'Main navigation'}
+        aria-label={t('main')}
         dir={isArabic ? 'rtl' : undefined}
         className={[
           'fixed left-1/2 top-3 z-[1000] h-14 w-[calc(100%-1.5rem)] max-w-6xl -translate-x-1/2 rounded-2xl border backdrop-blur-xl backdrop-saturate-150',
@@ -152,7 +161,7 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
         <div className="grid h-full w-full grid-cols-[1fr_auto] items-center !ps-5 !pe-2.5 md:grid-cols-[1fr_auto_1fr] md:!px-5">
           {/* Logo: centered on mobile, start-aligned on desktop */}
           <Link
-            href={isArabic ? '/ar' : '/'}
+            href="/"
             aria-label="TIX Home"
             className="flex items-center justify-self-start rounded-full outline-none focus-visible:ring-2 focus-visible:ring-white/60 max-md:absolute max-md:start-1/2 max-md:-translate-x-1/2 max-md:rtl:translate-x-1/2"
           >
@@ -195,12 +204,13 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
           {/* Desktop actions */}
           <div className="hidden shrink-0 items-center justify-self-end gap-3 md:flex">
             <Link
-              href={languageHref}
+              href={languageHref as '/'}
+              locale={isArabic ? 'en' : 'ar'}
               lang={isArabic ? 'en' : 'ar'}
               hrefLang={isArabic ? 'en' : 'ar'}
               aria-label={languageAccessibleName}
               title={languageAccessibleName}
-              className="inline-flex min-w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 !px-4 !py-2.5 font-[family-name:var(--font-display)] text-[11px] font-bold leading-none text-white/80 outline-none transition-colors hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60"
+              className="nav__language inline-flex min-w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 !px-4 !py-2.5 font-[family-name:var(--font-display)] text-[11px] font-bold leading-none text-white/80 outline-none transition-colors hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60"
             >
               {languageLabel}
             </Link>
@@ -213,7 +223,7 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
                 labelFont,
               ].join(' ')}
             >
-              <span>{isArabic ? 'تواصل معنا' : 'Contact'}</span>
+              <span>{t('contact')}</span>
               <svg
                 width="12"
                 height="12"
@@ -237,12 +247,12 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
           <button
             ref={buttonRef}
             type="button"
-            aria-label={isArabic ? 'فتح قائمة التنقل' : 'Toggle menu'}
+            aria-label={t('toggleMenu')}
             aria-expanded={open}
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
             className={[
-              'relative z-[2] col-start-2 justify-self-end grid size-10 place-items-center rounded-full outline-none md:hidden',
+              'nav__burger relative z-[2] col-start-2 justify-self-end grid size-10 place-items-center rounded-full outline-none md:hidden',
               'bg-white/[0.06] ring-1 ring-inset ring-white/10 transition-colors duration-200',
               'hover:bg-white/10 active:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/60',
             ].join(' ')}
@@ -290,7 +300,7 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
         {/* Menu header: logo + close */}
         <div className="flex h-14 items-center justify-between">
           <Link
-            href={isArabic ? '/ar' : '/'}
+            href="/"
             aria-label="TIX Home"
             onClick={() => setOpen(false)}
             className="rounded-full outline-none focus-visible:ring-2 focus-visible:ring-white/60"
@@ -332,7 +342,8 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
             );
           })}
           <Link
-            href={languageHref}
+            href={languageHref as '/'}
+            locale={isArabic ? 'en' : 'ar'}
             lang={isArabic ? 'en' : 'ar'}
             hrefLang={isArabic ? 'en' : 'ar'}
             onClick={() => setOpen(false)}
@@ -352,7 +363,7 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
               labelFont,
             ].join(' ')}
           >
-            {isArabic ? 'لنبدأ مشروعك' : "Let's build it"}
+            {t('contact')}
           </Link>
         </div>
 

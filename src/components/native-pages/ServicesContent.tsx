@@ -2,7 +2,10 @@
 // @ts-nocheck
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 export function ServicesContent() {
+  const t = useTranslations('ServicesPage');
   return (
     <>
 
@@ -16,7 +19,7 @@ export function ServicesContent() {
       <div className="container svchero__container">
         
         <div className="svchero__title-wrap svchero__title-wrap--top" data-reveal="left">
-          <h1 className="svchero__main-text">WHAT&rsquo;S INSIDE</h1>
+          <h1 className="svchero__main-text">{t('hero')}</h1>
         </div>
 
         
@@ -38,13 +41,13 @@ export function ServicesContent() {
 
         
         <div className="svchero__title-wrap svchero__title-wrap--bottom" data-reveal="right">
-          <h2 className="svchero__main-text svchero__main-text--right">THE STUDIO ?</h2>
+          <h2 className="svchero__main-text svchero__main-text--right">{t('studio')}</h2>
         </div>
       </div>
     </section>
 
     
-    <section className="svc-calls" id="creativity-calls" aria-label="Creativity Calls We Answer">
+    <section className="svc-calls" id="creativity-calls" aria-label={t('calls')}>
       
       <div className="svc-calls__aura" aria-hidden="true"></div>
 
@@ -59,8 +62,8 @@ export function ServicesContent() {
           
           <div className="svc-calls__side svc-calls__side--left" data-reveal="left">
             <h2 className="svc-calls__heading svc-calls__heading--left">
-              <span>CREATIVITY</span>
-              <span>CALLS</span>
+              <span>{t('creativity')}</span>
+              <span>{t('callsWord')}</span>
             </h2>
           </div>
 
@@ -74,8 +77,8 @@ export function ServicesContent() {
           
           <div className="svc-calls__side svc-calls__side--right" data-reveal="right">
             <h2 className="svc-calls__heading svc-calls__heading--right">
-              <span>WE</span>
-              <span>ANSWER.</span>
+              <span>{t('we')}</span>
+              <span>{t('answer')}</span>
             </h2>
           </div>
         </div>
@@ -91,7 +94,7 @@ export function ServicesContent() {
           
           <div className="folder-card__tab-bar">
             <div className="folder-card__tab folder-card__tab--left">
-              <span className="folder-card__tab-label">AUDIENCE &amp; INFLUENCE</span>
+              <span className="folder-card__tab-label">{t('audienceTitle')}</span>
             </div>
           </div>
           
@@ -100,14 +103,7 @@ export function ServicesContent() {
               
               <div className="folder-card__col folder-card__col--pills">
                 <div className="folder-card__pills-list">
-                  <span className="folder-card__pill">Social Media Management</span>
-                  <span className="folder-card__pill">Content Creation</span>
-                  <span className="folder-card__pill">Performance Marketing</span>
-                  <span className="folder-card__pill">Media Buying</span>
-                  <span className="folder-card__pill">Influencer Marketing</span>
-                  <span className="folder-card__pill">Creative Campaigns</span>
-                  <span className="folder-card__pill">SEO Optimization</span>
-                  <span className="folder-card__pill">Strategy &amp; Market Analysis</span>
+                  <span className="folder-card__pill">{t('socialManagement')}</span><span className="folder-card__pill">{t('contentCreation')}</span><span className="folder-card__pill">{t('performanceMarketing')}</span><span className="folder-card__pill">{t('mediaBuying')}</span><span className="folder-card__pill">{t('influencerMarketing')}</span><span className="folder-card__pill">{t('creativeCampaigns')}</span><span className="folder-card__pill">{t('seo')}</span><span className="folder-card__pill">{t('marketAnalysis')}</span>
                 </div>
               </div>
 
@@ -117,7 +113,7 @@ export function ServicesContent() {
                   <img src="../assets/images/Chess.webp" alt="Strategic chess pieces" className="folder-card__media-img folder-card__media-img--chess" />
                 </div>
                 <p className="folder-card__desc">
-                  Strategic systems designed to position brands, shape perception, and drive engagement.
+                  {t('audienceDescription')}
                 </p>
               </div>
             </div>
@@ -129,7 +125,7 @@ export function ServicesContent() {
           
           <div className="folder-card__tab-bar">
             <div className="folder-card__tab folder-card__tab--middle">
-              <span className="folder-card__tab-label">MOTION &amp; PRODUCTION</span>
+              <span className="folder-card__tab-label">{t('motionTitle')}</span>
             </div>
           </div>
           
@@ -138,21 +134,14 @@ export function ServicesContent() {
               
               <div className="folder-card__col folder-card__col--pills">
                 <div className="folder-card__pills-list">
-                  <span className="folder-card__pill">Commercial Video Production</span>
-                  <span className="folder-card__pill">Brand Shoots</span>
-                  <span className="folder-card__pill">Product Photography</span>
-                  <span className="folder-card__pill">Motion Graphics</span>
-                  <span className="folder-card__pill">Video Editing</span>
-                  <span className="folder-card__pill">Podcast Production</span>
-                  <span className="folder-card__pill">Event Coverage</span>
-                  <span className="folder-card__pill">Reels &amp; Short-form Content</span>
+                  <span className="folder-card__pill">{t('commercialProduction')}</span><span className="folder-card__pill">{t('brandShoots')}</span><span className="folder-card__pill">{t('productPhotography')}</span><span className="folder-card__pill">{t('motionGraphics')}</span><span className="folder-card__pill">{t('videoEditing')}</span><span className="folder-card__pill">{t('podcastProduction')}</span><span className="folder-card__pill">{t('eventCoverage')}</span><span className="folder-card__pill">{t('shortForm')}</span>
                 </div>
               </div>
 
               
               <div className="folder-card__col folder-card__col--content">
                 <p className="folder-card__desc folder-card__desc--top">
-                  Cinematic visual production crafted through storytelling, movement, and direction.
+                  {t('motionDescription')}
                 </p>
                 <div className="folder-card__media-wrap folder-card__media-wrap--camera">
                   <img src="../assets/images/production.webp" alt="Production camera on tripod" className="folder-card__media-img folder-card__media-img--camera" />
@@ -167,7 +156,7 @@ export function ServicesContent() {
           
           <div className="folder-card__tab-bar">
             <div className="folder-card__tab folder-card__tab--right">
-              <span className="folder-card__tab-label">VISUAL SYSTEMS</span>
+              <span className="folder-card__tab-label">{t('visualTitle')}</span>
             </div>
           </div>
           
@@ -176,14 +165,7 @@ export function ServicesContent() {
               
               <div className="folder-card__col folder-card__col--pills">
                 <div className="folder-card__pills-list">
-                  <span className="folder-card__pill">Graphic Design</span>
-                  <span className="folder-card__pill">UI Design</span>
-                  <span className="folder-card__pill">Packaging Design</span>
-                  <span className="folder-card__pill">Social Media Designs</span>
-                  <span className="folder-card__pill">Presentation Design</span>
-                  <span className="folder-card__pill">Brand Guidelines</span>
-                  <span className="folder-card__pill">Creative Concepts</span>
-                  <span className="folder-card__pill">Visual Identity Systems</span>
+                  <span className="folder-card__pill">{t('graphicDesignService')}</span><span className="folder-card__pill">{t('uiDesign')}</span><span className="folder-card__pill">{t('packaging')}</span><span className="folder-card__pill">{t('socialDesigns')}</span><span className="folder-card__pill">{t('presentation')}</span><span className="folder-card__pill">{t('guidelines')}</span><span className="folder-card__pill">{t('creativeConcepts')}</span><span className="folder-card__pill">{t('visualIdentity')}</span>
                 </div>
               </div>
 
@@ -193,7 +175,7 @@ export function ServicesContent() {
                   <img src="../assets/images/visual.webp" alt="Brand visual system star & megaphone" className="folder-card__media-img folder-card__media-img--megaphone" />
                 </div>
                 <p className="folder-card__desc">
-                  Design languages and creative assets developed to build recognizable and lasting identities.
+                  {t('visualDescription')}
                 </p>
               </div>
             </div>
@@ -203,7 +185,7 @@ export function ServicesContent() {
       </div>
     </section>
 
-    <section className="gl-18" aria-label="Studio image gallery">
+    <section className="gl-18" aria-label={t('gallery')}>
       <div className="gl-18__viewport">
         <div className="gl-18__track">
           <img src="../assets/images/mmm.webp" alt="" loading="lazy" decoding="async" />

@@ -4,10 +4,12 @@ import { useGSAP } from '@gsap/react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useEffect } from 'react';
+import { useTranslations } from 'next-intl';
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function PageInteractions({ page }: { page: 'home' | 'about' | 'services' | 'work' | 'contact' }) {
+  const t = useTranslations('ContactForm');
   useGSAP(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     gsap.utils.toArray<HTMLElement>('[data-reveal], .observer-target').forEach((target) => {
@@ -131,17 +133,21 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
   }, { dependencies: [page], revertOnUpdate: true });
 
   useEffect(() => {
-    if (page !== 'about') return;
     const main = document.querySelector<HTMLElement>('#main-content');
     if (!main) return;
 
     let refreshFrame: number | undefined;
+    let refreshTimer: number | undefined;
     const scheduleRefresh = () => {
-      if (refreshFrame !== undefined) return;
-      refreshFrame = window.requestAnimationFrame(() => {
-        refreshFrame = undefined;
-        ScrollTrigger.refresh();
-      });
+      if (refreshTimer !== undefined) return;
+      refreshTimer = window.setTimeout(() => {
+        refreshTimer = undefined;
+        if (refreshFrame !== undefined) return;
+        refreshFrame = window.requestAnimationFrame(() => {
+          refreshFrame = undefined;
+          ScrollTrigger.refresh();
+        });
+      }, 100);
     };
     const images = Array.from(main.querySelectorAll('img'));
     const pendingImages = images.filter((image) => !image.complete);
@@ -149,17 +155,18 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       image.addEventListener('load', scheduleRefresh);
       image.addEventListener('error', scheduleRefresh);
     });
-    const resizeObserver = new ResizeObserver(scheduleRefresh);
-    resizeObserver.observe(main);
+    window.addEventListener('resize', scheduleRefresh, { passive: true });
+    document.fonts?.ready.then(scheduleRefresh).catch(() => undefined);
     scheduleRefresh();
 
     return () => {
+      if (refreshTimer !== undefined) window.clearTimeout(refreshTimer);
       if (refreshFrame !== undefined) window.cancelAnimationFrame(refreshFrame);
       pendingImages.forEach((image) => {
         image.removeEventListener('load', scheduleRefresh);
         image.removeEventListener('error', scheduleRefresh);
       });
-      resizeObserver.disconnect();
+      window.removeEventListener('resize', scheduleRefresh);
     };
   }, [page]);
 
@@ -173,15 +180,15 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const submitter = form.querySelector<HTMLButtonElement>('.form-submit');
         if (!submitter || submitter.disabled) return;
         const oldLabel = submitter.textContent;
-        submitter.disabled = true; submitter.textContent = 'Sending…';
+        submitter.disabled = true; submitter.textContent = t('sending');
         let status = form.querySelector<HTMLElement>('.form-status');
         if (!status) { status = document.createElement('p'); status.className = 'form-status'; status.setAttribute('role', 'status'); form.append(status); }
         try {
           const response = await fetch('/api/contact', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
           const body = await response.json().catch(() => ({}));
           if (!response.ok) throw new Error(body.error || 'Unable to send your message.');
-          status.textContent = 'Message sent. We will be in touch soon.'; form.reset();
-        } catch (error) { status.textContent = error instanceof Error ? error.message : 'Unable to send your message.'; }
+          status.textContent = t('success'); form.reset();
+        } catch (error) { status.textContent = error instanceof Error ? error.message : t('error'); }
         submitter.disabled = false; submitter.textContent = oldLabel;
       };
       const trap = document.createElement('input'); trap.name = 'company'; trap.tabIndex = -1; trap.setAttribute('autocomplete', 'off'); trap.setAttribute('aria-hidden', 'true'); trap.style.cssText = 'position:absolute;left:-10000px'; form.append(trap);

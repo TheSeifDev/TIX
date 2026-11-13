@@ -1,9 +1,12 @@
 
 'use client';
 
+import { useTranslations } from 'next-intl';
+
 import { ContactFooter } from '@/components/contact/ContactFooter';
 
 export function ContactContent() {
+  const t = useTranslations('ContactForm');
   return (
     <main
       id="main-content"
@@ -90,7 +93,7 @@ export function ContactContent() {
     [text-shadow:0_2px_8px_rgba(113,10,18,0.25)]
   "
                 >
-                  LET&apos;S GET IN TOUCH
+                  {t('heading')}
                 </p>
               </div>
             </div>
@@ -116,7 +119,7 @@ export function ContactContent() {
                   mb-8 text-center
                 "
               >
-                Tell us what you are building. We will take it from there.
+                {t('intro')}
               </p>
 
               <form noValidate>
@@ -133,7 +136,7 @@ export function ContactContent() {
                       className="form-label"
                       htmlFor="name"
                     >
-                      Your name
+                      {t('name')}
                     </label>
 
                     <input
@@ -141,7 +144,7 @@ export function ContactContent() {
                       type="text"
                       id="name"
                       name="name"
-                      placeholder="Ahmed Hassan"
+                      placeholder={t('namePlaceholder')}
                       autoComplete="name"
                       minLength={2}
                       maxLength={120}
@@ -154,7 +157,7 @@ export function ContactContent() {
                       className="form-label"
                       htmlFor="email"
                     >
-                      Email
+                      {t('email')}
                     </label>
 
                     <input
@@ -162,7 +165,7 @@ export function ContactContent() {
                       type="email"
                       id="email"
                       name="email"
-                      placeholder="you@brand.com"
+                      placeholder={t('emailPlaceholder')}
                       autoComplete="email"
                       maxLength={254}
                       required
@@ -176,7 +179,7 @@ export function ContactContent() {
                     className="form-label"
                     htmlFor="building"
                   >
-                    What are you building?
+                    {t('project')}
                   </label>
 
                   <input
@@ -184,7 +187,7 @@ export function ContactContent() {
                     type="text"
                     id="building"
                     name="building"
-                    placeholder="A campaign, a launch, a brand, a digital experience..."
+                    placeholder={t('projectPlaceholder')}
                     maxLength={200}
                   />
                 </div>
@@ -195,14 +198,14 @@ export function ContactContent() {
                     className="form-label"
                     htmlFor="help"
                   >
-                    What do you need help with?
+                    {t('helpPrompt')}
                   </label>
 
                   <textarea
                     className="form-textarea"
                     id="help"
                     name="help"
-                    placeholder="Tell us about your brand, your goals, your timeline..."
+                    placeholder={t('helpPlaceholder')}
                     rows={4}
                     minLength={10}
                     maxLength={5000}
@@ -225,7 +228,7 @@ export function ContactContent() {
                     focus-visible:outline-white
                   "
                 >
-                  Start The Project
+                  {t('submit')}
                   <span aria-hidden="true"> →</span>
                 </button>
               </form>
