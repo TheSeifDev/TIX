@@ -2,10 +2,28 @@
 // @ts-nocheck
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+import { HomeBrandsSection } from './HomeBrandsSection';
+
+const serviceRibbonItems = ['TIX', 'CREATIVE DIRECTION', 'STRATEGY', 'PRODUCTION', 'DIGITAL EXPERIENCE', 'LUXURY CAMPAIGNS'];
+const clientRibbonItems = ['ZEN DIAMOND', 'KENZ GOLD', 'ALMASAT ELKHALIJ', 'GAWHARA', 'LUGANO', 'ZARA', 'H&M', 'LOCATION CAFE', 'SWEET DOOR', 'MAAMOL', 'DR IDOL', 'FUNDIK'];
+
+function TrustRibbonGroup({ items, duplicate = false }) {
+  return (
+    <div className="marquee__group" lang="en" dir="ltr" aria-hidden={duplicate || undefined}>
+      {items.map((item, index) => (
+        <span className="marquee__item" key={`${item}-${index}`}>
+          {item} <span className="marquee__sep" aria-hidden="true">✦</span>
+        </span>
+      ))}
+    </div>
+  );
+}
 
 export function HomeContent() {
   const t = useTranslations('HomePage');
+  const locale = useLocale();
+  const direction = locale === 'ar' ? 'rtl' : 'ltr';
   const items = useTranslations('HomeLists');
   return (
     <>
@@ -84,7 +102,7 @@ export function HomeContent() {
       <div className="tix-cards-container">
         
         <div className="tix-oval-card tix-card-edge delay-3 observer-target">
-          <img src="assets/images/events.webp" alt={t('events')} />
+          <img src="/assets/images/events-card-oriented.webp" alt={t('events')} />
           <span className="tix-card-label">{t('events')}</span>
         </div>
 
@@ -96,7 +114,7 @@ export function HomeContent() {
 
         
         <div className="tix-oval-card tix-card-center delay-1 observer-target">
-          <img src="assets/images/fashion-jpg.webp" alt={t('fashion')} />
+          <img src="/assets/images/fashion-card-oriented.webp" alt={t('fashion')} />
           <span className="tix-card-label">{t('fashion')}</span>
         </div>
 
@@ -117,6 +135,8 @@ export function HomeContent() {
   </section>
 
 
+    <HomeBrandsSection />
+
     
     <section className="disrupt !bg-transparent" data-disrupt-pin aria-label="Studio services">
       <div className="disrupt__sticky isolate relative flex h-[100dvh] w-full items-stretch justify-center !overflow-visible !bg-transparent px-[clamp(0.75rem,2.5vw,2.5%)]">
@@ -135,7 +155,7 @@ export function HomeContent() {
 
         
         <div className="disrupt__left isolate !z-[3]">
-          <h2 className="disrupt__tagline whitespace-pre-line !z-[0] !-top-[clamp(10rem,28vh,16rem)] max-lg:!-top-[clamp(4rem,10vh,7rem)]">
+          <h2 className="disrupt__tagline whitespace-pre-line !z-[4] !-top-[clamp(10rem,28vh,16rem)] max-lg:!-top-[clamp(4rem,10vh,7rem)]" lang={locale} dir={direction}>
             {t('disrupt')}
           </h2>
           <img src="assets/images/modelcrop.webp" alt="TIX creative campaign model" className="disrupt__girl !bottom-[clamp(3rem,8vh,6rem)] !z-[10] !mix-blend-normal max-lg:!bottom-[clamp(2rem,6vh,4rem)]"
@@ -248,33 +268,19 @@ export function HomeContent() {
       <div className="trust-section__inner">
         <div className="trust-section__ribbon trust-section__ribbon--light marquee" aria-hidden="true">
           <div className="marquee__track">
-            <span className="marquee__item">TIX <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">CREATIVE DIRECTION <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">STRATEGY <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">PRODUCTION <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">DIGITAL EXPERIENCE <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">LUXURY CAMPAIGNS <span className="marquee__sep">✦</span></span>
+            <TrustRibbonGroup items={serviceRibbonItems} />
+            <TrustRibbonGroup items={serviceRibbonItems} duplicate />
           </div>
         </div>
 
         <div className="trust-section__ribbon trust-section__ribbon--crimson marquee marquee--reverse" aria-hidden="true">
           <div className="marquee__track">
-            <span className="marquee__item">ZEN DIAMOND <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">KENZ GOLD <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">ALMASAT ELKHALIJ <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">GAWHARA <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">LUGANO <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">ZARA <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">H&amp;M <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">LOCATION CAFE <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">SWEET DOOR <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">MAAMOL <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">DR IDOL <span className="marquee__sep">✦</span></span>
-            <span className="marquee__item">FUNDIK <span className="marquee__sep">✦</span></span>
+            <TrustRibbonGroup items={clientRibbonItems} />
+            <TrustRibbonGroup items={clientRibbonItems} duplicate />
           </div>
         </div>
 
-        <h2 className="trust-section__headline" id="trust-heading">
+        <h2 className="trust-section__headline" id="trust-heading" lang="en" dir="ltr" aria-label={t('trust')}>
           <span className="trust-section__word trust-section__word--they">{t('they')}</span>
           <span className="trust-section__word trust-section__word--trusted">{t('trusted')}</span>
           <span className="trust-section__word trust-section__word--us">{t('us')}</span>

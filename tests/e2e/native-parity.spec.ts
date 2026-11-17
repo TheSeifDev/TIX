@@ -80,6 +80,112 @@ test.describe('native route parity', () => {
     }
   });
 
+  test('HOME trust ribbons remain English and use equal seamless cycles in Arabic', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/ar', { waitUntil: 'networkidle' });
+    const headline = page.locator('.trust-section__headline');
+    await expect(headline).toHaveAttribute('lang', 'en');
+    await expect(headline).toHaveAttribute('dir', 'ltr');
+    await expect(headline).toHaveAttribute('aria-label', 'THEY TRUSTED US');
+    await expect(headline.locator('.trust-section__word')).toHaveCount(3);
+    expect(await headline.locator('.trust-section__word').allTextContents()).toEqual(['THEY', 'TRUSTED', 'US']);
+
+    const cycles = await page.locator('.trust-section__ribbon').evaluateAll((ribbons) =>
+      ribbons.map((ribbon) => Array.from(ribbon.querySelectorAll<HTMLElement>('.marquee__group')).map((group) => ({
+        text: group.textContent?.replace(/\s+/g, ' ').trim(),
+        direction: group.getAttribute('dir'),
+        width: group.getBoundingClientRect().width,
+      }))),
+    );
+    expect(cycles).toHaveLength(2);
+    for (const [first, duplicate] of cycles) {
+      expect(first.text).toBe(duplicate.text);
+      expect(first.direction).toBe('ltr');
+      expect(duplicate.direction).toBe('ltr');
+      expect(Math.abs(first.width - duplicate.width)).toBeLessThan(1);
+    }
+    const animations = await page.locator('.trust-section__ribbon .marquee__track').evaluateAll((tracks) =>
+      tracks.map((track) => getComputedStyle(track).animationName),
+    );
+    expect(animations).toEqual(['marquee', 'marquee']);
+  });
+
+  test('HOME ZEN feature keeps the three-photo collage on mobile and desktop', async ({ page }) => {
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 }]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/ar', { waitUntil: 'networkidle' });
+      const section = page.locator('[data-home-brands]');
+      await section.scrollIntoViewIfNeeded();
+      await expect(section.getByRole('heading', { name: 'ZEN DIAMOND' })).toBeVisible();
+      await expect(section.locator('.home-brands__heading')).toHaveAttribute('lang', 'en');
+      await expect(section.locator('.home-brands__heading')).toHaveAttribute('dir', 'ltr');
+      await expect(section.locator('[data-brand-photo]')).toHaveCount(3);
+      await expect(section.locator('img[alt*="ZEN Diamond"]')).toHaveCount(3);
+
+      const layout = await section.evaluate((element) => {
+        const collage = element.querySelector<HTMLElement>('.home-brands__collage')!.getBoundingClientRect();
+        const rect = (position: string) => {
+          const box = element.querySelector<HTMLElement>(`[data-brand-photo="${position}"]`)!.getBoundingClientRect();
+          return { x: box.left - collage.left, y: box.top - collage.top, width: box.width, height: box.height };
+        };
+        return {
+          large: rect('large'),
+          upperRight: rect('upper-right'),
+          lowerLeft: rect('lower-left'),
+        };
+      });
+      expect(layout.large.width).toBeGreaterThan(layout.upperRight.width);
+      expect(layout.upperRight.x).toBeGreaterThan(layout.large.x);
+      expect(layout.upperRight.y).toBeLessThan(layout.large.y);
+      expect(layout.lowerLeft.x).toBeLessThan(layout.large.x);
+      expect(layout.lowerLeft.y).toBeGreaterThan(layout.large.y);
+      const loaded = await section.locator('img').evaluateAll((images) =>
+        (images as HTMLImageElement[]).every((image) => image.complete && image.naturalWidth > 0),
+      );
+      expect(loaded).toBe(true);
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
+  });
+
+  test('HOME ZEN collage responds to vertical scroll with horizontal parallax', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/ar', { waitUntil: 'networkidle' });
+    const section = page.locator('[data-home-brands]');
+    const upperRight = section.locator('[data-brand-photo="upper-right"]');
+    const scrollRange = await section.evaluate((element) => {
+      const rect = element.getBoundingClientRect();
+      const top = rect.top + window.scrollY;
+      return {
+        start: top - window.innerHeight * 0.9 + 10,
+        end: top + rect.height * 0.5 - window.innerHeight * 0.48 - 10,
+      };
+    });
+    await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), scrollRange.start);
+    const startTransform = await upperRight.evaluate((element) => getComputedStyle(element).transform);
+    await page.evaluate((top) => window.scrollTo({ top, behavior: 'instant' }), scrollRange.end);
+    await expect.poll(() => upperRight.evaluate((element) => getComputedStyle(element).transform)).not.toBe(startTransform);
+  });
+
+  test('Arabic HOME keeps the model in front of the correctly-directed Disrupt headline', async ({ page }) => {
+    for (const viewport of [{ width: 1440, height: 900 }, { width: 375, height: 812 }]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/ar', { waitUntil: 'networkidle' });
+      const section = page.locator('[data-disrupt-pin]');
+      const title = section.locator('.disrupt__tagline');
+      const girl = section.locator('.disrupt__girl');
+      await expect(title).toHaveAttribute('lang', 'ar');
+      await expect(title).toHaveAttribute('dir', 'rtl');
+      const layers = await section.evaluate((element) => ({
+        titleZ: Number.parseInt(getComputedStyle(element.querySelector<HTMLElement>('.disrupt__tagline')!).zIndex, 10),
+        girlZ: Number.parseInt(getComputedStyle(element.querySelector<HTMLElement>('.disrupt__girl')!).zIndex, 10),
+      }));
+      expect(layers.girlZ).toBeGreaterThan(layers.titleZ);
+      await expect(title).toBeVisible();
+      await expect(girl).toBeVisible();
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
+  });
+
 
 
   test('language switch remains visible on every public route', async ({ page }) => {
@@ -100,21 +206,30 @@ test.describe('native route parity', () => {
   });
 
   test('Studio images use root asset URLs and contain no migration placeholders', async ({ page }) => {
-    await page.goto('/about', { waitUntil: 'networkidle' });
-    const perfumeImage = page.locator('.refused__left > img');
-    await perfumeImage.scrollIntoViewIfNeeded();
-    await expect(perfumeImage).toBeVisible();
-    await expect(page.locator('.bts__grid .bts__img')).toHaveCount(5);
-    await expect(page.locator('.refused__left > div, .bts__grid .bts__img > div')).toHaveCount(0);
-    const invalidSources = await page.locator('.impact-hero img, .touchpoints img, .connection img, .refused img, .bts img').evaluateAll((images) =>
+    await page.goto('/ar/about', { waitUntil: 'networkidle' });
+    const firstGalleryImage = page.locator('.bts__group:not(.bts__group--duplicate) .bts__img img').first();
+    await page.locator('.bts__carousel').scrollIntoViewIfNeeded();
+    await expect(firstGalleryImage).toBeVisible();
+    await expect(page.locator('.refused')).toHaveCount(0);
+    await expect(page.locator('.bts__group:not(.bts__group--duplicate) .bts__img')).toHaveCount(5);
+    await expect(page.locator('.bts__group--duplicate .bts__img')).toHaveCount(5);
+    await expect(page.locator('.bts__ticker + .bts')).toHaveCount(1);
+    await page.locator('.bts__carousel img').evaluateAll((images) => {
+      (images as HTMLImageElement[]).forEach((image) => { image.loading = 'eager'; });
+    });
+    await expect.poll(() => page.locator('.bts__carousel img').evaluateAll((images) =>
+      (images as HTMLImageElement[]).every((image) => image.complete && image.naturalWidth > 0),
+    )).toBe(true);
+    await expect(page.locator('.bts__img > div')).toHaveCount(0);
+    const invalidSources = await page.locator('.impact-hero img, .touchpoints img, .connection img, .bts__carousel img').evaluateAll((images) =>
       images.map((image) => image.getAttribute('src') || '').filter((src) => src.startsWith('../assets/')),
     );
     expect(invalidSources).toEqual([]);
-    const brokenImages = await page.locator('.impact-hero img, .touchpoints img, .connection img, .refused img, .bts img').evaluateAll((images) =>
+    const brokenImages = await page.locator('.impact-hero img, .touchpoints img, .connection img, .bts__carousel img').evaluateAll((images) =>
       (images as HTMLImageElement[]).filter((image) => !image.complete || image.naturalWidth === 0).map((image) => image.getAttribute('src')),
     );
     expect(brokenImages).toEqual([]);
-    const imageSources = await page.locator('.impact-hero img, .touchpoints img, .connection img, .refused img, .bts img').evaluateAll((images) =>
+    const imageSources = await page.locator('.impact-hero img, .touchpoints img, .connection img, .bts__carousel img').evaluateAll((images) =>
       images.map((image) => image.getAttribute('src') || ''),
     );
     const imageStatuses = await Promise.all(imageSources.map(async (src) => ({
@@ -122,6 +237,68 @@ test.describe('native route parity', () => {
       status: (await page.request.get(new URL(src, page.url()).toString())).status(),
     })));
     expect(imageStatuses).toEqual(imageSources.map((src) => ({ src, status: 200 })));
+  });
+
+  test('Studio Inside the Frame keeps the MarQEE first and uses a seamless full-width photo loop', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/ar/about', { waitUntil: 'networkidle' });
+    await expect(page.locator('.bts__ticker + .bts')).toHaveCount(1);
+    const carousel = page.locator('.bts__carousel');
+    const track = carousel.locator('.bts__track');
+    await expect(carousel).toHaveAttribute('tabindex', '0');
+    await expect(carousel.locator('.bts__group:not(.bts__group--duplicate) .bts__img')).toHaveCount(5);
+    await expect(carousel.locator('.bts__group--duplicate .bts__img')).toHaveCount(5);
+    await expect(carousel.locator('.bts__group--duplicate')).toHaveAttribute('aria-hidden', 'true');
+    const groupWidths = await carousel.locator('.bts__group').evaluateAll((groups) =>
+      groups.map((group) => group.getBoundingClientRect().width),
+    );
+    expect(Math.abs(groupWidths[0] - groupWidths[1])).toBeLessThan(1);
+    await expect.poll(() => track.evaluate((element) => getComputedStyle(element).animationName)).toBe('btsPhotoLoop');
+    const initialTransform = await track.evaluate((element) => getComputedStyle(element).transform);
+    await expect.poll(() => track.evaluate((element) => getComputedStyle(element).transform)).not.toBe(initialTransform);
+
+    const pauseButton = page.locator('.bts__motion-toggle');
+    await expect(pauseButton).toBeVisible();
+    await expect(pauseButton).toHaveAttribute('aria-label', 'إيقاف عرض الصور مؤقتاً');
+    await expect(pauseButton).toHaveAttribute('aria-pressed', 'false');
+    await pauseButton.focus();
+    await page.keyboard.press('Space');
+    await expect(pauseButton).toHaveAttribute('aria-pressed', 'true');
+    await expect(track).toHaveCSS('animation-play-state', 'paused');
+    await expect(pauseButton).toHaveAttribute('aria-label', 'استئناف عرض الصور');
+    await page.keyboard.press('Space');
+    await expect(pauseButton).toHaveAttribute('aria-pressed', 'false');
+    await expect(track).toHaveCSS('animation-play-state', 'running');
+
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await expect.poll(() => track.evaluate((element) => getComputedStyle(element).animationName)).toBe('none');
+    await expect(carousel.locator('.bts__group--duplicate')).toBeHidden();
+    await expect(carousel).toHaveCSS('overflow-x', 'auto');
+    await expect(page.locator('.bts__carousel-tools')).toBeHidden();
+  });
+
+  test('Studio carousel pause control responds to touch input', async ({ browser }) => {
+    const context = await browser.newContext({
+      viewport: { width: 390, height: 844 },
+      isMobile: true,
+      hasTouch: true,
+    });
+    try {
+      const page = await context.newPage();
+      await page.emulateMedia({ reducedMotion: 'no-preference' });
+      await page.goto('/ar/about', { waitUntil: 'networkidle' });
+      const button = page.locator('.bts__motion-toggle');
+      await button.scrollIntoViewIfNeeded();
+      await expect(button).toBeVisible();
+      await expect(button).toHaveCSS('min-height', '44px');
+      const box = await button.boundingBox();
+      expect(box).not.toBeNull();
+      await page.touchscreen.tap(box!.x + box!.width / 2, box!.y + box!.height / 2);
+      await expect(button).toHaveAttribute('aria-pressed', 'true');
+      await expect(page.locator('.bts__track')).toHaveCSS('animation-play-state', 'paused');
+    } finally {
+      await context.close();
+    }
   });
 
   test('Studio touchpoint cards respond to scroll progress', async ({ page }) => {
@@ -168,9 +345,15 @@ test.describe('native route parity', () => {
       await expect(subtitle).toHaveText('One studio. Multiple creative systems. Unified brand experiences.');
       await expect(section.locator('[data-flight-card]')).toHaveCount(4);
       await expect(section.locator('.touchpoints__logo')).toBeVisible();
-      await expect(section.locator('.touchpoints__chevron')).toHaveCount(2);
-      await expect(section.locator('.touchpoints__chevron').first()).toBeVisible();
-      await expect(section.locator('.touchpoints__chevron').last()).toBeVisible();
+      await expect(section.locator('.touchpoints__chevron, .touchpoints__wipe')).toHaveCount(0);
+      const transition = await stage.evaluate((element) => ({
+        clipPath: getComputedStyle(element).clipPath,
+        fade: getComputedStyle(element, '::after').backgroundImage,
+        background: getComputedStyle(element).backgroundColor,
+      }));
+      expect(transition.clipPath).toBe('none');
+      expect(transition.fade).toContain('linear-gradient');
+      expect(transition.background).toBe('rgb(0, 0, 0)');
 
       const stageBox = await stage.boundingBox();
       expect(stageBox).not.toBeNull();
@@ -184,6 +367,46 @@ test.describe('native route parity', () => {
       const navBox = await page.locator('#main-nav').boundingBox();
       const positionedStageBox = await stage.boundingBox();
       expect((headingBox?.y ?? 0) - (positionedStageBox?.y ?? 0)).toBeGreaterThanOrEqual((navBox?.height ?? 0) - 2);
+    }
+  });
+
+  test('Arabic Studio touchpoint cards stay sharp, smaller, and within the frame', async ({ page }) => {
+    for (const viewport of [
+      { width: 320, height: 740 },
+      { width: 360, height: 780 },
+      { width: 375, height: 812 },
+      { width: 390, height: 844 },
+      { width: 430, height: 900 },
+      { width: 768, height: 1024 },
+      { width: 1024, height: 768 },
+      { width: 1440, height: 900 },
+      { width: 1920, height: 1080 },
+    ]) {
+      await page.setViewportSize(viewport);
+      await page.goto('/ar/about', { waitUntil: 'networkidle' });
+      const section = page.locator('[data-touchpoints]');
+      await expect(section.locator('[data-flight-card]')).toHaveCount(4);
+      const metrics = await section.evaluate((element) => {
+        const stage = element.querySelector<HTMLElement>('.touchpoints__stage')!;
+        const stageStyle = getComputedStyle(stage);
+        const cards = Array.from(element.querySelectorAll<HTMLImageElement>('[data-flight-card]'));
+        return {
+          clipPath: stageStyle.clipPath,
+          fade: getComputedStyle(stage, '::after').backgroundImage,
+          stageWidth: stage.clientWidth,
+          cardWidths: cards.map((card) => Number.parseFloat(getComputedStyle(card).width)),
+          filters: cards.map((card) => getComputedStyle(card).filter),
+          loaded: cards.every((card) => card.complete && card.naturalWidth > 0),
+          documentWidth: document.documentElement.scrollWidth,
+        };
+      });
+      expect(metrics.clipPath).toBe('none');
+      expect(metrics.fade).toContain('linear-gradient');
+      expect(metrics.loaded).toBe(true);
+      expect(metrics.filters.every((filter) => filter.includes('drop-shadow') && !filter.includes('blur'))).toBe(true);
+      const maxCardRatio = Math.max(...metrics.cardWidths) / metrics.stageWidth;
+      expect(maxCardRatio).toBeLessThan(viewport.width <= 700 ? 0.4 : 0.3);
+      expect(metrics.documentWidth).toBeLessThanOrEqual(viewport.width);
     }
   });
 
@@ -266,6 +489,48 @@ test.describe('native route parity', () => {
     await expect(burger).toHaveAttribute('aria-expanded', 'false');
   });
 
+  test('Arabic mobile drawer preserves RTL focus, inert background, scroll lock and responsive breakpoint behavior', async ({ page }) => {
+    for (const width of [320, 360, 375, 390, 430, 768]) {
+      await page.setViewportSize({ width, height: width === 768 ? 1024 : 844 });
+      await page.goto('/ar', { waitUntil: 'networkidle' });
+      const burger = page.locator('.nav__burger');
+      const menu = page.locator('#mobile-menu');
+      await expect(burger).toBeVisible();
+      await burger.click();
+      await expect(menu).toBeVisible();
+      await expect(menu).toHaveAttribute('dir', 'rtl');
+      await expect(menu).toHaveAttribute('aria-modal', 'true');
+      await expect(burger).toHaveAttribute('aria-expanded', 'true');
+      await expect.poll(() => page.evaluate(() => Array.from(document.body.children).some((element) => (element as HTMLElement).inert))).toBe(true);
+      await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('hidden');
+      const firstMenuLink = menu.locator('[data-menu-links] a').first();
+      await expect(firstMenuLink).toBeFocused();
+
+      if (width === 390) {
+        await page.keyboard.press('Shift+Tab');
+        await expect(menu.locator('button').first()).toBeFocused();
+        await page.keyboard.press('Tab');
+        await expect(firstMenuLink).toBeFocused();
+      }
+
+      await page.keyboard.press('Escape');
+      await expect(menu).toBeHidden();
+      await expect(burger).toHaveAttribute('aria-expanded', 'false');
+      await expect.poll(() => page.evaluate(() => Array.from(document.body.children).some((element) => (element as HTMLElement).inert))).toBe(false);
+      await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
+      await expect(burger).toBeFocused();
+
+      await burger.click();
+      await expect(menu).toBeVisible();
+      await menu.locator('[data-menu-links] a[href$="/about"]').click();
+      await expect.poll(() => new URL(page.url()).pathname).toBe('/ar/about');
+      await expect(menu).toBeHidden();
+      await expect(burger).toHaveAttribute('aria-expanded', 'false');
+      await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe('');
+      expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+    }
+  });
+
   for (const route of legacyRoutes) {
     test(`${route} redirects to the clean route`, async ({ page }) => {
       const response = await page.goto(route, { waitUntil: 'networkidle' });
@@ -303,6 +568,28 @@ test.describe('native route parity', () => {
     await page.waitForTimeout(900);
     await expect(page.locator('#creativity-calls')).toHaveClass(/is-visible/);
     await expect(page.locator('.svc-calls__phone-stage')).toHaveClass(/is-visible/);
+  });
+
+  test('Arabic Services hero stays RTL and chevrons reopen after returning to the page', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/ar/services', { waitUntil: 'networkidle' });
+    const stage = page.locator('#svchero-stage');
+    const heroHeading = page.locator('.svchero__title-wrap--top h1');
+    const studioHeading = page.locator('.svchero__title-wrap--bottom h2');
+    await expect(heroHeading).toHaveAttribute('lang', 'ar');
+    await expect(heroHeading).toHaveAttribute('dir', 'rtl');
+    await expect(studioHeading).toHaveAttribute('lang', 'ar');
+    await expect(studioHeading).toHaveAttribute('dir', 'rtl');
+    await expect.poll(() => heroHeading.evaluate((element) => getComputedStyle(element.parentElement!).textAlign)).toBe('left');
+    await expect.poll(() => studioHeading.evaluate((element) => getComputedStyle(element.parentElement!).textAlign)).toBe('right');
+    await expect(stage).toHaveClass(/is-open/);
+
+    await page.locator('#main-nav a[href$="/about"]').first().click();
+    await expect(page).toHaveURL(/\/ar\/about$/);
+    await expect(stage).toHaveCount(0);
+    await page.locator('#main-nav a[href$="/services"]').first().click();
+    await expect(page).toHaveURL(/\/ar\/services$/);
+    await expect(stage).toHaveClass(/is-open/);
   });
 
 
@@ -398,6 +685,36 @@ test.describe('native route parity', () => {
     await expect(page.locator('.form-status')).toHaveText('Message sent. We will be in touch soon.');
   });
 
+  test('Arabic Contact preserves the form and handles a mocked successful submission', async ({ page }) => {
+    await page.route('**/api/contact', async (route) => {
+      expect(route.request().method()).toBe('POST');
+      expect(route.request().postDataJSON()).toMatchObject({
+        name: 'مرسل للاختبار',
+        email: 'sender@example.com',
+        building: 'حملة جديدة',
+        help: 'نخطط لإطلاق هذا الربع.',
+      });
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
+    });
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/ar/contact', { waitUntil: 'networkidle' });
+    await expect(page.locator('html')).toHaveAttribute('lang', 'ar');
+    await expect(page.locator('html')).toHaveAttribute('dir', 'rtl');
+    const formCard = page.locator('.contact-single-section .contact-form');
+    await expect(formCard).toBeVisible();
+    await expect(formCard.locator('input[name="name"]')).toBeVisible();
+    await expect(formCard.locator('input[name="email"]')).toBeVisible();
+    await expect(formCard.locator('input[name="building"]')).toBeVisible();
+    await expect(formCard.locator('textarea[name="help"]')).toBeVisible();
+    await formCard.locator('input[name="name"]').fill('مرسل للاختبار');
+    await formCard.locator('input[name="email"]').fill('sender@example.com');
+    await formCard.locator('input[name="building"]').fill('حملة جديدة');
+    await formCard.locator('textarea[name="help"]').fill('نخطط لإطلاق هذا الربع.');
+    await formCard.locator('.form-submit').click();
+    await expect(formCard.locator('.form-status')).toHaveText('تم إرسال رسالتك. سنتواصل معك قريباً.');
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+
   test('Studio touchpoint cards remain visible with reduced motion', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -430,7 +747,12 @@ test.describe('native route parity', () => {
         const top = element.getBoundingClientRect().top + window.scrollY;
         window.scrollTo({ top: top + element.clientHeight - window.innerHeight, behavior: 'instant' });
       });
-      await expect(stage).toHaveClass(/is-entered/);
+      const transition = await stage.evaluate((element) => ({
+        clipPath: getComputedStyle(element).clipPath,
+        fade: getComputedStyle(element, '::after').backgroundImage,
+      }));
+      expect(transition.clipPath).toBe('none');
+      expect(transition.fade).toContain('linear-gradient');
       await expect.poll(async () => {
         const cards = await section.locator('[data-flight-card]').evaluateAll((items) =>
           items.map((item) => {

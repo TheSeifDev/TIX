@@ -857,3 +857,37 @@
     margin-bottom: 1rem;
   }
 }
+
+
+/* Services hero: logical alignment keeps English LTR and Arabic RTL */
+.svchero__title-wrap--top {
+  text-align: left;
+}
+
+.svchero__title-wrap--bottom {
+  text-align: right;
+}
+
+.svchero__main-text--right {
+  text-align: right;
+}
+
+html[lang="ar"] .svchero__title-wrap,
+html[lang="ar"] .svchero__main-text {
+  font-family: "Readex Pro", "Noto Sans Arabic", Tahoma, sans-serif;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html[lang="ar"] .svchero__main-text {
+  direction: rtl;
+}
+
+@media (max-width: 900px) {
+  .svchero__title-wrap--top,
+  .svchero__title-wrap--bottom,
+  .svchero__main-text,
+  .svchero__main-text--right {
+    text-align: center;
+  }
+}

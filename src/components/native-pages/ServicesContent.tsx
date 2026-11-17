@@ -2,10 +2,12 @@
 // @ts-nocheck
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 export function ServicesContent() {
   const t = useTranslations('ServicesPage');
+  const locale = useLocale();
+  const direction = locale === 'ar' ? 'rtl' : 'ltr';
   return (
     <>
 
@@ -16,10 +18,10 @@ export function ServicesContent() {
     <section className="svchero" id="svchero" aria-label="Services hero">
       <div className="svchero__glow-bg" aria-hidden="true"></div>
 
-      <div className="container svchero__container">
+      <div className="container svchero__container" lang={locale} dir={direction}>
         
         <div className="svchero__title-wrap svchero__title-wrap--top" data-reveal="left">
-          <h1 className="svchero__main-text">{t('hero')}</h1>
+          <h1 className="svchero__main-text" lang={locale} dir={direction}>{t('hero')}</h1>
         </div>
 
         
@@ -41,7 +43,7 @@ export function ServicesContent() {
 
         
         <div className="svchero__title-wrap svchero__title-wrap--bottom" data-reveal="right">
-          <h2 className="svchero__main-text svchero__main-text--right">{t('studio')}</h2>
+          <h2 className="svchero__main-text svchero__main-text--right" lang={locale} dir={direction}>{t('studio')}</h2>
         </div>
       </div>
     </section>

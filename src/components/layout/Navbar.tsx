@@ -86,9 +86,19 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
       element.inert = true;
     });
     document.body.style.overflow = 'hidden';
-    const focusFrame = window.requestAnimationFrame(() => {
-      menu.querySelector<HTMLElement>('[data-menu-links] a')?.focus();
-    });
+    let focusFrame = 0;
+    let focusAttempts = 0;
+    const focusFirstVisibleLink = () => {
+      if (getComputedStyle(menu).visibility === 'visible') {
+        menu.querySelector<HTMLElement>('[data-menu-links] a')?.focus({ preventScroll: true });
+        return;
+      }
+      if (focusAttempts < 60) {
+        focusAttempts += 1;
+        focusFrame = window.requestAnimationFrame(focusFirstVisibleLink);
+      }
+    };
+    focusFrame = window.requestAnimationFrame(focusFirstVisibleLink);
 
     return () => {
       window.cancelAnimationFrame(focusFrame);

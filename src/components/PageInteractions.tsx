@@ -11,7 +11,16 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 export function PageInteractions({ page }: { page: 'home' | 'about' | 'services' | 'work' | 'contact' }) {
   const t = useTranslations('ContactForm');
   useGSAP(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      if (page === 'services') {
+        const stage = document.querySelector<HTMLElement>('#svchero-stage');
+        stage?.classList.add('is-open');
+        return () => stage?.classList.remove('is-open');
+      }
+      return;
+    }
+    let cleanupServicesStage: (() => void) | undefined;
     gsap.utils.toArray<HTMLElement>('[data-reveal], .observer-target').forEach((target) => {
       const isAboutHero = page === 'about' && Boolean(target.closest('.impact-hero'));
       gsap.fromTo(target, { autoAlpha: 0, y: isAboutHero ? 18 : 28 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: target, start: 'top 86%', once: true } }) });
@@ -25,6 +34,34 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
     if (page === 'home') {
       const hero = document.querySelector('.hero__content');
       if (hero) gsap.fromTo(hero, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' });
+
+      const brandSection = document.querySelector<HTMLElement>('[data-home-brands]');
+      const brandPhotos = brandSection ? gsap.utils.toArray<HTMLElement>('[data-brand-photo]', brandSection) : [];
+      brandPhotos.forEach((photo) => {
+        const photoPosition = photo.dataset.brandPhoto;
+        const horizontalTravel = Math.min(78, window.innerWidth * 0.045);
+        const horizontalOffset = photoPosition === 'upper-right' ? horizontalTravel : -Math.min(64, window.innerWidth * 0.045);
+        const verticalOffset = photoPosition === 'lower-left' ? 18 : -14;
+        const rotationOffset = photoPosition === 'upper-right' ? 1.8 : -1.2;
+        gsap.fromTo(photo,
+          { x: horizontalOffset, y: verticalOffset, rotation: rotationOffset, scale: 0.98 },
+          {
+            x: 0,
+            y: 0,
+            rotation: 0,
+            scale: 1,
+            ease: 'none',
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: brandSection,
+              start: 'top 90%',
+              end: 'center 48%',
+              scrub: 0.75,
+              invalidateOnRefresh: true,
+            },
+          },
+        );
+      });
     }
     if (page === 'services') {
       const stage = document.querySelector<HTMLElement>('#svchero-stage');
@@ -35,11 +72,15 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const button = document.querySelector<HTMLElement>('.svc-calls__button-wrap');
       const leftHeading = document.querySelector<HTMLElement>('.svc-calls__side--left');
       const rightHeading = document.querySelector<HTMLElement>('.svc-calls__side--right');
-      if (stage && basket && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      if (stage && basket) {
         const chevrons = stage.querySelectorAll<HTMLElement>('.svchero__chevron-item');
-        gsap.timeline({ delay: 0.45 }).set(stage, { className: '+=is-open' }).fromTo(chevrons, { autoAlpha: 0.8 }, { autoAlpha: 1, duration: 0.35, stagger: 0.04 }, 0);
+        stage.classList.remove('is-open');
+        gsap.timeline({ delay: 0.45, onStart: () => stage.classList.add('is-open') })
+          .fromTo(chevrons, { autoAlpha: 0.8 }, { autoAlpha: 1, duration: 0.35, stagger: 0.04 }, 0);
+        cleanupServicesStage = () => stage.classList.remove('is-open');
       } else if (stage) {
         stage.classList.add('is-open');
+        cleanupServicesStage = () => stage.classList.remove('is-open');
       }
       if (calls && phone && phoneStage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         const phoneTimeline = gsap.timeline({ paused: true, scrollTrigger: { trigger: calls, start: 'top 82%', once: true, onEnter: () => { calls.classList.add('is-visible'); phoneStage.classList.add('is-visible'); } } });
@@ -53,15 +94,6 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const stage = section?.querySelector<HTMLElement>('.touchpoints__stage');
       const cards = section ? gsap.utils.toArray<HTMLElement>('[data-flight-card]', section) : [];
 
-      if (stage) {
-        ScrollTrigger.create({
-          trigger: stage,
-          start: 'top 98%',
-          once: true,
-          onEnter: () => stage.classList.add('is-entered'),
-        });
-      }
-
       if (section && stage && cards.length === 4) {
         const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         const rotations = [-8, 8, -6, 7];
@@ -69,7 +101,6 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const shadow = 'drop-shadow(0 24px 24px rgba(0, 0, 0, 0.25))';
 
         if (reducedMotion) {
-          stage.classList.add('is-entered');
           gsap.set(cards, { x: 0, y: 0, rotation: 0, scale: 1, autoAlpha: 1, filter: shadow });
         } else {
           const timeline = gsap.timeline({
@@ -93,7 +124,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
                 rotation: entryRotations[index],
                 scale: 0.98,
                 autoAlpha: 1,
-                filter: `blur(1px) ${shadow}`,
+                filter: shadow,
                 transformOrigin: 'center center',
                 force3D: true,
               },
@@ -130,6 +161,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const getTravel = () => Math.max(0, lensTrack.scrollWidth - lensWrapper.clientWidth);
       ScrollTrigger.create({ trigger: lens, start: 'top top', end: () => `+=${Math.ceil(getTravel())}`, pin: lensSticky, scrub: true, invalidateOnRefresh: true, onUpdate: self => { lensTrack.style.transform = `translate3d(${(-self.progress * getTravel()).toFixed(1)}px, 0, 0)`; } });
     }
+    return cleanupServicesStage;
   }, { dependencies: [page], revertOnUpdate: true });
 
   useEffect(() => {

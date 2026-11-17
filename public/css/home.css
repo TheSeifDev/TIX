@@ -2930,3 +2930,164 @@ html[lang="ar"] .trust-section__ribbon--crimson {
 
 
   
+
+
+/* HOME: seamless English trust ribbons and supplied ZEN brand spotlight */
+.trust-section .marquee__track {
+  display: flex;
+  flex: 0 0 auto;
+  width: max-content;
+}
+
+.trust-section .marquee__group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.trust-section .marquee__item {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: 0.1em;
+}
+
+.home-brands {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(4.5rem, 9vw, 8rem) 0;
+  background: #080808;
+}
+
+.home-brands__inner {
+  width: min(100%, 80rem);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2.25rem);
+}
+
+.home-brands__heading {
+  position: relative;
+  z-index: 3;
+  margin: 0 auto clamp(2.5rem, 6vw, 4.5rem);
+  text-align: center;
+}
+
+.home-brands__eyebrow {
+  margin: 0 0 0.8rem;
+  color: var(--crimson-bright, #a71721);
+  font-family: var(--font-display), sans-serif;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.home-brands__heading h2 {
+  margin: 0;
+  color: var(--white, #fff);
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.3rem, 7vw, 6rem);
+  font-weight: 900;
+  line-height: 0.92;
+  letter-spacing: -0.055em;
+  text-transform: uppercase;
+}
+
+.home-brands__collage {
+  position: relative;
+  width: 100%;
+  max-width: 76rem;
+  height: clamp(27rem, 44vw, 39rem);
+  margin-inline: auto;
+}
+
+.home-brands__photo {
+  position: absolute;
+  display: block;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #131313;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
+}
+
+.home-brands__photo--large {
+  z-index: 1;
+  top: 6%;
+  left: 26%;
+  width: 48%;
+  height: 88%;
+}
+
+.home-brands__photo--upper {
+  z-index: 2;
+  top: 2%;
+  right: 3%;
+  width: 32%;
+  height: 38%;
+}
+
+.home-brands__photo--lower {
+  z-index: 2;
+  bottom: 2%;
+  left: 3%;
+  width: 32%;
+  height: 38%;
+}
+
+.home-brands__photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 640px) {
+  .home-brands {
+    padding: 4.25rem 0 4.75rem;
+  }
+
+  .home-brands__heading {
+    margin-bottom: 2.25rem;
+  }
+
+  .home-brands__eyebrow {
+    margin-bottom: 0.55rem;
+    font-size: 0.58rem;
+  }
+
+  .home-brands__heading h2 {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .home-brands__collage {
+    height: clamp(26rem, 120vw, 32rem);
+  }
+
+  .home-brands__photo--large {
+    top: 9%;
+    left: 21%;
+    width: 58%;
+    height: 82%;
+  }
+
+  .home-brands__photo--upper {
+    top: 0;
+    right: 0;
+    width: 36%;
+    height: 31%;
+  }
+
+  .home-brands__photo--lower {
+    bottom: 0;
+    left: 0;
+    width: 38%;
+    height: 31%;
+  }
+}

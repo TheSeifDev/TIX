@@ -1463,6 +1463,10 @@ html[lang="ar"] .mobile-menu__meta {
     min-height: 48px;
   }
 
+  #mobile-menu {
+    display: flex;
+  }
+
   .tix-footer__inner {
     align-items: center;
     padding: 20px 24px 26px;
