@@ -1730,7 +1730,7 @@
 }
 
 .bts__motion-toggle:hover,
-.bts__motion-toggle[aria-pressed="true"] {
+.bts__motion-toggle.is-paused {
   border-color: rgba(255, 255, 255, 0.5);
   background: #252525;
 }

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import enMessages from '../../messages/en.json';
 
 const routes = ['/', '/ar', '/about', '/services', '/work', '/contact'];
 const legacyRoutes = ['/index.html', '/ar/index.html', '/pages/about.html', '/pages/services.html', '/pages/work.html', '/pages/contact.html'];
@@ -240,6 +241,8 @@ test.describe('native route parity', () => {
   });
 
   test('Studio Inside the Frame keeps the MarQEE first and uses a seamless full-width photo loop', async ({ page }) => {
+    expect(enMessages.AboutPage.pauseGallery).toBe('Pause carousel');
+    expect(enMessages.AboutPage.resumeGallery).toBe('Resume carousel');
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/ar/about', { waitUntil: 'networkidle' });
     await expect(page.locator('.bts__ticker + .bts')).toHaveCount(1);
@@ -259,15 +262,18 @@ test.describe('native route parity', () => {
 
     const pauseButton = page.locator('.bts__motion-toggle');
     await expect(pauseButton).toBeVisible();
-    await expect(pauseButton).toHaveAttribute('aria-label', 'إيقاف عرض الصور مؤقتاً');
-    await expect(pauseButton).toHaveAttribute('aria-pressed', 'false');
+    await expect(pauseButton).toHaveAccessibleName('إيقاف عرض الصور مؤقتاً');
+    await expect(pauseButton).not.toHaveAttribute('aria-pressed');
     await pauseButton.focus();
     await page.keyboard.press('Space');
-    await expect(pauseButton).toHaveAttribute('aria-pressed', 'true');
+    await expect(pauseButton).toHaveAccessibleName('استئناف عرض الصور');
+    await expect(pauseButton).toHaveClass(/is-paused/);
+    await expect(pauseButton).not.toHaveAttribute('aria-pressed');
     await expect(track).toHaveCSS('animation-play-state', 'paused');
-    await expect(pauseButton).toHaveAttribute('aria-label', 'استئناف عرض الصور');
     await page.keyboard.press('Space');
-    await expect(pauseButton).toHaveAttribute('aria-pressed', 'false');
+    await expect(pauseButton).toHaveAccessibleName('إيقاف عرض الصور مؤقتاً');
+    await expect(pauseButton).not.toHaveClass(/is-paused/);
+    await expect(pauseButton).not.toHaveAttribute('aria-pressed');
     await expect(track).toHaveCSS('animation-play-state', 'running');
 
     await page.emulateMedia({ reducedMotion: 'reduce' });
@@ -291,10 +297,14 @@ test.describe('native route parity', () => {
       await button.scrollIntoViewIfNeeded();
       await expect(button).toBeVisible();
       await expect(button).toHaveCSS('min-height', '44px');
+      await expect(button).toHaveAccessibleName('إيقاف عرض الصور مؤقتاً');
+      await expect(button).not.toHaveAttribute('aria-pressed');
       const box = await button.boundingBox();
       expect(box).not.toBeNull();
       await page.touchscreen.tap(box!.x + box!.width / 2, box!.y + box!.height / 2);
-      await expect(button).toHaveAttribute('aria-pressed', 'true');
+      await expect(button).toHaveAccessibleName('استئناف عرض الصور');
+      await expect(button).toHaveClass(/is-paused/);
+      await expect(button).not.toHaveAttribute('aria-pressed');
       await expect(page.locator('.bts__track')).toHaveCSS('animation-play-state', 'paused');
     } finally {
       await context.close();

@@ -166,11 +166,10 @@ export function AboutContent() {
         <div className="bts__carousel-tools" dir="ltr">
           <button
             type="button"
-            className="bts__motion-toggle"
+            className={`bts__motion-toggle${galleryPaused ? ' is-paused' : ''}`}
             dir={direction}
             lang={locale}
             aria-label={galleryPaused ? t('resumeGallery') : t('pauseGallery')}
-            aria-pressed={galleryPaused}
             onClick={() => setGalleryPaused((paused) => !paused)}
           >
             <span className="bts__motion-toggle-icon" aria-hidden="true">{galleryPaused ? '▶' : 'Ⅱ'}</span>
