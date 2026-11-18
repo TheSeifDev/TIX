@@ -34,7 +34,7 @@ const Layout = (() => {
     <div class="nav__inner">
       <a href="../index.html" class="nav__logo" aria-label="TIX Home">
         <img
-          src="../assets/images/tix.png"
+          src="../assets/images/tix.webp"
           alt="TIX Logo"
           class="nav__logo-img"
           width="60"
@@ -120,7 +120,7 @@ const Layout = (() => {
 
   const buildFooterHTML = (isRoot, pageKey) => {
     const pagesPath = isRoot ? 'pages/' : '../pages/';
-    const firePath = assetPath('../assets/images/fire.png', isRoot);
+    const firePath = assetPath('../assets/images/fire.webp', isRoot);
     const imagesHTML = (FOOTER_IMAGE_SETS[pageKey] || FOOTER_IMAGE_SETS.home)
       .map((image, index) => buildFooterImage(image, index, isRoot))
       .join('');

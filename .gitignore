@@ -1,5 +1,11 @@
 # Dependencies / IDE
 .vscode/
+node_modules/
+.next/
+*.tsbuildinfo
+playwright-report/
+test-results/
+playwright/.cache/
 
 # Backups
 recovery-backup-*/

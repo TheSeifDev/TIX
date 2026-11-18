@@ -1,0 +1,3 @@
+/* Gallery expansion owns width only; media height and image scale stay fixed. */
+.wg-card { flex-basis: 0%; }
+.wg-card:hover .wg-card__media img, .wg-card.is-active .wg-card__media img { transform: none; }

@@ -16,7 +16,7 @@ Every page in the project includes production-ready metadata, social graph tags,
   ```html
   <link rel="canonical" href="https://tixstudio.com/">
   <link rel="alternate" hreflang="en" href="https://tixstudio.com/">
-  <link rel="alternate" hreflang="ar" href="https://tixstudio.com/ar/">
+  <link rel="alternate" hreflang="ar" href="https://tixstudio.com/ar">
   ```
 
 ### 1.2 OpenGraph & Twitter Cards
@@ -34,7 +34,7 @@ Implemented on `index.html` and `ar/index.html` via Schema.org:
 
 ### 1.4 Crawler Directives
 - **`robots.txt`**: Grants full crawler access (`User-agent: *`, `Allow: /`) and specifies the sitemap path (`Sitemap: https://tixstudio.com/sitemap.xml`).
-- **`sitemap.xml`**: Lists canonical URLs for `/`, `/ar/`, `/pages/work.html`, `/pages/services.html`, `/pages/about.html`, and `/pages/contact.html` with explicit priority and change frequencies.
+- **`sitemap.xml`**: Lists canonical URLs for `/`, `/ar`, `/about`, `/services`, `/work`, and `/contact` with explicit priority and change frequencies.
 
 ---
 

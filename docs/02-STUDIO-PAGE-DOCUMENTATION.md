@@ -63,3 +63,9 @@ The Studio page (`pages/about.html`) articulates TIX’s creative philosophy, me
    - Once final commercial client imagery is approved, these placeholder divs can be safely deleted, leaving only the clean `<img>` tags.
 2. **Path Reference Integrity**:
    - All assets in `pages/about.html` must always be referenced with `../assets/images/...` (relative up one level) rather than absolute `/assets/...`, ensuring full compatibility with GitHub Pages subfolder hosting.
+
+## 4. Native Touchpoints Flight
+
+The Studio Touchpoints choreography follows the archived `TouchpointFlight` sequence in `public/js/main.js`: four cards enter in staggered order from alternating sides, with the original rotation, scale, blur, and wipe progression. The React implementation lives in `src/components/PageInteractions.tsx` and uses `gsap.context()`/ScrollTrigger cleanup; it refreshes when Studio images load or the main content changes size.
+
+The stage is sticky during its long scroll section, so keep horizontal overflow clipping on the root without creating an overflow scroll container on `body`. Reduced-motion styles collapse the pinning behavior and show the cards statically.

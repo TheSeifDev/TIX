@@ -1,0 +1,12 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tixstudio.com/sitemap.xml
+
+# Disallow crawling of assets directories
+User-agent: *
+Disallow: /assets/images/*.jpg$
+
+# Allow CSS and JS for rendering
+Allow: /css/
+Allow: /js/

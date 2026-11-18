@@ -5,7 +5,6 @@ Sitemap: https://tixstudio.com/sitemap.xml
 
 # Disallow crawling of assets directories
 User-agent: *
-Disallow: /assets/images/*.png$
 Disallow: /assets/images/*.jpg$
 
 # Allow CSS and JS for rendering
