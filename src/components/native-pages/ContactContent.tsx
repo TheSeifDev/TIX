@@ -3,6 +3,7 @@
 
 import { useTranslations } from 'next-intl';
 
+import { ContactEntrance } from '@/components/contact/ContactEntrance';
 import { ContactFooter } from '@/components/contact/ContactFooter';
 
 export function ContactContent() {
@@ -41,48 +42,18 @@ export function ContactContent() {
           aria-hidden="true"
         />
 
-        {/* Centered content */}
-        <div
-          className="
-            contact-single-section__inner
-            relative z-10 mx-auto flex w-full
-            max-w-[1100px]
-            flex-col items-center
-          "
-        >
-          {/* Form wrapper: centered with additional top spacing */}
-          <div
-            className="
-              relative mx-auto mt-14
-              w-full max-w-[820px]
-              sm:mt-16
-              lg:mt-20
-            "
-          >
-            {/* Glass heading — not an h1 */}
+        {/* The form and four existing portfolio photos enter from the center. */}
+        <ContactEntrance>
+          <div className="contact-entrance__form-wrap">
+            {/* Padded glass page heading */}
             <div
-              className="
-                pointer-events-none
-                absolute left-1/2 top-0 z-20
-                w-max max-w-[calc(100%-24px)]
-                -translate-x-1/2 -translate-y-1/2
-              "
+              className="contact-entrance__heading"
             >
               <div
-                className="
-    rounded-full
-    border border-white/65
-    bg-white/35
-    px-8 py-3
-    shadow-[0_14px_38px_rgba(45,0,0,0.22)]
-    backdrop-blur-xl
-    sm:px-12 sm:py-4
-  "
+                className="contact-entrance__heading-pill"
               >
-                <p
+                <h1
                   id="contact-form-heading"
-                  role="heading"
-                  aria-level={2}
                   className="
     whitespace-nowrap
     font-display
@@ -94,7 +65,7 @@ export function ContactContent() {
   "
                 >
                   {t('heading')}
-                </p>
+                </h1>
               </div>
             </div>
 
@@ -234,7 +205,7 @@ export function ContactContent() {
               </form>
             </div>
           </div>
-        </div>
+        </ContactEntrance>
       </section>
 
       <ContactFooter />
