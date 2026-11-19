@@ -22,7 +22,7 @@ test.describe('mobile and locale regressions', () => {
     await expect(page.locator('.work-gallery')).toBeVisible();
   });
 
-  test('mobile menu keeps a clear three-line hamburger before and after opening', async ({ page }) => {
+  test('mobile menu keeps a clear three-line hamburger without a background or border', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/', { waitUntil: 'domcontentloaded' });
 
@@ -31,6 +31,13 @@ test.describe('mobile and locale regressions', () => {
     const iconPath = burger.locator('svg path');
     await expect(burger).toBeVisible();
     await expect(iconPath).toHaveAttribute('d', /M4 6\.5h16M4 12h16M4 17\.5h16/);
+    const buttonStyle = await burger.evaluate((element) => {
+      const style = getComputedStyle(element);
+      return { background: style.backgroundColor, borderWidth: style.borderTopWidth, boxShadow: style.boxShadow };
+    });
+    expect(buttonStyle.background).toBe('rgba(0, 0, 0, 0)');
+    expect(buttonStyle.borderWidth).toBe('0px');
+    expect(buttonStyle.boxShadow).toBe('none');
 
     await burger.click();
     await expect(menu).toBeVisible();
@@ -38,6 +45,21 @@ test.describe('mobile and locale regressions', () => {
     await expect(iconPath).toBeVisible();
     await page.keyboard.press('Escape');
     await expect(menu).toBeHidden();
+  });
+
+  test('mobile category image strips do not collapse after the pointer leaves', async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto('/work', { waitUntil: 'domcontentloaded' });
+
+    for (const category of ['jewelry', 'realestate']) {
+      const strip = page.locator(`.wg-cat[data-category="${category}"] [data-strip]`);
+      const firstCard = strip.locator('.wg-card').first();
+      await strip.scrollIntoViewIfNeeded();
+      await firstCard.hover();
+      await page.mouse.move(5, 5);
+      await expect.poll(() => firstCard.evaluate((element) => element.getBoundingClientRect().width)).toBeGreaterThan(100);
+      await expect(firstCard.locator('.wg-card__media img')).toBeVisible();
+    }
   });
 
   test('mobile Work accordions toggle independently instead of closing together', async ({ page }) => {

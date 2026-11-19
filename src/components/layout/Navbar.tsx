@@ -262,9 +262,9 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
             className={[
-              'nav__burger relative z-[2] col-start-2 justify-self-end grid size-10 place-items-center rounded-xl outline-none md:hidden',
-              'bg-white/[0.06] ring-1 ring-inset ring-white/10 transition-colors duration-200',
-              'hover:bg-white/10 active:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/60',
+              'nav__burger relative z-[2] col-start-2 justify-self-end grid size-10 place-items-center rounded-xl text-white outline-none md:hidden',
+              'transition-opacity duration-200 hover:opacity-75 active:opacity-60',
+              'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/70',
             ].join(' ')}
           >
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">

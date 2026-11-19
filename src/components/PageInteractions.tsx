@@ -281,6 +281,8 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         controls.forEach(control => on(control, 'click', toggle));
       });
       gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
+        const isTouchLayout = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
+        if (isTouchLayout) return;
         const cards = [...strip.querySelectorAll<HTMLElement>('.wg-card')];
         const lockHeight = () => { const height = strip.getBoundingClientRect().height; if (!height) return; strip.style.height = `${height}px`; cards.forEach(card => { card.style.height = `${height}px`; }); };
         window.requestAnimationFrame(lockHeight);
