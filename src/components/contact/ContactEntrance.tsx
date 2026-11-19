@@ -84,7 +84,7 @@ export function ContactEntrance({ children }: { children: ReactNode }) {
   );
 
   return (
-    <div className="contact-single-section__inner contact-entrance" ref={rootRef} data-contact-entrance="idle" dir="ltr">
+    <div className="contact-single-section__inner contact-entrance" ref={rootRef} data-contact-entrance="idle" dir={locale === 'ar' ? 'rtl' : 'ltr'}>
       {renderPhotos('left')}
       <div className="contact-entrance__card" data-contact-pop-card dir={locale === 'ar' ? 'rtl' : 'ltr'}>{children}</div>
       {renderPhotos('right')}

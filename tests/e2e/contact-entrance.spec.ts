@@ -45,8 +45,13 @@ test.describe('Contact GSAP entrance', () => {
         formDirection: getComputedStyle(card).direction,
       };
     });
-    expect(positions.left.every((x) => x < positions.card)).toBe(true);
-    expect(positions.right.every((x) => x > positions.card)).toBe(true);
+    if (positions.formDirection === 'rtl') {
+      expect(positions.left.every((x) => x > positions.card)).toBe(true);
+      expect(positions.right.every((x) => x < positions.card)).toBe(true);
+    } else {
+      expect(positions.left.every((x) => x < positions.card)).toBe(true);
+      expect(positions.right.every((x) => x > positions.card)).toBe(true);
+    }
     expect(positions.formDirection).toBe('rtl');
     await expect(entrance.locator('[data-contact-pop-card]')).toHaveCSS('transform', 'none');
     await page.locator('#main-nav a[href$="/about"]').first().click();
@@ -66,7 +71,7 @@ test.describe('Contact GSAP entrance', () => {
       const entrance = page.locator('[data-contact-entrance]');
       await expect(entrance).toHaveAttribute('data-contact-entrance', 'reduced-motion');
       await expect(entrance.locator('[data-contact-pop-photo]')).toHaveCount(4);
-      await expect(entrance.getByRole('heading', { level: 1 })).toHaveText('لنتواصل معاً');
+      await expect(entrance.getByRole('heading', { level: 1 })).toHaveText('ما الشعور الذي تريد أن يختبره العالم؟');
       const layout = await entrance.evaluate((root) => {
         const heading = root.querySelector<HTMLElement>('.contact-entrance__heading-pill')!;
         const padding = getComputedStyle(heading);
@@ -97,7 +102,7 @@ test.describe('Contact GSAP entrance', () => {
       await expect(entrance.locator('input[name="name"]')).toBeVisible();
       await entrance.locator('input[name="name"]').focus();
       await expect(entrance.locator('input[name="name"]')).toBeFocused();
-      await expect(entrance.locator('textarea[name="help"]')).toBeVisible();
+      await expect(entrance.locator('select[name="help"]')).toBeVisible();
     }
   });
 

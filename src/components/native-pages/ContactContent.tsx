@@ -1,17 +1,21 @@
 
 'use client';
 
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 
 import { ContactEntrance } from '@/components/contact/ContactEntrance';
 import { ContactFooter } from '@/components/contact/ContactFooter';
 
 export function ContactContent() {
   const t = useTranslations('ContactForm');
+  const copy = useTranslations('RevisionCopy');
+  const locale = useLocale();
+  const direction = locale === 'ar' ? 'rtl' : 'ltr';
   return (
     <main
       id="main-content"
       className="contact-single-page min-h-screen w-full"
+      dir={direction}
     >
       <section
         className="
@@ -55,16 +59,16 @@ export function ContactContent() {
                 <h1
                   id="contact-form-heading"
                   className="
-    whitespace-nowrap
+    whitespace-normal text-balance
     font-display
-    text-[clamp(0.85rem,2.5vw,1.8rem)]
+    text-[clamp(0.85rem,2.4vw,1.6rem)]
     font-bold uppercase
     leading-none tracking-[0.04em]
     text-[#710a12]
     [text-shadow:0_2px_8px_rgba(113,10,18,0.25)]
   "
                 >
-                  {t('heading')}
+                  {copy('contactHeadline')}
                 </h1>
               </div>
             </div>
@@ -84,16 +88,19 @@ export function ContactContent() {
                 lg:px-12 lg:pb-12
               "
             >
-              <p
-                className="
-                  contact-single-section__intro
-                  mb-8 text-center
-                "
-              >
-                {t('intro')}
-              </p>
+              <div className="contact-copy mb-8 text-center">
+                <p className="contact-copy__eyebrow" lang={locale} dir={direction}>
+                  {t('heading')}
+                </p>
+                <p className="contact-copy__service" lang={locale === 'ar' ? 'ar' : 'en'}>
+                  {copy('contactServiceLine')}
+                </p>
+                <p className="contact-single-section__intro contact-copy__body">
+                  {copy('contactCopy')}
+                </p>
+              </div>
 
-              <form noValidate>
+              <form dir={direction}>
                 {/* Name + Email */}
                 <div
                   className="
@@ -136,6 +143,7 @@ export function ContactContent() {
                       type="email"
                       id="email"
                       name="email"
+                      dir="ltr"
                       placeholder={t('emailPlaceholder')}
                       autoComplete="email"
                       maxLength={254}
@@ -172,16 +180,18 @@ export function ContactContent() {
                     {t('helpPrompt')}
                   </label>
 
-                  <textarea
-                    className="form-textarea"
+                  <select
+                    className="form-input form-select"
                     id="help"
                     name="help"
-                    placeholder={t('helpPlaceholder')}
-                    rows={4}
-                    minLength={10}
-                    maxLength={5000}
+                    defaultValue=""
                     required
-                  />
+                  >
+                    <option value="" disabled>{copy('helpSelect')}</option>
+                    <option value={copy('helpMarketing')}>{copy('helpMarketing')}</option>
+                    <option value={copy('helpGraphicDesign')}>{copy('helpGraphicDesign')}</option>
+                    <option value={copy('helpCampaign')}>{copy('helpCampaign')}</option>
+                  </select>
                 </div>
 
                 {/* Submit */}

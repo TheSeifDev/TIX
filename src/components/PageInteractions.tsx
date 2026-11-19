@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function PageInteractions({ page }: { page: 'home' | 'about' | 'services' | 'work' | 'contact' }) {
   const t = useTranslations('ContactForm');
+  const copy = useTranslations('RevisionCopy');
   useGSAP(() => {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
@@ -20,8 +21,10 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       }
       return;
     }
-    const isPhoneViewport = window.matchMedia('(max-width: 767px)').matches;
+    const isPhoneViewport = window.matchMedia('(max-width: 900px)').matches;
     let cleanupServicesStage: (() => void) | undefined;
+    let cleanupBrandTrack: (() => void) | undefined;
+    let cleanupDisruptObserver: (() => void) | undefined;
     gsap.utils.toArray<HTMLElement>('[data-reveal], .observer-target').forEach((target) => {
       const isAboutHero = page === 'about' && Boolean(target.closest('.impact-hero'));
       const isServiceCallReveal = page === 'services' && target.matches('.svc-calls__button-wrap, .svc-calls__phone-stage, .svc-calls__side--left, .svc-calls__side--right');
@@ -41,32 +44,34 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       if (hero) gsap.fromTo(hero, { autoAlpha: 0, y: 18 }, { autoAlpha: 1, y: 0, duration: 0.7, ease: 'power2.out' });
 
       const brandSection = document.querySelector<HTMLElement>('[data-home-brands]');
-      const brandPhotos = brandSection ? gsap.utils.toArray<HTMLElement>('[data-brand-photo]', brandSection) : [];
-      brandPhotos.forEach((photo) => {
-        const photoPosition = photo.dataset.brandPhoto;
-        const horizontalTravel = Math.min(78, window.innerWidth * 0.045);
-        const horizontalOffset = photoPosition === 'upper-right' ? horizontalTravel : -Math.min(64, window.innerWidth * 0.045);
-        const verticalOffset = photoPosition === 'lower-left' ? 18 : -14;
-        const rotationOffset = photoPosition === 'upper-right' ? 1.8 : -1.2;
-        gsap.fromTo(photo,
-          { x: horizontalOffset, y: verticalOffset, rotation: rotationOffset, scale: 0.98 },
-          {
-            x: 0,
-            y: 0,
-            rotation: 0,
-            scale: 1,
+      const brandViewport = brandSection?.querySelector<HTMLElement>('[data-home-brands-viewport]');
+      const brandTrack = brandSection?.querySelector<HTMLElement>('[data-home-brands-track]');
+      const brandSlides = brandTrack?.querySelectorAll<HTMLElement>('[data-brand-slide]') ?? [];
+      const canPinBrandShowcase = window.matchMedia('(min-width: 901px) and (pointer: fine)').matches;
+
+      if (brandSection && brandViewport && brandTrack && brandSlides.length > 1 && canPinBrandShowcase) {
+        brandSection.dataset.scrollDriven = 'true';
+        const getBrandTravel = () => Math.max(0, brandTrack.scrollWidth - brandViewport.clientWidth);
+        if (getBrandTravel() > 0) {
+          gsap.to(brandTrack, {
+            x: () => -getBrandTravel(),
             ease: 'none',
-            immediateRender: false,
             scrollTrigger: {
+              id: 'home-brand-showcase',
               trigger: brandSection,
-              start: 'top 90%',
-              end: 'center 48%',
+              start: 'top top',
+              end: () => `+=${Math.ceil(getBrandTravel())}`,
+              pin: brandSection,
               scrub: 0.75,
               invalidateOnRefresh: true,
+              anticipatePin: 1,
             },
-          },
-        );
-      });
+          });
+          cleanupBrandTrack = () => { delete brandSection.dataset.scrollDriven; };
+        } else {
+          delete brandSection.dataset.scrollDriven;
+        }
+      }
     }
     if (page === 'services') {
       const stage = document.querySelector<HTMLElement>('#svchero-stage');
@@ -92,8 +97,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const phoneTimeline = gsap.timeline({ paused: true, scrollTrigger: { trigger: calls, start: 'top 82%', once: true, onEnter: () => { calls.classList.add('is-visible'); phoneStage.classList.add('is-visible'); } } });
         if (isPhone) {
           phoneTimeline
-            .fromTo([button, leftHeading, rightHeading], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 0)
-            .fromTo(phone, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.42, ease: 'power2.out' }, 0.04);
+            .fromTo([button, leftHeading, rightHeading], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 0);
         } else {
           phoneTimeline
             .fromTo(button, { autoAlpha: 0, y: -24 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0)
@@ -115,7 +119,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const entryRotations = [-30, 29, -26, 28];
         const shadow = 'drop-shadow(0 24px 24px rgba(0, 0, 0, 0.25))';
 
-        if (reducedMotion) {
+        if (reducedMotion || isPhoneViewport) {
           gsap.set(cards, { x: 0, y: 0, rotation: 0, scale: 1, autoAlpha: 1, filter: shadow });
         } else {
           const timeline = gsap.timeline({
@@ -165,8 +169,33 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
     const disruptTrack = disrupt?.querySelector<HTMLElement>('[data-disrupt-track]');
     const disruptViewport = disrupt?.querySelector<HTMLElement>('.disrupt__viewport');
     if (disrupt && disruptSticky && disruptTrack && disruptViewport) {
-      const getTravel = () => Math.max(0, disruptTrack.scrollHeight - disruptViewport.clientHeight);
-      ScrollTrigger.create({ trigger: disrupt, start: 'top top', end: () => `+=${Math.ceil(getTravel() * 1.28)}`, pin: disruptSticky, scrub: true, invalidateOnRefresh: true, onUpdate: self => { disruptTrack.style.transform = `translate3d(0, ${(-self.progress * getTravel()).toFixed(1)}px, 0)`; } });
+      const outro = disrupt.querySelector<HTMLElement>('[data-disrupt-outro]');
+      if (isPhoneViewport) {
+        if (outro && 'IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            if (entries.some((entry) => entry.isIntersecting)) {
+              disruptSticky.classList.add('is-outro');
+              observer.disconnect();
+            }
+          }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+          observer.observe(outro);
+          cleanupDisruptObserver = () => observer.disconnect();
+        }
+      } else {
+        const getTravel = () => Math.max(0, disruptTrack.scrollHeight - disruptViewport.clientHeight);
+        ScrollTrigger.create({
+          trigger: disrupt,
+          start: 'top top',
+          end: () => `+=${Math.ceil(getTravel() * 1.28)}`,
+          pin: disruptSticky,
+          scrub: true,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            disruptTrack.style.transform = `translate3d(0, ${(-self.progress * getTravel()).toFixed(1)}px, 0)`;
+            disruptSticky.classList.toggle('is-outro', self.progress >= 0.92);
+          },
+        });
+      }
     }
     const lens = document.querySelector<HTMLElement>('[data-work-lens]');
     const lensSticky = lens?.querySelector<HTMLElement>('.work-lens__sticky');
@@ -176,7 +205,11 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const getTravel = () => Math.max(0, lensTrack.scrollWidth - lensWrapper.clientWidth);
       ScrollTrigger.create({ trigger: lens, start: 'top top', end: () => `+=${Math.ceil(getTravel())}`, pin: lensSticky, scrub: true, invalidateOnRefresh: true, onUpdate: self => { lensTrack.style.transform = `translate3d(${(-self.progress * getTravel()).toFixed(1)}px, 0, 0)`; } });
     }
-    return cleanupServicesStage;
+    return () => {
+      cleanupServicesStage?.();
+      cleanupBrandTrack?.();
+      cleanupDisruptObserver?.();
+    };
   }, { dependencies: [page], revertOnUpdate: true });
 
   useEffect(() => {
@@ -261,24 +294,59 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       }
     }
     if (page === 'work') {
-      const gallery = document.querySelector('.work-gallery');
+      const gallery = document.querySelector<HTMLElement>('.work-gallery');
+      const categoryTrack = gallery?.querySelector<HTMLElement>('[data-category-track]');
+      const categories = Array.from(gallery?.querySelectorAll<HTMLElement>('.wg-cat') ?? []);
       const filterButton = gallery?.querySelector<HTMLButtonElement>('#work-filter-btn');
       const filterMenu = gallery?.querySelector<HTMLElement>('#work-filter-menu');
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const scrollBehavior: ScrollBehavior = prefersReducedMotion ? 'auto' : 'smooth';
       const closeFilter = () => { filterButton?.classList.remove('is-open'); filterButton?.setAttribute('aria-expanded', 'false'); filterMenu?.classList.remove('is-open'); filterMenu?.setAttribute('hidden', ''); };
       const toggleFilter = () => { const next = !filterButton?.classList.contains('is-open'); filterButton?.classList.toggle('is-open', next); filterButton?.setAttribute('aria-expanded', String(next)); filterMenu?.classList.toggle('is-open', next); if (next) filterMenu?.removeAttribute('hidden'); else filterMenu?.setAttribute('hidden', ''); };
-      const syncAccordionState = (category: HTMLElement, open: boolean) => {
-        const panel = category.querySelector<HTMLElement>('.wg-panel');
-        category.classList.toggle('is-open', open);
-        if (panel) panel.hidden = !open;
-        category.querySelectorAll<HTMLElement>('.wg-arrow--second').forEach(control => control.setAttribute('aria-expanded', String(open)));
-      };
       if (filterButton) on(filterButton, 'click', toggleFilter);
-      filterMenu?.querySelectorAll<HTMLElement>('[data-jump]').forEach(link => on(link, 'click', (event) => { event.preventDefault(); const key = link.dataset.jump; const category = gallery?.querySelector<HTMLElement>(`.wg-cat[data-category="${key}"]`); closeFilter(); if (category) syncAccordionState(category, true); category?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
-      gallery?.querySelectorAll<HTMLElement>('.wg-cat').forEach(category => {
-        const controls = category.querySelectorAll<HTMLElement>('.wg-arrow--second, .wg-cat__name');
-        syncAccordionState(category, category.classList.contains('is-open'));
-        const toggle = () => syncAccordionState(category, !category.classList.contains('is-open'));
-        controls.forEach(control => on(control, 'click', toggle));
+      filterMenu?.querySelectorAll<HTMLElement>('[data-jump]').forEach(link => on(link, 'click', (event) => {
+        event.preventDefault();
+        const key = link.dataset.jump;
+        const category = gallery?.querySelector<HTMLElement>(`.wg-cat[data-category="${key}"]`);
+        closeFilter();
+        category?.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+      }));
+      categories.forEach((category, index) => {
+        const panel = category.querySelector<HTMLElement>('.wg-panel');
+        if (panel) panel.hidden = false;
+        category.classList.remove('is-open');
+
+        const nextButton = category.querySelector<HTMLButtonElement>('.wg-arrow--second');
+        if (nextButton) {
+          nextButton.removeAttribute('aria-expanded');
+          nextButton.removeAttribute('aria-controls');
+          nextButton.setAttribute('aria-label', copy('nextCategory'));
+          nextButton.disabled = index === categories.length - 1;
+          on(nextButton, 'click', () => categories[index + 1]?.scrollIntoView({
+            behavior: scrollBehavior,
+            block: 'nearest',
+            inline: 'start',
+          }));
+        }
+      });
+      if (categoryTrack) on(categoryTrack, 'keydown', (event) => {
+        const keyboardEvent = event as KeyboardEvent;
+        if (keyboardEvent.key !== 'ArrowLeft' && keyboardEvent.key !== 'ArrowRight') return;
+        const isRtl = getComputedStyle(categoryTrack!).direction === 'rtl';
+        const movesForward = isRtl ? keyboardEvent.key === 'ArrowLeft' : keyboardEvent.key === 'ArrowRight';
+        const railRect = categoryTrack!.getBoundingClientRect();
+        const railCenter = railRect.left + railRect.width / 2;
+        const currentIndex = categories.reduce((closestIndex, category, index) => {
+          const currentDistance = Math.abs(categories[closestIndex].getBoundingClientRect().left + categories[closestIndex].getBoundingClientRect().width / 2 - railCenter);
+          const candidateRect = category.getBoundingClientRect();
+          const candidateDistance = Math.abs(candidateRect.left + candidateRect.width / 2 - railCenter);
+          return candidateDistance < currentDistance ? index : closestIndex;
+        }, 0);
+        const targetIndex = currentIndex + (movesForward ? 1 : -1);
+        const target = categories[targetIndex];
+        if (!target) return;
+        keyboardEvent.preventDefault();
+        target.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
       });
       gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
         const isTouchLayout = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
@@ -297,6 +365,6 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       on(document, 'keydown', (event) => { if ((event as KeyboardEvent).key === 'Escape') closeFilter(); });
     }
     return () => cleanups.forEach(cleanup => cleanup());
-  }, [page]);
+  }, [page, copy]);
   return null;
 }

@@ -92,6 +92,23 @@
     "privacyTitle": "سياسة الخصوصية | TIX Studio",
     "privacyDescription": "تعرّف على المعلومات التي يستقبلها TIX Studio عبر الموقع وكيفية التعامل مع استفسارات التواصل."
   },
+  "RevisionCopy": {
+    "brandShowcase": "حملات وعلامات مختارة",
+    "brandCarousel": "عارض العلامات",
+    "brandSlide": "شريحة",
+    "brandScrollHint": "اسحب أفقيًا لاكتشاف المزيد",
+    "brandNeedStable": "للعلامات التي تحتاج إلى",
+    "brandWords": { "attention": "الاهتمام", "impact": "الأثر", "presence": "الحضور", "movement": "الحركة", "direction": "التوجّه", "culture": "الثقافة" },
+    "scrollCategories": "فئات الأعمال — مساحة تمرير أفقي",
+    "nextCategory": "الفئة التالية",
+    "contactHeadline": "ما الشعور الذي تريد أن يختبره العالم؟",
+    "contactServiceLine": "استراتيجية. إنتاج. رقمي. بصري.",
+    "contactCopy": "أخبرنا بما تعمل عليه، وما تتخيله، وما ينقص علامتك التجارية.",
+    "helpSelect": "اختر كيف يمكننا مساعدتك",
+    "helpMarketing": "أريد تطوير تسويقي.",
+    "helpGraphicDesign": "أحتاج إلى تصميم منشور جرافيكي.",
+    "helpCampaign": "أريد إنشاء حملة."
+  },
   "NotFound": {
     "title": "الصفحة غير موجودة",
     "description": "الصفحة التي تبحث عنها غير موجودة.",

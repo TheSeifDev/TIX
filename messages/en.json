@@ -49,7 +49,7 @@
   "WorkPage": {
     "title": "THE WORK",
     "gallery": "WORK GALLERY",
-    "story": "Every frame tells part of the story.", "subtitle": "Selected campaigns, productions, and visual systems.", "projectCount": "24 Projects — 5 Industries", "filter": "Filter work", "fashion": "Fashion", "jewelry": "Jewelry & Luxury", "beauty": "Perfume / Beauty", "food": "Food & Beverage", "events": "Events & Concerts", "realestate": "Real Estate & Corporates", "characterAlt": "Selected TIX campaign photography collage", "viewAll": "VIEW ALL", "categories": {"fashion": "FASHION", "jewelry": "JEWELRY & LUXURY", "beauty": "PERFUME / BEAUTY", "food": "FOOD & BEVERAGE", "events": "EVENTS & CONCERTS", "realestate": "REAL ESTATE & CORPORATES"}, "eyebrows": {"fashion": "FRAMES OF IDENTITY", "jewelry": "OBJECTS OF DESIRE", "beauty": "SCENT IN MOTION", "food": "CRAFTED APPETITE", "events": "LIVE IN MOTION", "realestate": "SPACES IN FRAME"}, "descriptions": {"fashion": "EDITORIAL FASHION PHOTOGRAPHY CRAFTED TO SHAPE PERCEPTION, PRESENCE, AND BRAND DESIRE.", "jewelry": "LUXURY PRODUCT PHOTOGRAPHY FOCUSED ON TEXTURE, DETAIL, CRAFTSMANSHIP, AND VISUAL SEDUCTION.", "beauty": "LUXURY BEAUTY AND FRAGRANCE VISUALS SHAPED THROUGH ATMOSPHERE, TEXTURE, AND EMOTION.", "food": "VISUAL CAMPAIGNS DESIGNED TO TRANSFORM PRODUCTS INTO SENSORY EXPERIENCES.", "events": "CONCERTS, CULTURAL EVENTS, AND LIVE EXPERIENCES CAPTURED THROUGH MOVEMENT, ATMOSPHERE, CROWD ENERGY, AND CINEMATIC STORYTELLING.", "realestate": "ARCHITECTURAL AND REAL ESTATE VISUALS CRAFTED TO CAPTURE ATMOSPHERE, DESIGN, SCALE, AND MODERN LIVING THROUGH CINEMATIC PHOTOGRAPHY."}, "labels": {"studio": "STUDIO SESSIONS", "model": "MODEL CASTING", "styling": "PRODUCT STYLING", "direction": "CREATIVE DIRECTION", "fashionPhotography": "FASHION PHOTOGRAPHY", "fineJewelry": "FINE JEWELRY", "campaignStills": "CAMPAIGN STILLS", "watchDetail": "WATCH DETAIL", "lookbook": "LOOKBOOK", "luxuryFilm": "LUXURY FILM", "bottleStills": "BOTTLE STILLS", "texture": "TEXTURE", "campaign": "CAMPAIGN", "editorial": "EDITORIAL", "beautyFilm": "BEAUTY FILM", "plating": "PLATING", "beverage": "BEVERAGE", "menu": "MENU", "liveStage": "LIVE STAGE", "backstage": "BACKSTAGE", "crowd": "CROWD", "lighting": "LIGHTING", "aftermovie": "AFTERMOVIE", "interior": "INTERIOR", "exterior": "EXTERIOR", "lifestyle": "LIFESTYLE", "corporate": "CORPORATE", "detail": "DETAIL"}
+    "story": "Every frame tells part of the story.", "subtitle": "Selected campaigns, productions, and visual systems.", "projectCount": "24 Projects — 5 Industries", "filter": "Filter work", "fashion": "Fashion", "jewelry": "Jewelry & Luxury", "beauty": "Perfume & Beauty", "food": "Food & Beverage", "events": "Events & Concerts", "realestate": "Real Estate & Corporates", "characterAlt": "Selected TIX campaign photography collage", "viewAll": "VIEW ALL", "categories": {"fashion": "FASHION", "jewelry": "JEWELRY & LUXURY", "beauty": "PERFUME & BEAUTY", "food": "FOOD & BEVERAGE", "events": "EVENTS & CONCERTS", "realestate": "REAL ESTATE & CORPORATES"}, "eyebrows": {"fashion": "FRAMES OF IDENTITY", "jewelry": "OBJECTS OF DESIRE", "beauty": "SCENT IN MOTION", "food": "CRAFTED APPETITE", "events": "LIVE IN MOTION", "realestate": "SPACES IN FRAME"}, "descriptions": {"fashion": "EDITORIAL FASHION PHOTOGRAPHY CRAFTED TO SHAPE PERCEPTION, PRESENCE, AND BRAND DESIRE.", "jewelry": "LUXURY PRODUCT PHOTOGRAPHY FOCUSED ON TEXTURE, DETAIL, CRAFTSMANSHIP, AND VISUAL SEDUCTION.", "beauty": "LUXURY BEAUTY AND FRAGRANCE VISUALS SHAPED THROUGH ATMOSPHERE, TEXTURE, AND EMOTION.", "food": "VISUAL CAMPAIGNS DESIGNED TO TRANSFORM PRODUCTS INTO SENSORY EXPERIENCES.", "events": "CONCERTS, CULTURAL EVENTS, AND LIVE EXPERIENCES CAPTURED THROUGH MOVEMENT, ATMOSPHERE, CROWD ENERGY, AND CINEMATIC STORYTELLING.", "realestate": "ARCHITECTURAL AND REAL ESTATE VISUALS CRAFTED TO CAPTURE ATMOSPHERE, DESIGN, SCALE, AND MODERN LIVING THROUGH CINEMATIC PHOTOGRAPHY."}, "labels": {"studio": "STUDIO SESSIONS", "model": "MODEL CASTING", "styling": "PRODUCT STYLING", "direction": "CREATIVE DIRECTION", "fashionPhotography": "FASHION PHOTOGRAPHY", "fineJewelry": "FINE JEWELRY", "campaignStills": "CAMPAIGN STILLS", "watchDetail": "WATCH DETAIL", "lookbook": "LOOKBOOK", "luxuryFilm": "LUXURY FILM", "bottleStills": "BOTTLE STILLS", "texture": "TEXTURE", "campaign": "CAMPAIGN", "editorial": "EDITORIAL", "beautyFilm": "BEAUTY FILM", "plating": "PLATING", "beverage": "BEVERAGE", "menu": "MENU", "liveStage": "LIVE STAGE", "backstage": "BACKSTAGE", "crowd": "CROWD", "lighting": "LIGHTING", "aftermovie": "AFTERMOVIE", "interior": "INTERIOR", "exterior": "EXTERIOR", "lifestyle": "LIFESTYLE", "corporate": "CORPORATE", "detail": "DETAIL"}
   },
   "ContactPage": {
     "title": "Contact TIX Studio",
@@ -91,6 +91,23 @@
     "termsDescription": "Read the general terms for using the TIX Studio website and discussing creative projects.",
     "privacyTitle": "Privacy Policy | TIX Studio",
     "privacyDescription": "Learn what information TIX Studio receives through this website and how contact enquiries are handled."
+  },
+  "RevisionCopy": {
+    "brandShowcase": "Selected brand campaigns",
+    "brandCarousel": "brand carousel",
+    "brandSlide": "slide",
+    "brandScrollHint": "Scroll horizontally to explore",
+    "brandNeedStable": "For brands that need",
+    "brandWords": { "attention": "ATTENTION", "impact": "IMPACT", "presence": "PRESENCE", "movement": "MOVEMENT", "direction": "DIRECTION", "culture": "CULTURE" },
+    "scrollCategories": "Work categories — horizontal scrolling area",
+    "nextCategory": "Next category",
+    "contactHeadline": "What do you want the world to feel?",
+    "contactServiceLine": "Strategy. Production. Digital. Visual.",
+    "contactCopy": "Tell us what you're building, what you're imagining, what your brand is missing.",
+    "helpSelect": "Choose how we can help",
+    "helpMarketing": "I want to improve my marketing.",
+    "helpGraphicDesign": "I need a graphic design post.",
+    "helpCampaign": "I want to create a campaign."
   },
   "NotFound": {
     "title": "Page not found",

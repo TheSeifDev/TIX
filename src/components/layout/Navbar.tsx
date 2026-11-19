@@ -34,9 +34,15 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
     { href: '/services' as const, label: t('services'), key: 'services' },
     { href: '/about' as const, label: t('studio'), key: 'about' },
   ];
-  const languageHref = pathname;
+  const targetLocale: 'en' | 'ar' = isArabic ? 'en' : 'ar';
+  const languageHref = isArabic ? pathname : pathname === '/' ? '/ar' : `/ar${pathname}`;
   const languageLabel = isArabic ? 'EN' : 'AR';
   const languageAccessibleName = isArabic ? t('switchToEnglish') : t('switchToArabic');
+  const setLocalePreference = () => {
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `NEXT_LOCALE=${targetLocale}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;
+    setOpen(false);
+  };
 
   // Font + casing: Arabic has no uppercase / letter-spacing
   const labelFont = isArabic
@@ -213,9 +219,9 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
 
           {/* Desktop actions */}
           <div className="hidden shrink-0 items-center justify-self-end gap-3 md:flex">
-            <Link
-              href={languageHref as '/'}
-              locale={isArabic ? 'en' : 'ar'}
+            <a
+              href={languageHref}
+              onClick={setLocalePreference}
               lang={isArabic ? 'en' : 'ar'}
               hrefLang={isArabic ? 'en' : 'ar'}
               aria-label={languageAccessibleName}
@@ -223,7 +229,7 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
               className="nav__language inline-flex min-w-12 items-center justify-center rounded-full border border-white/15 bg-white/5 !px-4 !py-2.5 font-[family-name:var(--font-display)] text-[11px] font-bold leading-none text-white/80 outline-none transition-colors hover:border-white/35 hover:bg-white/10 hover:text-white focus-visible:ring-2 focus-visible:ring-white/60"
             >
               {languageLabel}
-            </Link>
+            </a>
             <Link
               href="/contact"
               className={[
@@ -342,16 +348,15 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
               </Link>
             );
           })}
-          <Link
-            href={languageHref as '/'}
-            locale={isArabic ? 'en' : 'ar'}
+          <a
+            href={languageHref}
+            onClick={setLocalePreference}
             lang={isArabic ? 'en' : 'ar'}
             hrefLang={isArabic ? 'en' : 'ar'}
-            onClick={() => setOpen(false)}
             className="border-b border-white/10 !py-4 text-lg font-semibold text-white/50 outline-none transition-colors hover:text-white focus-visible:text-white"
           >
             {isArabic ? 'English' : 'العربية'}
-          </Link>
+          </a>
         </nav>
 
         <div className="!mt-8">
