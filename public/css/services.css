@@ -515,6 +515,22 @@
   }
 }
 
+@media (max-width: 767px) {
+  .svchero__basket-img,
+  .svc-calls__aura,
+  .folder-card__media-img--chess,
+  .folder-card__media-img--camera,
+  .folder-card__media-img--megaphone {
+    animation: none;
+  }
+
+  .svc-calls.is-visible .svc-calls__phone-wrapper,
+  .svc-calls__phone-stage.is-visible .svc-calls__phone-wrapper {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 /* ── STICKY STACKING FOLDERS COMPONENT ────────────────── */
 .svc-folders {
   position: relative;
@@ -848,6 +864,12 @@
 
 @media (prefers-reduced-motion: reduce) {
   .gl-18__track { animation: none; }
+
+  .svc-calls__phone-wrapper {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
 }
 
 /* ── RESPONSIVE FOLDERS ──────────────────────────────────── */

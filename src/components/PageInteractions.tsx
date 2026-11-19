@@ -20,16 +20,21 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       }
       return;
     }
+    const isPhoneViewport = window.matchMedia('(max-width: 767px)').matches;
     let cleanupServicesStage: (() => void) | undefined;
     gsap.utils.toArray<HTMLElement>('[data-reveal], .observer-target').forEach((target) => {
       const isAboutHero = page === 'about' && Boolean(target.closest('.impact-hero'));
-      gsap.fromTo(target, { autoAlpha: 0, y: isAboutHero ? 18 : 28 }, { autoAlpha: 1, y: 0, duration: 0.6, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: target, start: 'top 86%', once: true } }) });
+      const isServiceCallReveal = page === 'services' && target.matches('.svc-calls__button-wrap, .svc-calls__phone-stage, .svc-calls__side--left, .svc-calls__side--right');
+      if (isServiceCallReveal) return;
+      const revealOffset = isPhoneViewport ? 8 : isAboutHero ? 18 : 28;
+      gsap.fromTo(target, { autoAlpha: 0, y: revealOffset }, { autoAlpha: 1, y: 0, duration: isPhoneViewport ? 0.34 : 0.6, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: target, start: 'top 86%', once: true } }) });
     });
     gsap.utils.toArray<HTMLElement>('[data-stagger]').forEach((group) => {
       const children = Array.from(group.children) as HTMLElement[];
       if (!children.length) return;
       const isAboutHero = page === 'about' && Boolean(group.closest('.impact-hero'));
-      gsap.fromTo(children, { autoAlpha: 0, y: isAboutHero ? 14 : 28 }, { autoAlpha: 1, y: 0, duration: 0.55, stagger: 0.08, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: group, start: 'top 86%', once: true } }) });
+      const staggerOffset = isPhoneViewport ? 6 : isAboutHero ? 14 : 28;
+      gsap.fromTo(children, { autoAlpha: 0, y: staggerOffset }, { autoAlpha: 1, y: 0, duration: isPhoneViewport ? 0.3 : 0.55, stagger: isPhoneViewport ? 0.03 : 0.08, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: group, start: 'top 86%', once: true } }) });
     });
     if (page === 'home') {
       const hero = document.querySelector('.hero__content');
@@ -75,7 +80,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       if (stage && basket) {
         const chevrons = stage.querySelectorAll<HTMLElement>('.svchero__chevron-item');
         stage.classList.remove('is-open');
-        gsap.timeline({ delay: 0.45, onStart: () => stage.classList.add('is-open') })
+        gsap.timeline({ delay: isPhoneViewport ? 0.08 : 0.45, onStart: () => stage.classList.add('is-open') })
           .fromTo(chevrons, { autoAlpha: 0.8 }, { autoAlpha: 1, duration: 0.35, stagger: 0.04 }, 0);
         cleanupServicesStage = () => stage.classList.remove('is-open');
       } else if (stage) {
@@ -83,11 +88,21 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         cleanupServicesStage = () => stage.classList.remove('is-open');
       }
       if (calls && phone && phoneStage && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const isPhone = isPhoneViewport;
         const phoneTimeline = gsap.timeline({ paused: true, scrollTrigger: { trigger: calls, start: 'top 82%', once: true, onEnter: () => { calls.classList.add('is-visible'); phoneStage.classList.add('is-visible'); } } });
-        phoneTimeline.fromTo(button, { autoAlpha: 0, y: -24 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0).fromTo([leftHeading, rightHeading], { autoAlpha: 0, x: (index) => index ? 28 : -28 }, { autoAlpha: 1, x: 0, duration: 0.55, stagger: 0.08, ease: 'power2.out' }, 0.08).fromTo(phone, { autoAlpha: 0, y: -130, scaleY: 0.7, scaleX: 1.08 }, { autoAlpha: 1, y: 0, scaleY: 1, scaleX: 1, duration: 1.6, ease: 'elastic.out(1, 0.55)' }, 0.16);
+        if (isPhone) {
+          phoneTimeline
+            .fromTo([button, leftHeading, rightHeading], { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.3, ease: 'power1.out' }, 0)
+            .fromTo(phone, { autoAlpha: 0, y: 12 }, { autoAlpha: 1, y: 0, duration: 0.42, ease: 'power2.out' }, 0.04);
+        } else {
+          phoneTimeline
+            .fromTo(button, { autoAlpha: 0, y: -24 }, { autoAlpha: 1, y: 0, duration: 0.55, ease: 'power2.out' }, 0)
+            .fromTo([leftHeading, rightHeading], { autoAlpha: 0, x: (index) => index ? 28 : -28 }, { autoAlpha: 1, x: 0, duration: 0.55, stagger: 0.08, ease: 'power2.out' }, 0.08)
+            .fromTo(phone, { autoAlpha: 0, y: -130, scaleY: 0.7, scaleX: 1.08 }, { autoAlpha: 1, y: 0, scaleY: 1, scaleX: 1, duration: 1.6, ease: 'elastic.out(1, 0.55)' }, 0.16);
+        }
       }
       const folderCards = gsap.utils.toArray<HTMLElement>('.folder-card');
-      folderCards.forEach((card, index) => gsap.fromTo(card, { autoAlpha: 0.35, y: 32 }, { autoAlpha: 1, y: 0, duration: 0.65, delay: index * 0.05, ease: 'power2.out', scrollTrigger: { trigger: card, start: 'top 88%', once: true } }));
+      folderCards.forEach((card, index) => gsap.fromTo(card, { autoAlpha: 0.35, y: isPhoneViewport ? 10 : 32 }, { autoAlpha: 1, y: 0, duration: isPhoneViewport ? 0.36 : 0.65, delay: isPhoneViewport ? 0 : index * 0.05, ease: 'power2.out', scrollTrigger: { trigger: card, start: 'top 88%', once: true } }));
     }
     if (page === 'about') {
       const section = document.querySelector<HTMLElement>('[data-touchpoints]');
@@ -251,12 +266,19 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const filterMenu = gallery?.querySelector<HTMLElement>('#work-filter-menu');
       const closeFilter = () => { filterButton?.classList.remove('is-open'); filterButton?.setAttribute('aria-expanded', 'false'); filterMenu?.classList.remove('is-open'); filterMenu?.setAttribute('hidden', ''); };
       const toggleFilter = () => { const next = !filterButton?.classList.contains('is-open'); filterButton?.classList.toggle('is-open', next); filterButton?.setAttribute('aria-expanded', String(next)); filterMenu?.classList.toggle('is-open', next); if (next) filterMenu?.removeAttribute('hidden'); else filterMenu?.setAttribute('hidden', ''); };
-      if (filterButton) on(filterButton, 'click', toggleFilter);
-      filterMenu?.querySelectorAll<HTMLElement>('[data-jump]').forEach(link => on(link, 'click', (event) => { event.preventDefault(); const key = link.dataset.jump; const category = gallery?.querySelector<HTMLElement>(`.wg-cat[data-category="${key}"]`); closeFilter(); category?.classList.add('is-open'); category?.querySelector<HTMLElement>('.wg-panel')?.removeAttribute('hidden'); category?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
-      gallery?.querySelectorAll<HTMLElement>('.wg-cat').forEach(category => {
+      const syncAccordionState = (category: HTMLElement, open: boolean) => {
         const panel = category.querySelector<HTMLElement>('.wg-panel');
-        const toggle = () => { const open = !category.classList.contains('is-open'); category.classList.toggle('is-open', open); if (panel) { if (open) panel.removeAttribute('hidden'); else panel.setAttribute('hidden', ''); } };
-        category.querySelectorAll<HTMLElement>('.wg-arrow--second, .wg-cat__name').forEach(control => on(control, 'click', toggle));
+        category.classList.toggle('is-open', open);
+        if (panel) panel.hidden = !open;
+        category.querySelectorAll<HTMLElement>('.wg-arrow--second').forEach(control => control.setAttribute('aria-expanded', String(open)));
+      };
+      if (filterButton) on(filterButton, 'click', toggleFilter);
+      filterMenu?.querySelectorAll<HTMLElement>('[data-jump]').forEach(link => on(link, 'click', (event) => { event.preventDefault(); const key = link.dataset.jump; const category = gallery?.querySelector<HTMLElement>(`.wg-cat[data-category="${key}"]`); closeFilter(); if (category) syncAccordionState(category, true); category?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
+      gallery?.querySelectorAll<HTMLElement>('.wg-cat').forEach(category => {
+        const controls = category.querySelectorAll<HTMLElement>('.wg-arrow--second, .wg-cat__name');
+        syncAccordionState(category, category.classList.contains('is-open'));
+        const toggle = () => syncAccordionState(category, !category.classList.contains('is-open'));
+        controls.forEach(control => on(control, 'click', toggle));
       });
       gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
         const cards = [...strip.querySelectorAll<HTMLElement>('.wg-card')];

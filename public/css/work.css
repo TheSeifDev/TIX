@@ -717,6 +717,18 @@
   }
 }
 
+@media (max-width: 767px) {
+  .wg-panel {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    transition: none;
+  }
+
+  .wg-cat.is-open .wg-panel {
+    animation: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .wg-card,
   .wg-card__media img,

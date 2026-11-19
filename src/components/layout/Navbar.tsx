@@ -262,28 +262,19 @@ export function Navbar({ arabic = false }: { arabic?: boolean }) {
             aria-controls="mobile-menu"
             onClick={() => setOpen((v) => !v)}
             className={[
-              'nav__burger relative z-[2] col-start-2 justify-self-end grid size-10 place-items-center rounded-full outline-none md:hidden',
+              'nav__burger relative z-[2] col-start-2 justify-self-end grid size-10 place-items-center rounded-xl outline-none md:hidden',
               'bg-white/[0.06] ring-1 ring-inset ring-white/10 transition-colors duration-200',
               'hover:bg-white/10 active:bg-white/15 focus-visible:ring-2 focus-visible:ring-white/60',
             ].join(' ')}
           >
-            <span className="relative block h-3.5 w-[18px]" aria-hidden="true">
-              <span
-                className={`absolute inset-x-0 top-0 h-[2px] rounded-full bg-white transition-transform duration-300 ${
-                  open ? 'translate-y-[6px] rotate-45' : ''
-                }`}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M4 6.5h16M4 12h16M4 17.5h16"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
               />
-              <span
-                className={`absolute inset-x-0 top-1/2 h-[2px] -translate-y-1/2 rounded-full bg-white transition-all duration-200 ${
-                  open ? 'scale-x-0 opacity-0' : ''
-                }`}
-              />
-              <span
-                className={`absolute inset-x-0 bottom-0 h-[2px] rounded-full bg-white transition-transform duration-300 ${
-                  open ? '-translate-y-[6px] -rotate-45' : ''
-                }`}
-              />
-            </span>
+            </svg>
           </button>
         </div>
       </nav>
