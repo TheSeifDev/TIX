@@ -56,18 +56,58 @@ test.describe('mobile and locale regressions', () => {
     await expect(menu).toBeHidden();
   });
 
-  test('mobile category image strips do not collapse after the pointer leaves', async ({ page }) => {
+  test('mobile Work photos use static full-width vertical rows', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/work', { waitUntil: 'domcontentloaded' });
 
-    for (const category of ['jewelry', 'realestate']) {
+    for (const category of ['realestate', 'events']) {
       const strip = page.locator(`.wg-cat[data-category="${category}"] [data-strip]`);
-      const firstCard = strip.locator('.wg-card').first();
+      const cards = strip.locator('.wg-card');
+      await expect(cards).toHaveCount(5);
       await strip.scrollIntoViewIfNeeded();
+      const layout = await strip.evaluate((element) => ({
+        direction: getComputedStyle(element).flexDirection,
+        clientWidth: element.clientWidth,
+        scrollWidth: element.scrollWidth,
+        bounds: element.getBoundingClientRect().toJSON(),
+        cards: [...element.querySelectorAll<HTMLElement>('.wg-card')].map((card) => {
+          const rect = card.getBoundingClientRect();
+          const image = card.querySelector('img');
+          return {
+            left: rect.left,
+            right: rect.right,
+            top: rect.top,
+            bottom: rect.bottom,
+            width: rect.width,
+            transitionDuration: getComputedStyle(card).transitionDuration,
+            imageTransitionDuration: image ? getComputedStyle(image).transitionDuration : '',
+            imageTransform: image ? getComputedStyle(image).transform : '',
+          };
+        }),
+      }));
+      expect(layout.direction).toBe('column');
+      expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth + 1);
+      for (let index = 0; index < layout.cards.length; index += 1) {
+        const card = layout.cards[index];
+        expect(card.width).toBeGreaterThan(layout.bounds.width * 0.95);
+        expect(card.left).toBeGreaterThanOrEqual(layout.bounds.left - 1);
+        expect(card.right).toBeLessThanOrEqual(layout.bounds.right + 1);
+        expect(card.transitionDuration).toBe('0s');
+        expect(card.imageTransitionDuration).toBe('0s');
+        expect(card.imageTransform).toBe('none');
+        if (index > 0) expect(card.top).toBeGreaterThanOrEqual(layout.cards[index - 1].bottom);
+      }
+
+      const firstCard = cards.first();
+      const firstImage = firstCard.locator('.wg-card__media img');
+      await firstImage.scrollIntoViewIfNeeded();
+      await expect(firstImage).toBeVisible();
+      await expect.poll(() => firstImage.evaluate((image) => (image as HTMLImageElement).naturalWidth > 0)).toBe(true);
+      const widthBeforeHover = await firstCard.evaluate((element) => element.getBoundingClientRect().width);
       await firstCard.hover();
       await page.mouse.move(5, 5);
-      await expect.poll(() => firstCard.evaluate((element) => element.getBoundingClientRect().width)).toBeGreaterThan(100);
-      await expect(firstCard.locator('.wg-card__media img')).toBeVisible();
+      await expect.poll(() => firstCard.evaluate((element) => element.getBoundingClientRect().width)).toBe(widthBeforeHover);
+      await expect.poll(() => firstImage.evaluate((image) => getComputedStyle(image).transform)).toBe('none');
     }
   });
 
@@ -125,7 +165,10 @@ test.describe('mobile and locale regressions', () => {
     await expect(page.locator('.wg-cat[data-category="workgallery"] .wg-panel')).toBeVisible();
     const workGalleryImages = page.locator('.wg-cat[data-category="workgallery"] .wg-card__media img');
     await expect(workGalleryImages).toHaveCount(5);
-    await expect.poll(() => workGalleryImages.evaluateAll((images) => images.every((image) => (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
+    for (const image of await workGalleryImages.all()) {
+      await image.scrollIntoViewIfNeeded();
+      await expect.poll(() => image.evaluate((element) => (element as HTMLImageElement).naturalWidth > 0)).toBe(true);
+    }
   });
 
   test('desktop Work categories stack vertically without horizontal overflow', async ({ page }) => {

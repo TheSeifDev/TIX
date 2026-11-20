@@ -656,17 +656,52 @@
   }
 
   .wg-strip {
-    scroll-snap-type: x mandatory;
-    padding-bottom: 0.15rem;
-    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.9rem;
+    min-height: 0;
+    height: auto !important;
+    overflow: visible;
+    padding: 0;
+    scroll-snap-type: none;
+    touch-action: pan-y;
   }
 
-  /* Manual swipe ribbon — equal cards, no expand */
+  /* Mobile gallery: simple full-width photo rows, independent from desktop expansion. */
   .wg-card,
   .wg-card.is-active {
-    flex: 0 0 58%;
-    scroll-snap-align: start;
-    transition: none;
+    flex: 0 0 auto !important;
+    width: 100%;
+    min-width: 0;
+    height: auto !important;
+    cursor: default;
+    scroll-snap-align: none;
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+
+  .wg-card__media {
+    flex: none;
+    width: 100%;
+    min-height: 0;
+    height: auto !important;
+    aspect-ratio: auto;
+  }
+
+  .wg-card__media img {
+    width: 100%;
+    height: auto !important;
+    max-width: 100%;
+    object-fit: contain;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  .wg-card:hover .wg-card__media img,
+  .wg-card.is-active .wg-card__media img {
+    transform: none !important;
   }
 }
 
@@ -693,11 +728,6 @@
 
   .wg-cat__brand--end {
     display: none;
-  }
-
-  .wg-card,
-  .wg-card.is-active {
-    flex: 0 0 72%;
   }
 
   .wg-card__tag-label {

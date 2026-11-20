@@ -344,8 +344,10 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         target.querySelector<HTMLButtonElement>('.wg-arrow--second')?.focus({ preventScroll: true });
       });
       gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
-        const isTouchLayout = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;
-        if (isTouchLayout) return;
+        const isMobileLayout = window.matchMedia('(max-width: 900px)').matches;
+        const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        // Mobile uses static, full-width photo rows; keep desktop flex expansion out of this layout.
+        if (isMobileLayout || hasCoarsePointer) return;
         const cards = [...strip.querySelectorAll<HTMLElement>('.wg-card')];
         const lockHeight = () => { const height = strip.getBoundingClientRect().height; if (!height) return; strip.style.height = `${height}px`; cards.forEach(card => { card.style.height = `${height}px`; }); };
         window.requestAnimationFrame(lockHeight);
