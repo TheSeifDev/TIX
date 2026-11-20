@@ -795,9 +795,7 @@ test.describe('native route parity', () => {
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
       await expect(formCard.locator('input[name="name"]')).toBeVisible();
       await expect(formCard.locator('input[name="email"]')).toBeVisible();
-      await expect(formCard.locator('input[name="building"]')).toBeVisible();
-      await expect(formCard.locator('select[name="help"]')).toBeVisible();
-      await expect(formCard.locator('select[name="help"] option')).toHaveCount(4);
+      await expect(formCard.locator('textarea[name="building"]')).toBeVisible();
       await expect(page.locator('[data-contact-footer]')).toBeVisible();
       await expect(page.locator('[data-contact-footer] [data-contact-character]')).toBeVisible();
       await expect(page.locator('[data-contact-footer] [aria-label^="TIX on "]')).toHaveCount(5);
@@ -843,15 +841,13 @@ test.describe('native route parity', () => {
         name: 'Test Sender',
         email: 'sender@example.com',
         building: 'A new campaign',
-        help: 'I want to create a campaign.',
       });
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
     });
     await page.goto('/contact', { waitUntil: 'networkidle' });
     await page.locator('input[name="name"]').fill('Test Sender');
     await page.locator('input[name="email"]').fill('sender@example.com');
-    await page.locator('input[name="building"]').fill('A new campaign');
-    await page.locator('select[name="help"]').selectOption({ label: 'I want to create a campaign.' });
+    await page.locator('textarea[name="building"]').fill('A new campaign');
     await page.locator('.form-submit').click();
     await expect(page.locator('.form-status')).toHaveText('Message sent. We will be in touch soon.');
   });
@@ -863,7 +859,6 @@ test.describe('native route parity', () => {
         name: 'مرسل للاختبار',
         email: 'sender@example.com',
         building: 'حملة جديدة',
-        help: 'أريد إنشاء حملة.',
       });
       await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({ ok: true }) });
     });
@@ -874,23 +869,14 @@ test.describe('native route parity', () => {
     await expect(page.locator('#contact-form-heading')).toHaveText('ما الشعور الذي تريد أن يختبره العالم؟');
     await expect(page.locator('.contact-copy__service')).toHaveText('استراتيجية. إنتاج. رقمي. بصري.');
     await expect(page.locator('.contact-copy__body')).toHaveText('أخبرنا بما تعمل عليه، وما تتخيله، وما ينقص علامتك التجارية.');
-    await expect(page.locator('select[name="help"] option')).toHaveText([
-      'اختر كيف يمكننا مساعدتك',
-      'أريد تطوير تسويقي.',
-      'أحتاج إلى تصميم منشور جرافيكي.',
-      'أريد إنشاء حملة.',
-    ]);
     const formCard = page.locator('.contact-single-section .contact-form');
     await expect(formCard).toBeVisible();
     await expect(formCard.locator('input[name="name"]')).toBeVisible();
     await expect(formCard.locator('input[name="email"]')).toBeVisible();
-    await expect(formCard.locator('input[name="building"]')).toBeVisible();
-    await expect(formCard.locator('select[name="help"]')).toBeVisible();
-    await expect(formCard.locator('select[name="help"] option')).toHaveCount(4);
+    await expect(formCard.locator('textarea[name="building"]')).toBeVisible();
     await formCard.locator('input[name="name"]').fill('مرسل للاختبار');
     await formCard.locator('input[name="email"]').fill('sender@example.com');
-    await formCard.locator('input[name="building"]').fill('حملة جديدة');
-    await formCard.locator('select[name="help"]').selectOption({ label: 'أريد إنشاء حملة.' });
+    await formCard.locator('textarea[name="building"]').fill('حملة جديدة');
     await formCard.locator('.form-submit').click();
     await expect(formCard.locator('.form-status')).toHaveText('تم إرسال رسالتك. سنتواصل معك قريباً.');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);

@@ -102,7 +102,7 @@ test.describe('Contact GSAP entrance', () => {
       await expect(entrance.locator('input[name="name"]')).toBeVisible();
       await entrance.locator('input[name="name"]').focus();
       await expect(entrance.locator('input[name="name"]')).toBeFocused();
-      await expect(entrance.locator('select[name="help"]')).toBeVisible();
+      await expect(entrance.locator('textarea[name="building"]')).toBeVisible();
     }
   });
 

@@ -152,7 +152,7 @@ export function ContactContent() {
                   </div>
                 </div>
 
-                {/* Project */}
+                {/* Project / What are you building */}
                 <div className="form-group mb-6">
                   <label
                     className="form-label"
@@ -161,37 +161,24 @@ export function ContactContent() {
                     {t('project')}
                   </label>
 
-                  <input
-                    className="form-input"
-                    type="text"
+                  <textarea
+                    className="
+                      form-input form-textarea
+                      w-full
+                      min-h-[140px] sm:min-h-[170px]
+                      resize-y
+                      rounded-[14px] sm:rounded-[18px]
+                      p-3.5 sm:p-4
+                      text-[0.92rem] sm:text-[0.96rem]
+                      leading-relaxed
+                    "
                     id="building"
                     name="building"
                     placeholder={t('projectPlaceholder')}
-                    maxLength={200}
-                  />
-                </div>
-
-                {/* Help */}
-                <div className="form-group mb-7">
-                  <label
-                    className="form-label"
-                    htmlFor="help"
-                  >
-                    {t('helpPrompt')}
-                  </label>
-
-                  <select
-                    className="form-input form-select"
-                    id="help"
-                    name="help"
-                    defaultValue=""
+                    maxLength={5000}
+                    rows={5}
                     required
-                  >
-                    <option value="" disabled>{copy('helpSelect')}</option>
-                    <option value={copy('helpMarketing')}>{copy('helpMarketing')}</option>
-                    <option value={copy('helpGraphicDesign')}>{copy('helpGraphicDesign')}</option>
-                    <option value={copy('helpCampaign')}>{copy('helpCampaign')}</option>
-                  </select>
+                  />
                 </div>
 
                 {/* Submit */}

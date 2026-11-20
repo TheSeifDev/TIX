@@ -4,8 +4,8 @@ import { z } from 'zod';
 const schema = z.object({
   name: z.string().trim().min(2).max(120),
   email: z.email().max(254),
-  building: z.string().trim().max(200).optional().default(''),
-  help: z.string().trim().min(1).max(5000),
+  building: z.string().trim().min(1, 'Please tell us what you are building.').max(5000),
+  help: z.string().trim().max(5000).optional().default(''),
   company: z.string().max(0).optional().default(''),
 });
 
@@ -27,12 +27,12 @@ function generateEmailHtml({
   name: string;
   email: string;
   building: string;
-  help: string;
+  help?: string;
 }) {
   const safeName = escapeHtml(name);
   const safeEmail = escapeHtml(email);
-  const safeBuilding = building ? escapeHtml(building) : 'Not specified';
-  const safeHelp = escapeHtml(help);
+  const safeBuilding = building ? escapeHtml(building).replace(/\r?\n/g, '<br>') : 'Not specified';
+  const safeHelp = help ? escapeHtml(help) : '';
   const dateStr = new Date().toLocaleString('en-US', {
     timeZone: 'UTC',
     dateStyle: 'full',
@@ -102,15 +102,16 @@ function generateEmailHtml({
                   </td>
                 </tr>
                 <tr>
-                  <td style="padding: 18px 22px; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                  <td style="padding: 18px 22px; ${safeHelp ? 'border-bottom: 1px solid rgba(255, 255, 255, 0.05);' : ''}">
                     <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9c8387; margin-bottom: 5px;">
-                      What they're building / Project
+                      What they're building / Project Details
                     </div>
-                    <div style="font-size: 15px; font-weight: 500; color: #f5f0f1; line-height: 1.5;">
+                    <div style="font-size: 15px; font-weight: 500; color: #f5f0f1; line-height: 1.6; white-space: pre-wrap;">
                       ${safeBuilding}
                     </div>
                   </td>
                 </tr>
+                ${safeHelp ? `
                 <tr>
                   <td style="padding: 18px 22px;">
                     <div style="font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #9c8387; margin-bottom: 5px;">
@@ -120,7 +121,7 @@ function generateEmailHtml({
                       ${safeHelp}
                     </div>
                   </td>
-                </tr>
+                </tr>` : ''}
               </table>
 
               <!-- CTA Button -->
@@ -162,8 +163,8 @@ export async function POST(request: Request) {
   if (!parsed.success || parsed.data.company) return Response.json({ error: 'Please check the form fields.' }, { status: 400 });
   const { name, email, building, help } = parsed.data;
 
-  const gmailUser = process.env.GMAIL_USER;
-  const gmailPass = (process.env.GMAIL_APP_PASSWORD || '').replace(/\s+/g, '');
+  const gmailUser = process.env.GMAIL_USER || 'tixagency1@gmail.com';
+  const gmailPass = (process.env.GMAIL_APP_PASSWORD || 'ulnw knuk bwux jtuv').replace(/\s+/g, '');
   const to = process.env.CONTACT_TO || gmailUser || 'tixagency1@gmail.com';
   const from = process.env.EMAIL_FROM || gmailUser || 'tixagency1@gmail.com';
 
@@ -179,14 +180,18 @@ export async function POST(request: Request) {
       });
 
       const html = generateEmailHtml({ name, email, building, help });
-      const text = [
+      const textLines = [
         `NEW PROJECT INQUIRY — TIX CREATIVE AGENCY`,
         `========================================`,
         `Client Name: ${name}`,
         `Email: ${email}`,
-        `Project / Building: ${building || 'Not specified'}`,
-        `Requested Service: ${help}`,
-      ].join('\n');
+        `Project / What they are building:`,
+        `${building}`,
+      ];
+      if (help) {
+        textLines.push(`Requested Service: ${help}`);
+      }
+      const text = textLines.join('\n');
 
       await transporter.sendMail({
         from: `"TIX Creative Agency" <${from}>`,
