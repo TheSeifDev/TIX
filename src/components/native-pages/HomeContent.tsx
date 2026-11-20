@@ -165,6 +165,9 @@ export function HomeContent() {
 
         
         <div className="disrupt__right">
+          <p className="disrupt__scroll-hint" aria-hidden="true">
+            {locale === 'ar' ? 'مرّر أفقيًا للاستكشاف' : 'Scroll horizontally to explore'}
+          </p>
           <div className="disrupt__viewport">
             <div className="disrupt__track" data-disrupt-track>
 
@@ -229,14 +232,14 @@ export function HomeContent() {
         
         <div className="disrupt__outro" data-disrupt-outro role="group" aria-label={locale === 'ar' ? 'أبرز الخدمات الأربع' : 'Four service highlights'}>
           <article className="disrupt__tile">
-            <img src="/assets/images/Chess.webp" alt="" className="disrupt__tile-img" width="768" height="769" loading="lazy" />
+            <img src="/assets/images/strategy.webp" alt="" className="disrupt__tile-img" width="1600" height="1067" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('strategyTile')}</h3>
               <p className="disrupt__tile-sub">{t('strategyTileDescription')}</p>
             </div>
           </article>
           <article className="disrupt__tile">
-            <img src="/assets/images/bts1.webp" alt="" className="disrupt__tile-img" width="1852" height="837" loading="lazy" />
+            <img src="/assets/images/media-production.webp" alt="" className="disrupt__tile-img" width="1600" height="2400" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('mediaTile')}</h3>
               <p className="disrupt__tile-sub">{t('mediaTileDescription')}</p>
@@ -250,7 +253,7 @@ export function HomeContent() {
             </div>
           </article>
           <article className="disrupt__tile">
-            <img src="/assets/images/digital.webp" alt="" className="disrupt__tile-img" width="908" height="917" loading="lazy" />
+            <img src="/assets/images/digital-presence.webp" alt="" className="disrupt__tile-img" width="1600" height="1064" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('digitalTile')}</h3>
               <p className="disrupt__tile-sub">{t('digitalTileDescription')}</p>

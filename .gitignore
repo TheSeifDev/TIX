@@ -15,3 +15,6 @@ recovery-backup-*/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+
+.env

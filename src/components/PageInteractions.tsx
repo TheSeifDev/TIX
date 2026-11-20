@@ -183,30 +183,6 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
     if (disrupt && disruptSticky && disruptTrack && disruptViewport) {
       const outro = disrupt.querySelector<HTMLElement>('[data-disrupt-outro]');
       if (isPhoneViewport) {
-        const cards = gsap.utils.toArray<HTMLElement>('.disrupt__card');
-        if (cards.length > 0) {
-          cards.forEach((card, i) => {
-            card.style.zIndex = `${i + 1}`;
-            card.style.setProperty('--stack-offset', `${i * 8}px`);
-
-            if (i < cards.length - 1) {
-              const nextCard = cards[i + 1];
-              gsap.to(card, {
-                scale: 0.93,
-                opacity: 0.5,
-                transformOrigin: 'top center',
-                ease: 'none',
-                scrollTrigger: {
-                  trigger: nextCard,
-                  start: 'top 75%',
-                  end: 'top 15%',
-                  scrub: true,
-                },
-              });
-            }
-          });
-        }
-
         if (outro && 'IntersectionObserver' in window) {
           const observer = new IntersectionObserver((entries) => {
             if (entries.some((entry) => entry.isIntersecting)) {
