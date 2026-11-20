@@ -26,6 +26,7 @@
 - [x] Translate the stable phrase and all six changing words into Arabic, preserve the concepts/color sequence, and make the Arabic composition and animation RTL.
 - [x] Mirror “The Signal” composition in Arabic so the paragraph is on the left; reposition the other visual/text elements as needed. Keep “The Connection Isn’t Optional” and do not restore “Creative Forces Behind Modern Brands” or other cancelled sections.
 - [x] On mobile widths of 390–467px, keep About headings, body copy, CTA buttons, and imagery within the viewport without persistent reveal offsets clipping content to the left; preserve Arabic RTL and the desktop layout/reveal behavior.
+- [x] Keep the “Built across every touchpoint” heading dark and legible over its light artwork in both English and Arabic, on desktop and mobile.
 
 ## 6. Contact page
 - [x] Preserve the current contact animation, overall composition, and photographs behind the “Let’s Get in Touch” heading; keep the heading and supporting content readable on desktop and mobile.
@@ -34,6 +35,7 @@
 - [x] Make “What do you need help with?” a selectable dropdown-style field with the options “I want to improve my marketing.”, “I need a graphic design post.”, and “I want to create a campaign.” Keep the send-message button and make the form usable.
 - [x] Use a deep, dark burgundy footer rather than bright red or gray. Contact-detail pills must have dark-red fill, white text, and a clean white outline. Use white for all five social icons (Instagram, Facebook, LinkedIn, WhatsApp, TikTok). Keep the “Contact Us” label black-and-white with a white stroke; make logos noticeably larger; centralize and balance the content; bring contact elements closer to the floating character without collisions.
 - [x] Review the Arabic contact page end-to-end: correct RTL direction and placement for headline, supporting copy, form labels/options, footer details, and text; mirror layout where required; keep the split headline readable and unclipped on a phone-sized viewport.
+- [x] On mobile only, lower the footer character cut-out enough to sit naturally against the split headline; preserve desktop positioning and avoid collisions in English and Arabic.
 
 ## 7. Website-wide Arabic and responsive review
 - [x] Apply correct RTL direction to Arabic text and relevant containers; mirror layout when required rather than changing text alignment alone; reposition visual elements, columns, labels, navigation, and supporting content to match the Arabic composition.

@@ -161,6 +161,49 @@ test.describe('mobile and locale regressions', () => {
     }
   });
 
+  test('About touchpoints headline stays dark and legible on the light artwork in both locales', async ({ page }) => {
+    for (const route of ['/about', '/ar/about'] as const) {
+      for (const width of [390, 1440]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(route, { waitUntil: 'domcontentloaded' });
+        const heading = page.locator('[data-touchpoints] .touchpoints__copy h2');
+        await expect(heading).toBeVisible();
+        await expect(heading).toHaveCSS('color', 'rgb(81, 0, 0)');
+        expect(await page.evaluate(() => document.documentElement.lang)).toBe(route.startsWith('/ar') ? 'ar' : 'en');
+      }
+    }
+  });
+
+  test('mobile Contact character sits against the split headline while desktop anchoring stays unchanged', async ({ page }) => {
+    for (const route of ['/contact', '/ar/contact'] as const) {
+      for (const width of [375, 390, 449]) {
+        await page.setViewportSize({ width, height: 844 });
+        await page.goto(route, { waitUntil: 'domcontentloaded' });
+        const footer = page.locator('[data-contact-footer]');
+        const character = footer.locator('[data-contact-character]');
+        await expect(character).toBeVisible();
+        await expect.poll(() => character.evaluate((image) => (image as HTMLImageElement).naturalWidth)).toBeGreaterThan(0);
+        const mobileGeometry = await footer.evaluate((root) => {
+          const image = root.querySelector<HTMLElement>('[data-contact-character]')!;
+          const heading = root.querySelector<HTMLElement>('.contact-footer__headlines')!;
+          const imageBox = image.getBoundingClientRect();
+          return {
+            top: parseFloat(getComputedStyle(image).top),
+            visibleBottom: imageBox.top + imageBox.height * (804 / 833),
+            headlineTop: heading.getBoundingClientRect().top,
+          };
+        });
+        expect(mobileGeometry.top).toBeGreaterThan(0);
+        expect(mobileGeometry.visibleBottom - mobileGeometry.headlineTop).toBeGreaterThanOrEqual(-8);
+        expect(mobileGeometry.visibleBottom - mobileGeometry.headlineTop).toBeLessThanOrEqual(12);
+      }
+
+      await page.setViewportSize({ width: 1440, height: 900 });
+      await page.goto(route, { waitUntil: 'domcontentloaded' });
+      await expect(page.locator('[data-contact-footer] [data-contact-character]')).toHaveCSS('top', '0px');
+    }
+  });
+
   test('mobile Work categories stack vertically with all panels open', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/work', { waitUntil: 'domcontentloaded' });

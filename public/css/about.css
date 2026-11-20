@@ -1912,14 +1912,14 @@ html[lang="ar"] .connection__label {
   left: 50%;
   width: min(72%, 840px);
   margin: 0;
-  color: #fff;
+  color: #510000;
   text-align: center;
   transform: translateX(-50%);
 }
 
 .touchpoints__copy h2 {
   margin: 0;
-  color: #fff;
+  color: #510000;
   font-family: var(--font-display), sans-serif;
   font-size: clamp(2rem, 5vw, 5rem);
   font-weight: 900;
