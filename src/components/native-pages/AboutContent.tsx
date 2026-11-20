@@ -34,9 +34,6 @@ export function AboutContent() {
   const brandWordsLabel = brandWords.map((word) => word.label).join(locale === 'ar' ? '، ' : ', ');
   return (
     <>
-
-  
-  
   <main id="main-content">
     <section className="impact-hero" aria-label={locale === 'ar' ? 'واجهة الاستوديو' : 'Studio hero'}>
       <div className="container impact-hero__inner">

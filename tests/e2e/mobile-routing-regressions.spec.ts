@@ -336,19 +336,20 @@ test.describe('mobile and locale regressions', () => {
       const girl = section.locator('.disrupt__girl');
       const title = section.locator('.disrupt__tagline');
       const outro = section.locator('[data-disrupt-outro]');
-      await expect(girl).toBeVisible();
+      await expect(girl).toBeHidden();
       await expect(title).toBeVisible();
       await expect(sticky).not.toHaveClass(/is-outro/);
       const framing = await section.evaluate((element) => {
         const bounds = element.getBoundingClientRect();
         const within = (selector: string) => {
-          const rect = element.querySelector<HTMLElement>(selector)!.getBoundingClientRect();
+          const el = element.querySelector<HTMLElement>(selector);
+          if (!el) return true;
+          const rect = el.getBoundingClientRect();
           return rect.left >= bounds.left - 1 && rect.right <= bounds.right + 1
             && rect.top >= bounds.top - 1 && rect.bottom <= bounds.bottom + 1;
         };
-        return { girlInside: within('.disrupt__girl'), titleInside: within('.disrupt__tagline') };
+        return { titleInside: within('.disrupt__tagline') };
       });
-      expect(framing.girlInside).toBe(true);
       expect(framing.titleInside).toBe(true);
       await outro.scrollIntoViewIfNeeded();
       await expect(sticky).toHaveClass(/is-outro/);

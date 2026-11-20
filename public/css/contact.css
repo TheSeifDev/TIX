@@ -918,7 +918,7 @@ html[lang="ar"] .contact-single-section .form-select { background-position: left
   margin: 0;
   color: #fff;
   font-family: var(--font-display), sans-serif;
-  font-size: clamp(2.5rem, 6.3vw, 6.5rem);
+  font-size: clamp(2.5rem, 5vw, 5rem);
   font-weight: 950;
   letter-spacing: -.065em;
   line-height: .86;

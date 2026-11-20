@@ -159,7 +159,7 @@ export function HomeContent() {
           <h2 className="disrupt__tagline whitespace-pre-line" id="disrupt-heading" lang={locale} dir={direction}>
             {t('disrupt')}
           </h2>
-          <img src="/assets/images/modelcrop.webp" alt="TIX creative campaign model" className="disrupt__girl"
+          <img src="/assets/images/modelcrop.webp" alt="TIX creative campaign model" className="disrupt__girl max-[900px]:!hidden"
             width="720" height="960" loading="lazy" />
         </div>
 
@@ -230,30 +230,30 @@ export function HomeContent() {
         </div>
 
         
-        <div className="disrupt__outro" data-disrupt-outro role="group" aria-label={locale === 'ar' ? 'أبرز الخدمات الأربع' : 'Four service highlights'}>
+        <div className="disrupt__outro !grid !grid-cols-4 !gap-1 sm:!gap-2" data-disrupt-outro role="group" aria-label={locale === 'ar' ? 'أبرز الخدمات الأربع' : 'Four service highlights'}>
           <article className="disrupt__tile">
-            <img src="/assets/images/strategy.webp" alt="" className="disrupt__tile-img" width="1600" height="1067" loading="lazy" />
+            <img src="/assets/images/strategy.webp" alt="" className="disrupt__tile-img !grayscale contrast-[1.05]" width="1600" height="1067" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('strategyTile')}</h3>
               <p className="disrupt__tile-sub">{t('strategyTileDescription')}</p>
             </div>
           </article>
           <article className="disrupt__tile">
-            <img src="/assets/images/media-production.webp" alt="" className="disrupt__tile-img" width="1600" height="2400" loading="lazy" />
+            <img src="/assets/images/media-production.webp" alt="" className="disrupt__tile-img !grayscale contrast-[1.05]" width="1600" height="2400" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('mediaTile')}</h3>
               <p className="disrupt__tile-sub">{t('mediaTileDescription')}</p>
             </div>
           </article>
           <article className="disrupt__tile">
-            <img src="/assets/images/e.webp" alt="" className="disrupt__tile-img" width="1035" height="589" loading="lazy" />
+            <img src="/assets/images/e.webp" alt="" className="disrupt__tile-img !grayscale contrast-[1.05]" width="1035" height="589" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('marketingTile')}</h3>
               <p className="disrupt__tile-sub">{t('marketingTileDescription')}</p>
             </div>
           </article>
           <article className="disrupt__tile">
-            <img src="/assets/images/digital-presence.webp" alt="" className="disrupt__tile-img" width="1600" height="1064" loading="lazy" />
+            <img src="/assets/images/digital-presence.webp" alt="" className="disrupt__tile-img !grayscale contrast-[1.05]" width="1600" height="1064" loading="lazy" />
             <div className="disrupt__tile-copy">
               <h3 className="disrupt__tile-title">{t('digitalTile')}</h3>
               <p className="disrupt__tile-sub">{t('digitalTileDescription')}</p>
