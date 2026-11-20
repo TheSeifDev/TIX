@@ -115,6 +115,9 @@ export function HomeBrandsSection() {
       aria-label={t('brandShowcase')}
       aria-roledescription={t('brandCarousel')}
     >
+      <p className="home-brands__scroll-hint" aria-hidden="true">
+        {t('brandScrollHint')}
+      </p>
       <div
         className="home-brands__viewport"
         data-home-brands-viewport
@@ -168,9 +171,6 @@ export function HomeBrandsSection() {
           ))}
         </div>
       </div>
-      <p className="home-brands__scroll-hint" aria-hidden="true">
-        {t('brandScrollHint')}
-      </p>
     </section>
   );
 }

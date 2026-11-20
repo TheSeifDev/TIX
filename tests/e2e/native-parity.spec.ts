@@ -46,6 +46,10 @@ test.describe('native route parity', () => {
           logoCenterDelta: Math.abs((logo.left + logo.width / 2) - (stage.left + stage.width / 2)),
           logoWidth: logo.width,
           cardHeight: card.getBoundingClientRect().height,
+          cardBackground: getComputedStyle(card).backgroundColor,
+          cardColor: getComputedStyle(card).color,
+          cardBorderWidth: getComputedStyle(card).borderTopWidth,
+          cardTitleColor: getComputedStyle(titleRule).color,
           titleZ: Number.parseInt(getComputedStyle(title).zIndex || '0', 10),
           girlZ: Number.parseInt(getComputedStyle(girl).zIndex || '0', 10),
           girlBlendMode: getComputedStyle(girl).mixBlendMode,
@@ -59,6 +63,10 @@ test.describe('native route parity', () => {
       expect(metrics.logoCenterDelta).toBeLessThan(2);
       expect(metrics.logoWidth).toBeGreaterThan(viewport.width <= 900 ? 80 : 200);
       expect(metrics.cardHeight).toBeGreaterThan(180);
+      expect(metrics.cardBackground).toBe('rgb(255, 255, 255)');
+      expect(metrics.cardColor).toBe('rgb(17, 17, 17)');
+      expect(metrics.cardTitleColor).toBe('rgb(97, 0, 0)');
+      if (viewport.width <= 900) expect(metrics.cardBorderWidth).toBe('6px');
       expect(await section.locator('.disrupt__card').count()).toBe(6);
       expect(await section.locator('.disrupt__tile').count()).toBe(4);
       expect(metrics.titleZ).toBeLessThan(metrics.girlZ);
@@ -160,8 +168,21 @@ test.describe('native route parity', () => {
     await page.goto('/ar', { waitUntil: 'networkidle' });
     const mobileSection = page.locator('[data-home-brands]');
     const viewport = mobileSection.locator('[data-home-brands-viewport]');
+    const scrollHint = mobileSection.locator('.home-brands__scroll-hint');
     await mobileSection.scrollIntoViewIfNeeded();
     await expect(mobileSection).not.toHaveAttribute('data-scroll-driven');
+    await expect(scrollHint).toBeVisible();
+    const hintPosition = await mobileSection.evaluate((element) => {
+      const hint = element.querySelector<HTMLElement>('.home-brands__scroll-hint')!;
+      const gallery = element.querySelector<HTMLElement>('[data-home-brands-viewport]')!;
+      return {
+        precedesGallery: Boolean(hint.compareDocumentPosition(gallery) & Node.DOCUMENT_POSITION_FOLLOWING),
+        hintBottom: hint.getBoundingClientRect().bottom,
+        galleryTop: gallery.getBoundingClientRect().top,
+      };
+    });
+    expect(hintPosition.precedesGallery).toBe(true);
+    expect(hintPosition.hintBottom).toBeLessThanOrEqual(hintPosition.galleryTop + 1);
     await expect.poll(() => viewport.evaluate((element) => element.scrollWidth > element.clientWidth)).toBe(true);
     await viewport.evaluate((element) => element.scrollTo({ left: element.scrollWidth, behavior: 'instant' }));
     await expect.poll(() => viewport.evaluate((element) => element.scrollLeft)).toBeGreaterThan(0);
