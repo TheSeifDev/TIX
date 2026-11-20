@@ -31,7 +31,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href="/css/services.css" />
         {/* eslint-disable-next-line @next/next/no-css-tags */}
-        <link rel="stylesheet" href="/css/work.css" />
+        <link rel="stylesheet" href="/css/work.css?v=2" />
         {/* eslint-disable-next-line @next/next/no-css-tags */}
         <link rel="stylesheet" href="/css/contact.css" />
       </head>

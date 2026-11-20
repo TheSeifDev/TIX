@@ -190,6 +190,11 @@
   background: #050505;
 }
 
+.work-gallery--studio {
+  padding-top: calc(var(--nav-height, 72px) + clamp(1.5rem, 3.5vw, 3rem));
+  background: #060606;
+}
+
 .work-gallery__glow {
   position: absolute;
   inset: 0;

@@ -60,7 +60,7 @@ test.describe('mobile and locale regressions', () => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/work', { waitUntil: 'domcontentloaded' });
 
-    const categoryKeys = ['realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
+    const categoryKeys = ['fashion', 'realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
     const categories = page.locator('.wg-cat');
     await expect(categories).toHaveCount(categoryKeys.length);
     for (const categoryKey of categoryKeys) {
@@ -210,9 +210,9 @@ test.describe('mobile and locale regressions', () => {
 
     const track = page.locator('[data-category-track]');
     const categories = page.locator('.wg-cat');
-    await expect(categories).toHaveCount(6);
-    const expectedCategoryKeys = ['realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
-    const expectedCategoryNames = ['REAL ESTATE & CORPORATES', 'EVENTS & CONCERTS', 'FOOD & BEVERAGE', 'PERFUME & BEAUTY', 'JEWELRY & LUXURY', 'WORK GALLERY'];
+    await expect(categories).toHaveCount(7);
+    const expectedCategoryKeys = ['fashion', 'realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
+    const expectedCategoryNames = ['FASHION', 'REAL ESTATE & CORPORATES', 'EVENTS & CONCERTS', 'FOOD & BEVERAGE', 'PERFUME & BEAUTY', 'JEWELRY & LUXURY', 'WORK GALLERY'];
     expect(await categories.evaluateAll((items) => items.map((item) => item.getAttribute('data-category')))).toEqual(expectedCategoryKeys);
     await expect(track.locator('.wg-cat__name')).toHaveText(expectedCategoryNames);
     await expect(track).toHaveAttribute('tabindex', '0');
@@ -269,9 +269,9 @@ test.describe('mobile and locale regressions', () => {
     await page.goto('/work', { waitUntil: 'domcontentloaded' });
     const track = page.locator('[data-category-track]');
     const categories = page.locator('.wg-cat');
-    await expect(categories).toHaveCount(6);
-    const expectedCategoryKeys = ['realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
-    const expectedCategoryNames = ['REAL ESTATE & CORPORATES', 'EVENTS & CONCERTS', 'FOOD & BEVERAGE', 'PERFUME & BEAUTY', 'JEWELRY & LUXURY', 'WORK GALLERY'];
+    await expect(categories).toHaveCount(7);
+    const expectedCategoryKeys = ['fashion', 'realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
+    const expectedCategoryNames = ['FASHION', 'REAL ESTATE & CORPORATES', 'EVENTS & CONCERTS', 'FOOD & BEVERAGE', 'PERFUME & BEAUTY', 'JEWELRY & LUXURY', 'WORK GALLERY'];
     expect(await categories.evaluateAll((items) => items.map((item) => item.getAttribute('data-category')))).toEqual(expectedCategoryKeys);
     await expect(track.locator('.wg-cat__name')).toHaveText(expectedCategoryNames);
     for (const category of await categories.all()) {
@@ -302,10 +302,10 @@ test.describe('mobile and locale regressions', () => {
     const categories = page.locator('.wg-cat');
     await expect(track).toHaveAttribute('dir', 'rtl');
     expect(await categories.evaluateAll((items) => items.map((item) => item.getAttribute('data-category')))).toEqual([
-      'realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery',
+      'fashion', 'realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery',
     ]);
     await expect(track.locator('.wg-cat__name')).toHaveText([
-      'العقارات والشركات', 'الفعاليات والحفلات', 'الطعام والمشروبات', 'العطور والجمال', 'المجوهرات والفخامة', 'معرض الأعمال',
+      'الأزياء', 'العقارات والشركات', 'الفعاليات والحفلات', 'الطعام والمشروبات', 'العطور والجمال', 'المجوهرات والفخامة', 'معرض الأعمال',
     ]);
     for (const category of await categories.all()) {
       await expect(category.locator('.wg-panel')).toBeVisible();

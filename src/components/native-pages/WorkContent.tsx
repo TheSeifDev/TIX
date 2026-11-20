@@ -95,7 +95,7 @@ export function WorkContent() {
             </span>
           </button>
           <ul className="work-gallery__menu" id="work-filter-menu" role="listbox" hidden>
-            <li><a href="#wg-realestate" data-jump="realestate">{t('realestate')}</a></li><li><a href="#wg-events" data-jump="events">{t('events')}</a></li><li><a href="#wg-food" data-jump="food">{t('food')}</a></li><li><a href="#wg-beauty" data-jump="beauty">{t('beauty')}</a></li><li><a href="#wg-jewelry" data-jump="jewelry">{t('jewelry')}</a></li><li><a href="#wg-work-gallery" data-jump="workgallery">{t('gallery')}</a></li>
+            <li><a href="#wg-fashion" data-jump="fashion">{t('fashion')}</a></li><li><a href="#wg-realestate" data-jump="realestate">{t('realestate')}</a></li><li><a href="#wg-events" data-jump="events">{t('events')}</a></li><li><a href="#wg-food" data-jump="food">{t('food')}</a></li><li><a href="#wg-beauty" data-jump="beauty">{t('beauty')}</a></li><li><a href="#wg-jewelry" data-jump="jewelry">{t('jewelry')}</a></li><li><a href="#wg-work-gallery" data-jump="workgallery">{t('gallery')}</a></li>
           </ul>
         </div>
         
@@ -107,7 +107,7 @@ export function WorkContent() {
           aria-label={copy('scrollCategories')}
           tabIndex={0}
         >
-        <article className="wg-cat is-open" data-category="realestate" id="wg-realestate">
+        <article className="wg-cat is-open" data-category="fashion" id="wg-fashion">
           <header className="wg-cat__head wg-cat__head--start">
             <div className="wg-cat__brand">
               <span className="wg-arrow wg-arrow--first" aria-hidden="true">
@@ -120,6 +120,67 @@ export function WorkContent() {
               <span className="wg-cat__tix-text">TIX</span>
               <h2 className="wg-cat__title">{t('gallery')}</h2>
             </div>
+            <div className="wg-cat__aside">
+            <h3 className="wg-cat__name">{t('categories.fashion')}</h3>
+              <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
+                aria-controls="wg-panel-fashion">
+                <svg className="wg-arrow__fallback" width="22" height="22" viewBox="0 0 24 24" fill="none"
+                  aria-hidden="true">
+                  <path d="M17 7L7 17M7 17H15M7 17V9" stroke="white" strokeWidth="2.2" strokeLinecap="round"
+                    strokeLinejoin="round" />
+                </svg>
+              </button>
+            </div>
+          </header>
+
+          <div className="wg-panel" id="wg-panel-fashion" role="region" aria-label={t('categories.fashion')}>
+            <div className="wg-panel__meta">
+            <h4 className="wg-panel__eyebrow">{t('eyebrows.fashion')}</h4>
+            <p className="wg-panel__desc">{t('descriptions.fashion')}</p>
+            </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
+            <div className="wg-strip" data-strip>
+              <button type="button" className="wg-card is-active" data-label="STUDIO SESSIONS">
+                <div className="wg-card__media"><img src="/assets/images/fashion1.webp" alt="Fashion editorial 01" loading="lazy" /></div>
+                <span className="wg-card__tag">
+                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
+                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> STUDIO SESSIONS</span>
+                </span>
+              </button>
+              <button type="button" className="wg-card" data-label="MODEL CASTING">
+                <div className="wg-card__media"><img src="/assets/images/fashion2.webp" alt="Fashion editorial 02" loading="lazy" /></div>
+                <span className="wg-card__tag">
+                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
+                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> MODEL CASTING</span>
+                </span>
+              </button>
+              <button type="button" className="wg-card" data-label="PRODUCT STYLING">
+                <div className="wg-card__media"><img src="/assets/images/fashion3.webp" alt="Fashion editorial 03" loading="lazy" /></div>
+                <span className="wg-card__tag">
+                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
+                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> PRODUCT STYLING</span>
+                </span>
+              </button>
+              <button type="button" className="wg-card" data-label="CREATIVE DIRECTION">
+                <div className="wg-card__media"><img src="/assets/images/fashion4.webp" alt="Fashion editorial 04" loading="lazy" /></div>
+                <span className="wg-card__tag">
+                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
+                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> CREATIVE DIRECTION</span>
+                </span>
+              </button>
+              <button type="button" className="wg-card" data-label="FASHION PHOTOGRAPHY">
+                <div className="wg-card__media"><img src="/assets/images/fashion%205.webp" alt="Fashion editorial 05" loading="lazy" /></div>
+                <span className="wg-card__tag">
+                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
+                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> FASHION PHOTOGRAPHY</span>
+                </span>
+              </button>
+            </div>
+          </div>
+        </article>
+
+        <article className="wg-cat is-open" data-category="realestate" id="wg-realestate">
+          <header className="wg-cat__head wg-cat__head--zig-right">
             <div className="wg-cat__aside">
             <h3 className="wg-cat__name">{t('categories.realestate')}</h3>
               <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
