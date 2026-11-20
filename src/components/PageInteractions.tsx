@@ -309,7 +309,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
         const key = link.dataset.jump;
         const category = gallery?.querySelector<HTMLElement>(`.wg-cat[data-category="${key}"]`);
         closeFilter();
-        category?.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+        category?.scrollIntoView({ behavior: scrollBehavior, block: 'start', inline: 'nearest' });
       }));
       categories.forEach((category, index) => {
         const panel = category.querySelector<HTMLElement>('.wg-panel');
@@ -324,29 +324,24 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
           nextButton.disabled = index === categories.length - 1;
           on(nextButton, 'click', () => categories[index + 1]?.scrollIntoView({
             behavior: scrollBehavior,
-            block: 'nearest',
-            inline: 'start',
+            block: 'start',
+            inline: 'nearest',
           }));
         }
       });
       if (categoryTrack) on(categoryTrack, 'keydown', (event) => {
         const keyboardEvent = event as KeyboardEvent;
-        if (keyboardEvent.key !== 'ArrowLeft' && keyboardEvent.key !== 'ArrowRight') return;
-        const isRtl = getComputedStyle(categoryTrack!).direction === 'rtl';
-        const movesForward = isRtl ? keyboardEvent.key === 'ArrowLeft' : keyboardEvent.key === 'ArrowRight';
-        const railRect = categoryTrack!.getBoundingClientRect();
-        const railCenter = railRect.left + railRect.width / 2;
-        const currentIndex = categories.reduce((closestIndex, category, index) => {
-          const currentDistance = Math.abs(categories[closestIndex].getBoundingClientRect().left + categories[closestIndex].getBoundingClientRect().width / 2 - railCenter);
-          const candidateRect = category.getBoundingClientRect();
-          const candidateDistance = Math.abs(candidateRect.left + candidateRect.width / 2 - railCenter);
-          return candidateDistance < currentDistance ? index : closestIndex;
-        }, 0);
-        const targetIndex = currentIndex + (movesForward ? 1 : -1);
+        if (keyboardEvent.key !== 'ArrowUp' && keyboardEvent.key !== 'ArrowDown') return;
+        const focusedIndex = categories.findIndex(category => category.contains(document.activeElement));
+        const startIndex = focusedIndex < 0
+          ? (keyboardEvent.key === 'ArrowDown' ? -1 : categories.length)
+          : focusedIndex;
+        const targetIndex = startIndex + (keyboardEvent.key === 'ArrowDown' ? 1 : -1);
         const target = categories[targetIndex];
         if (!target) return;
         keyboardEvent.preventDefault();
-        target.scrollIntoView({ behavior: scrollBehavior, block: 'nearest', inline: 'center' });
+        target.scrollIntoView({ behavior: scrollBehavior, block: 'start', inline: 'nearest' });
+        target.querySelector<HTMLButtonElement>('.wg-arrow--second')?.focus({ preventScroll: true });
       });
       gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
         const isTouchLayout = window.matchMedia('(max-width: 900px), (pointer: coarse)').matches;

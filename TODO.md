@@ -12,7 +12,7 @@
 - [x] Implement a natural scroll-driven progression through all five brand entries, without letting photos or names disappear behind clipping containers. Keep it smooth on desktop and sensible and performant on mobile.
 
 ## 3. Work page: category presentation
-- [x] Replace only the six accordion/category interactions—Real Estate, Event and Concert, Food and Beverage, Perfume and Beauty, Jewelry and Luxury, and Work Gallery—with a lightweight horizontal carousel or equivalent controlled scrolling interaction. Visitors must be able to move through the categories to the end.
+- [x] Replace only the six accordion/category interactions—Real Estate, Event and Concert, Food and Beverage, Perfume and Beauty, Jewelry and Luxury, and Work Gallery—with a lightweight vertical stack. Show each category under the previous one, not side by side; visitors should reach all categories by normal page scrolling. Keep each category's internal photo strip intact and avoid nested accordion animations or excessive transitions.
 - [x] Preserve the approved Work page design, content, spacing, heights, transitions, existing main page scrolling behavior, and Arabic version; avoid nested accordion animations and excessive transitions.
 
 ## 4. Services page

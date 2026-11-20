@@ -71,7 +71,7 @@ test.describe('mobile and locale regressions', () => {
     }
   });
 
-  test('mobile Work categories stay open in a horizontally scrollable rail', async ({ page }) => {
+  test('mobile Work categories stack vertically with all panels open', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/work', { waitUntil: 'domcontentloaded' });
 
@@ -88,16 +88,32 @@ test.describe('mobile and locale regressions', () => {
       await expect(category.locator('.wg-panel')).not.toHaveAttribute('hidden');
       await expect(category.locator('.wg-arrow--second')).not.toHaveAttribute('aria-expanded');
     }
-
-    for (let index = 0; index < 5; index += 1) {
-      const nextButton = categories.nth(index).locator('.wg-arrow--second');
-      await nextButton.scrollIntoViewIfNeeded();
-      const beforeNext = await track.evaluate((element) => element.scrollLeft);
-      await nextButton.click();
-      await expect.poll(() => track.evaluate((element) => element.scrollLeft)).not.toBe(beforeNext);
+    const geometry = await track.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      scrollWidth: element.scrollWidth,
+      bounds: element.getBoundingClientRect().toJSON(),
+      cards: [...element.querySelectorAll<HTMLElement>('.wg-cat')].map((card) => card.getBoundingClientRect().toJSON()),
+    }));
+    expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+    for (let index = 0; index < geometry.cards.length; index += 1) {
+      const card = geometry.cards[index];
+      expect(card.left).toBeGreaterThanOrEqual(geometry.bounds.left - 1);
+      expect(card.right).toBeLessThanOrEqual(geometry.bounds.right + 1);
+      if (index > 0) expect(card.top).toBeGreaterThanOrEqual(geometry.cards[index - 1].bottom);
     }
-    await expect(categories.last()).toBeVisible();
-    await expect(page.locator('.wg-cat[data-category="realestate"] .wg-panel')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+
+    await track.focus();
+    await page.keyboard.press('ArrowDown');
+    await expect(categories.nth(0).locator('.wg-arrow--second')).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(categories.nth(1).locator('.wg-arrow--second')).toBeFocused();
+
+    await categories.first().scrollIntoViewIfNeeded();
+    const beforeNext = await page.evaluate(() => window.scrollY);
+    await categories.first().locator('.wg-arrow--second').click();
+    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(beforeNext);
+    await expect(categories.nth(1)).toBeInViewport();
 
     await page.locator('#work-filter-btn').click();
     await page.locator('#work-filter-menu [data-jump="realestate"]').click();
@@ -112,7 +128,7 @@ test.describe('mobile and locale regressions', () => {
     await expect.poll(() => workGalleryImages.evaluateAll((images) => images.every((image) => (image as HTMLImageElement).naturalWidth > 0))).toBe(true);
   });
 
-  test('desktop Work rail advances through the final category without accordion toggles', async ({ page }) => {
+  test('desktop Work categories stack vertically without horizontal overflow', async ({ page }) => {
     await page.setViewportSize({ width: 1440, height: 900 });
     await page.goto('/work', { waitUntil: 'domcontentloaded' });
     const track = page.locator('[data-category-track]');
@@ -125,26 +141,22 @@ test.describe('mobile and locale regressions', () => {
     for (const category of await categories.all()) {
       await expect(category.locator('.wg-panel')).toBeVisible();
       await expect(category.locator('.wg-panel')).not.toHaveAttribute('hidden');
+      await expect(category.locator('.wg-arrow--second')).not.toHaveAttribute('aria-expanded');
     }
-    for (let index = 0; index < 5; index += 1) {
-      const nextButton = categories.nth(index).locator('.wg-arrow--second');
-      await nextButton.scrollIntoViewIfNeeded();
-      const beforeNext = await track.evaluate((element) => element.scrollLeft);
-      await nextButton.click();
-      await expect.poll(() => track.evaluate((element) => element.scrollLeft)).not.toBe(beforeNext);
+    const geometry = await track.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      scrollWidth: element.scrollWidth,
+      bounds: element.getBoundingClientRect().toJSON(),
+      cards: [...element.querySelectorAll<HTMLElement>('.wg-cat')].map((card) => card.getBoundingClientRect().toJSON()),
+    }));
+    expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+    for (let index = 0; index < geometry.cards.length; index += 1) {
+      const card = geometry.cards[index];
+      expect(card.left).toBeGreaterThanOrEqual(geometry.bounds.left - 1);
+      expect(card.right).toBeLessThanOrEqual(geometry.bounds.right + 1);
+      if (index > 0) expect(card.top).toBeGreaterThanOrEqual(geometry.cards[index - 1].bottom);
     }
-    const lastCategory = categories.last();
-    await expect.poll(async () => {
-      const last = await lastCategory.boundingBox();
-      const rail = await track.boundingBox();
-      return Boolean(last && rail && last.x >= rail.x - 2 && last.x + last.width <= rail.x + rail.width + 2);
-    }).toBe(true);
-    const lastBox = await lastCategory.boundingBox();
-    const trackBox = await track.boundingBox();
-    expect(lastBox).not.toBeNull();
-    expect(trackBox).not.toBeNull();
-    expect(lastBox!.x).toBeGreaterThanOrEqual(trackBox!.x - 2);
-    expect(lastBox!.x + lastBox!.width).toBeLessThanOrEqual(trackBox!.x + trackBox!.width + 2);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 
   test('Arabic Work rail presents the six requested categories in RTL order', async ({ page }) => {
@@ -160,6 +172,16 @@ test.describe('mobile and locale regressions', () => {
       'العقارات والشركات', 'الفعاليات والحفلات', 'الطعام والمشروبات', 'العطور والجمال', 'المجوهرات والفخامة', 'معرض الأعمال',
     ]);
     for (const category of await categories.all()) await expect(category.locator('.wg-panel')).toBeVisible();
+    const geometry = await track.evaluate((element) => ({
+      clientWidth: element.clientWidth,
+      scrollWidth: element.scrollWidth,
+      cards: [...element.querySelectorAll<HTMLElement>('.wg-cat')].map((card) => card.getBoundingClientRect().toJSON()),
+    }));
+    expect(geometry.scrollWidth).toBeLessThanOrEqual(geometry.clientWidth + 1);
+    for (let index = 1; index < geometry.cards.length; index += 1) {
+      expect(geometry.cards[index].top).toBeGreaterThanOrEqual(geometry.cards[index - 1].bottom);
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   });
 
   test('mobile Disrupt keeps the girl and copy inside the frame and reveals four service cards', async ({ page }) => {
