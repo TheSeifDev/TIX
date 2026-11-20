@@ -1467,12 +1467,12 @@
 }
 
 .touchpoints__card--3 {
-  top: 58.5%;
+  top: 52%;
   left: 6%;
 }
 
 .touchpoints__card--4 {
-  top: 58.5%;
+  top: 52%;
   right: 6%;
 }
 
@@ -1535,7 +1535,7 @@
 
   .touchpoints__card--3,
   .touchpoints__card--4 {
-    top: 58.5%;
+    top: 52%;
   }
 }
 
@@ -1797,12 +1797,35 @@ html[lang="ar"] .brand-focus__window {
   letter-spacing: 0;
 }
 
+html[lang="ar"] .brand-focus__line {
+  font-size: clamp(1.75rem, 4.4vw, 3.6rem);
+  font-weight: 500;
+  min-height: clamp(5.2rem, 8.5vw, 7.5rem);
+  line-height: 1.35;
+}
+
+html[lang="ar"] .brand-focus__window {
+  min-width: clamp(9.5rem, 20vw, 17rem);
+}
+
+@media (max-width: 768px) {
+  html[lang="ar"] .brand-focus__line {
+    font-size: clamp(1.35rem, 5.5vw, 2.1rem);
+    min-height: 4.4rem;
+    padding-inline: 1.25rem;
+  }
+
+  html[lang="ar"] .brand-focus__window {
+    min-width: clamp(7.5rem, 25vw, 11rem);
+  }
+}
+
 html[lang="ar"] .brand-focus__track {
   line-height: 1.45em;
   animation-name: brandWordRollSixArabic;
 }
 
-html[lang="ar"] .brand-focus__track > span { height: 1.45em; }
+html[lang="ar"] .brand-focus__track > span { height: 1.45em; font-weight: 700; }
 
 @keyframes brandWordRollSixArabic {
   0%, 12% { transform: translateY(0); }
@@ -1966,8 +1989,8 @@ html[lang="ar"] .connection__label {
 
 .touchpoints__card--1 { top: 25%; left: 3%; }
 .touchpoints__card--2 { top: 25%; right: 3%; }
-.touchpoints__card--3 { bottom: 5%; left: 5%; }
-.touchpoints__card--4 { right: 5%; bottom: 5%; }
+.touchpoints__card--3 { top: auto; bottom: 11%; left: 5%; }
+.touchpoints__card--4 { top: auto; right: 5%; bottom: 11%; }
 
 @media (max-width: 900px) {
   .touchpoints { width: 100%; }
@@ -1994,8 +2017,8 @@ html[lang="ar"] .connection__label {
   }
   .touchpoints__card--1 { top: 27%; left: 3%; }
   .touchpoints__card--2 { top: 27%; right: 3%; }
-  .touchpoints__card--3 { bottom: 4%; left: 3%; }
-  .touchpoints__card--4 { right: 3%; bottom: 4%; }
+  .touchpoints__card--3 { top: auto; bottom: 9.5%; left: 3%; }
+  .touchpoints__card--4 { top: auto; right: 3%; bottom: 9.5%; }
 
   html[lang="ar"] .signal-intro__inner { grid-template-columns: minmax(0, 1fr); }
   html[lang="ar"] .signal-intro__left,
