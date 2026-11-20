@@ -774,12 +774,7 @@ test.describe('native route parity', () => {
     await expect(page.locator('.contact-copy__eyebrow')).toHaveText("LET'S GET IN TOUCH");
     await expect(page.locator('.contact-copy__service')).toHaveText('Strategy. Production. Digital. Visual.');
     await expect(page.locator('.contact-copy__body')).toHaveText("Tell us what you're building, what you're imagining, what your brand is missing.");
-    await expect(page.locator('select[name="help"] option')).toHaveText([
-      'Choose how we can help',
-      'I want to improve my marketing.',
-      'I need a graphic design post.',
-      'I want to create a campaign.',
-    ]);
+    await expect(page.locator('textarea[name="building"]')).toBeVisible();
     const footerCopy = await page.locator('[data-contact-footer] .contact-footer__headlines').textContent();
     expect((footerCopy || '').replace(/\s+/g, ' ').trim()).toBe("Let's make something impossible to ignore.");
     for (const viewport of viewports) {
