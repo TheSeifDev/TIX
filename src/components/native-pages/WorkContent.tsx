@@ -44,7 +44,7 @@ export function WorkContent() {
         <div className="work-hero__bento">
           <img
             src="/assets/images/Images%20Container.webp"
-            alt="Selected TIX campaign photography collage"
+            alt=" TIX campaign photography collage"
             className="work-hero__bento-img"
             width="1400"
             height="900"
@@ -95,7 +95,7 @@ export function WorkContent() {
             </span>
           </button>
           <ul className="work-gallery__menu" id="work-filter-menu" role="listbox" hidden>
-            <li><a href="#wg-fashion" data-jump="fashion">{t('fashion')}</a></li><li><a href="#wg-realestate" data-jump="realestate">{t('realestate')}</a></li><li><a href="#wg-events" data-jump="events">{t('events')}</a></li><li><a href="#wg-food" data-jump="food">{t('food')}</a></li><li><a href="#wg-beauty" data-jump="beauty">{t('beauty')}</a></li><li><a href="#wg-jewelry" data-jump="jewelry">{t('jewelry')}</a></li><li><a href="#wg-work-gallery" data-jump="workgallery">{t('gallery')}</a></li>
+            <li><a href="#wg-fashion" data-jump="fashion">{t('fashion')}</a></li><li><a href="#wg-realestate" data-jump="realestate">{t('realestate')}</a></li><li><a href="#wg-events" data-jump="events">{t('events')}</a></li><li><a href="#wg-food" data-jump="food">{t('food')}</a></li><li><a href="#wg-beauty" data-jump="beauty">{t('beauty')}</a></li><li><a href="#wg-jewelry" data-jump="jewelry">{t('jewelry')}</a></li>
           </ul>
         </div>
         
@@ -489,68 +489,6 @@ export function WorkContent() {
                   <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
                   <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> LUXURY
                     FILM</span>
-                </span>
-              </button>
-            </div>
-          </div>
-        </article>
-
-        
-        <article className="wg-cat is-open" data-category="workgallery" id="wg-work-gallery">
-          <header className="wg-cat__head wg-cat__head--zig-right">
-            <div className="wg-cat__aside">
-              <h3 className="wg-cat__name">{t('gallery')}</h3>
-              <button type="button" className="wg-arrow wg-arrow--second" aria-expanded="true"
-                aria-controls="wg-panel-work-gallery">
-                <svg className="wg-arrow__fallback wg-arrow__fallback--flip" width="22" height="22" viewBox="0 0 24 24"
-                  fill="none" aria-hidden="true">
-                  <path d="M7 17L17 7M17 7H9M17 7V15" stroke="white" strokeWidth="2.2" strokeLinecap="round"
-                    strokeLinejoin="round" />
-                </svg>
-              </button>
-            </div>
-          </header>
-
-          <div className="wg-panel" id="wg-panel-work-gallery" role="region" aria-label={t('gallery')}>
-            <div className="wg-panel__meta">
-            <h4 className="wg-panel__eyebrow">{t('story')}</h4>
-              <p className="wg-panel__desc">{t('subtitle')}</p>
-            </div>
-            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
-            <div className="wg-strip" data-strip>
-              <button type="button" className="wg-card is-active" data-label="REAL ESTATE & CORPORATES">
-                <div className="wg-card__media"><img src="/assets/images/r1.webp" alt="Real estate project" loading="lazy" /></div>
-                <span className="wg-card__tag">
-                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
-                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> REAL ESTATE & CORPORATES</span>
-                </span>
-              </button>
-              <button type="button" className="wg-card" data-label="EVENT & CONCERT">
-                <div className="wg-card__media"><img src="/assets/images/e1.webp" alt="Live event and concert" loading="lazy" /></div>
-                <span className="wg-card__tag">
-                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
-                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> EVENT & CONCERT</span>
-                </span>
-              </button>
-              <button type="button" className="wg-card" data-label="FOOD & BEVERAGE">
-                <div className="wg-card__media"><img src="/assets/images/f1.webp" alt="Food and beverage campaign" loading="lazy" /></div>
-                <span className="wg-card__tag">
-                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
-                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> FOOD & BEVERAGE</span>
-                </span>
-              </button>
-              <button type="button" className="wg-card" data-label="PERFUME & BEAUTY">
-                <div className="wg-card__media"><img src="/assets/images/b1.webp" alt="Perfume and beauty campaign" loading="lazy" /></div>
-                <span className="wg-card__tag">
-                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
-                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> PERFUME & BEAUTY</span>
-                </span>
-              </button>
-              <button type="button" className="wg-card" data-label="JEWELRY & LUXURY">
-                <div className="wg-card__media"><img src="/assets/images/je1.webp" alt="Jewelry and luxury campaign" loading="lazy" /></div>
-                <span className="wg-card__tag">
-                  <span className="wg-card__tag-view">VIEW ALL <span className="wg-card__tag-go" aria-hidden="true">→</span></span>
-                  <span className="wg-card__tag-label"><span className="wg-card__dot" aria-hidden="true">↗</span> JEWELRY & LUXURY</span>
                 </span>
               </button>
             </div>
