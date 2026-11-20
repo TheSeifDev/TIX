@@ -206,8 +206,8 @@ export function ArabicHomeContent() {
 
         
         <div className="disrupt__left">
-          <h2 className="disrupt__tagline">
-            اكسر<br />المألوف<br />بجرأة.
+          <h2 className="disrupt__tagline max-[900px]:!whitespace-nowrap max-[900px]:!text-center">
+            اكسر<br className="max-[900px]:hidden" />المألوف<br className="max-[900px]:hidden" />بجرأة.
           </h2>
           <img src="../assets/images/modelcrop.webp" alt="عارضة في حملة إبداعية من TIX" className="disrupt__girl max-[900px]:!hidden"
             width="720" height="960" loading="lazy" />

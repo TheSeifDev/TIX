@@ -3340,51 +3340,62 @@ html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
     top: auto;
     left: auto;
     width: clamp(140px, 38vw, 195px);
-    margin: 0 0 0.4rem 0;
+    margin: 0 auto 0.5rem auto !important;
     transform: none;
     opacity: 1;
     z-index: 3;
-    display: block;
+    display: flex;
+    justify-content: center;
+  }
+  .disrupt__tix-img {
+    margin: 0 auto;
   }
   html[lang="ar"] .disrupt__tix {
-    margin: 0 0 0.4rem auto;
+    margin: 0 auto 0.5rem auto !important;
   }
   .disrupt__left {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
+    align-items: center !important;
+    justify-content: center !important;
+    text-align: center !important;
     width: 100%;
     min-height: auto;
     height: auto;
-    margin: 0 0 0.6rem;
+    margin: 0 auto 0.6rem;
     overflow: visible;
   }
   html[lang="ar"] .disrupt__left {
-    align-items: flex-start;
+    align-items: center !important;
+    text-align: center !important;
   }
   .disrupt__tagline {
     position: relative;
-    width: 100%;
+    width: auto;
     max-width: 100%;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
     transform: none !important;
-    font-size: clamp(1.35rem, 5.2vw, 1.95rem);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    text-align: left;
-    text-wrap: balance;
+    font-size: clamp(0.92rem, 4.1vw, 1.35rem) !important;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    text-align: center !important;
+    white-space: nowrap !important;
     color: #ffffff;
     font-weight: 800;
     z-index: 1;
   }
+  .disrupt__tagline br {
+    display: none !important;
+  }
   html[lang="ar"] .disrupt__tagline {
-    text-align: right;
+    text-align: center !important;
+    white-space: nowrap !important;
     font-family: "Readex Pro", "Noto Sans Arabic", Tahoma, sans-serif;
     letter-spacing: 0;
     max-width: 100%;
+    margin: 0 auto;
   }
   .disrupt__girl {
     display: none !important;

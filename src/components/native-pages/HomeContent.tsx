@@ -156,7 +156,7 @@ export function HomeContent() {
 
         
         <div className="disrupt__left">
-          <h2 className="disrupt__tagline whitespace-pre-line" id="disrupt-heading" lang={locale} dir={direction}>
+          <h2 className="disrupt__tagline whitespace-pre-line max-[900px]:!whitespace-nowrap max-[900px]:!text-center" id="disrupt-heading" lang={locale} dir={direction}>
             {t('disrupt')}
           </h2>
           <img src="/assets/images/modelcrop.webp" alt="TIX creative campaign model" className="disrupt__girl max-[900px]:!hidden"
