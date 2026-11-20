@@ -14,6 +14,24 @@ type BrandEntry = {
 
 const brandEntries: BrandEntry[] = [
   {
+    id: 'kenz',
+    title: 'KENZ',
+    photos: [
+      {
+        src: '/assets/images/brands/kenz-main.webp',
+        alt: 'KENZ jewelry campaign portrait featuring gold jewelry against a monochrome background.',
+      },
+      {
+        src: '/assets/images/brands/kenz-detail.webp',
+        alt: 'Close-up of a KENZ model wearing a gold ring and bracelets.',
+      },
+      {
+        src: '/assets/images/brands/kenz-campaign.webp',
+        alt: 'Side portrait from the KENZ jewelry campaign with layered necklaces and bracelets.',
+      },
+    ],
+  },
+  {
     id: 'zen-diamond',
     title: 'ZEN DIAMOND',
     photos: [
@@ -46,24 +64,6 @@ const brandEntries: BrandEntry[] = [
       {
         src: '/assets/images/brands/artists-close-tamer.webp',
         alt: 'TAMER HOSNY performing into a microphone beneath red stage lights.',
-      },
-    ],
-  },
-  {
-    id: 'kenz',
-    title: 'KENZ',
-    photos: [
-      {
-        src: '/assets/images/brands/kenz-main.webp',
-        alt: 'KENZ jewelry campaign portrait featuring gold jewelry against a monochrome background.',
-      },
-      {
-        src: '/assets/images/brands/kenz-detail.webp',
-        alt: 'Close-up of a KENZ model wearing a gold ring and bracelets.',
-      },
-      {
-        src: '/assets/images/brands/kenz-campaign.webp',
-        alt: 'Side portrait from the KENZ jewelry campaign with layered necklaces and bracelets.',
       },
     ],
   },

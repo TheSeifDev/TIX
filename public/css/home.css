@@ -2444,7 +2444,7 @@ html[lang="ar"] .trust-section__ribbon--crimson {
 ══════════════════════════════════════════════════════════ */
 .disrupt {
   position: relative;
-  background: #000;
+  background: transparent;
   /* height set by JS = viewport + vertical card travel */
 }
 
@@ -2456,7 +2456,7 @@ html[lang="ar"] .trust-section__ribbon--crimson {
   height: 100vh;
   height: 100dvh;
   overflow: hidden;
-  background: #000;
+  background: transparent;
   z-index: 2;
   isolation: isolate;
   display: flex;
@@ -2494,10 +2494,10 @@ html[lang="ar"] .trust-section__ribbon--crimson {
   position: absolute;
   left: 0;
   right: 0;
-  top: 46%;
-  transform: translateY(-50%);
+  top: 0;
   width: 100%;
-  height: min(92vh, 980px);
+  height: 100%;
+  transform: none;
 }
 
 .disrupt__grad {
@@ -2506,7 +2506,7 @@ html[lang="ar"] .trust-section__ribbon--crimson {
   width: 100%;
   height: 100%;
   object-fit: fill; /* stretch to touch both sides */
-  object-position: center;
+  object-position: top center;
   display: block;
 }
 
@@ -2547,9 +2547,10 @@ html[lang="ar"] .trust-section__ribbon--crimson {
 
 .disrupt__tagline {
   position: relative;
-  z-index: 4; /* BEHIND the model */
+  z-index: 1; /* Keep the headline behind the model. */
   margin: 0;
   padding-top: clamp(2rem, 8vh, 5rem);
+  transform: translateY(clamp(-10rem, -15vh, -5rem));
   font-family: var(--font-display);
   font-weight: 900;
   font-size: clamp(2.4rem, 4.8vw, 4.4rem);
@@ -2572,7 +2573,7 @@ html[lang="ar"] .trust-section__ribbon--crimson {
   object-position: bottom center;
   z-index: 7; /* In front of tagline & background */
   pointer-events: none;
-  mix-blend-mode: lighten;
+  mix-blend-mode: normal;
   filter: drop-shadow(0 24px 48px rgba(0, 0, 0, 0.85));
 }
 
@@ -2592,38 +2593,43 @@ html[lang="ar"] .trust-section__ribbon--crimson {
 .disrupt__viewport {
   position: relative;
   width: 100%;
-  height: min(76vh, 700px);
+  height: min(80vh, 700px);
   overflow: hidden;
   background: transparent;
-  mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 8%, black 92%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 6%, black 94%, transparent 100%);
 }
 
 .disrupt__track {
   display: flex;
   flex-direction: column;
   gap: clamp(1.4rem, 3.8vh, 2.5rem);
-  padding: 6vh 4px 52vh;
+  padding: 4vh 4px 52vh;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 }
 
-/* Leaf card — bold crimson border, no blue line */
+/* Leaf card — bold crimson border, matching Figma proportions */
 .disrupt__card {
   flex: 0 0 auto;
   width: 100%;
-  max-width: 480px;
+  max-width: 460px;
+  min-height: min(78vh, 660px);
+  height: min(78vh, 660px);
   margin-left: auto;
-  padding: clamp(1.35rem, 2.2vw, 1.95rem) clamp(1.2rem, 1.8vw, 1.7rem);
+  padding: clamp(1.6rem, 2.6vw, 2.3rem) clamp(1.4rem, 2.2vw, 2.1rem);
   background: #ffffff;
   color: #111111;
-  border-radius: 38px 10px 38px 38px;
+  border-radius: 0 clamp(64px, 16vw, 92px) 0 clamp(64px, 16vw, 92px);
   border: 10px solid #610000;
   box-shadow:
     0 24px 48px rgba(0, 0, 0, 0.85),
     0 0 28px rgba(97, 0, 0, 0.25);
   box-sizing: border-box;
   font-family: var(--font-display);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .disrupt__num {
@@ -2659,22 +2665,25 @@ html[lang="ar"] .trust-section__ribbon--crimson {
 
 .disrupt__list {
   list-style: none;
-  margin: 0;
+  margin: 0.5rem 0 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  flex: 1 1 auto;
+  justify-content: space-evenly;
+  gap: 0;
 }
 
 .disrupt__list li {
-  background: #f4f4f4;
-  padding: 8px 12px;
-  border-radius: 6px;
+  background: transparent;
+  padding: clamp(0.72rem, 1.25vh, 0.95rem) 0;
+  border-radius: 0;
   font-family: var(--font-display);
-  font-size: clamp(0.72rem, 1vw, 0.82rem);
+  font-size: clamp(0.75rem, 1.05vw, 0.88rem);
   font-weight: 700;
   color: #222;
-  border-left: 3px solid #610000;
+  border-left: 0;
+  border-bottom: 1px solid #610000;
 }
 
 /* ── Outro category tiles — positioned low over model's lower legs ── */
@@ -2804,7 +2813,8 @@ html[lang="ar"] .trust-section__ribbon--crimson {
     font-size: clamp(1.7rem, 7.5vw, 2.5rem);
     padding-top: calc(var(--nav-height, 65px) + 0.8rem);
     max-width: 60%;
-    z-index: 4;
+    z-index: 1;
+    transform: translateY(clamp(-3rem, -6vh, -1.5rem));
   }
 
   .disrupt__girl {
@@ -2836,7 +2846,9 @@ html[lang="ar"] .trust-section__ribbon--crimson {
 
   .disrupt__card {
     max-width: none;
-    border-radius: 30px 8px 30px 30px;
+    min-height: 0;
+    height: auto;
+    border-radius: 0 54px 0 54px;
     border-width: 7px;
     padding: 1.15rem 1rem;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.85);
@@ -3301,7 +3313,7 @@ html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
     height: auto !important;
     overflow: visible;
     padding-block: 0;
-    background: #080506;
+    background: transparent;
   }
 
   .disrupt__sticky {
@@ -3389,7 +3401,7 @@ html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
     margin: 0;
     padding: 1.1rem 1rem;
     border: 6px solid #610000;
-    border-radius: 30px 8px 30px 30px;
+    border-radius: 0 54px 0 54px;
     background: #fff;
     color: #111;
     box-shadow: 0 16px 36px rgba(0, 0, 0, .55), 0 0 24px rgba(97, 0, 0, .2);

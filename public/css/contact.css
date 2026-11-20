@@ -1080,7 +1080,7 @@ html[lang="ar"] .contact-footer__social .contact-footer__label { justify-content
   .contact-footer { min-height: 720px; }
   .contact-footer__inner { min-height: 720px; padding: 0 .8rem .8rem; }
   /* The supplied cutout has transparent headroom; lower it slightly to sit against the split headline. */
-  .contact-footer__character { top: clamp(0.7rem, 2.7vw, 1rem); width: min(62vw, 250px); max-height: 35%; }
+  .contact-footer__character { top: clamp(9rem, 8vw, 10rem); width: min(62vw, 250px); max-height: 35%; }
   .contact-footer__headlines {
     position: absolute;
     top: clamp(13.5rem, 60vw, 16rem);
