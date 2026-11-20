@@ -2031,3 +2031,30 @@ html[lang="ar"] .touchpoints__copy p { line-height: 1.8; }
 @media (max-width: 900px) {
   .touchpoints__card { width: 39%; }
 }
+
+/* Mobile About: directional reveals must not push copy beyond the viewport. */
+@media (max-width: 900px) {
+  .impact-hero [data-reveal="left"],
+  .signal-intro [data-reveal="left"],
+  .signal-intro [data-reveal="right"],
+  .connection [data-reveal="left"],
+  .connection [data-reveal="right"] {
+    transform: none;
+  }
+
+  .connection__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .connection__inner > div,
+  .connection__watch {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .connection__title,
+  .connection__body {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+}

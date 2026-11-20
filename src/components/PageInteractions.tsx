@@ -30,7 +30,19 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       const isServiceCallReveal = page === 'services' && target.matches('.svc-calls__button-wrap, .svc-calls__phone-stage, .svc-calls__side--left, .svc-calls__side--right');
       if (isServiceCallReveal) return;
       const revealOffset = isPhoneViewport ? 8 : isAboutHero ? 18 : 28;
-      gsap.fromTo(target, { autoAlpha: 0, y: revealOffset }, { autoAlpha: 1, y: 0, duration: isPhoneViewport ? 0.34 : 0.6, ease: 'power2.out', immediateRender: false, ...(isAboutHero ? {} : { scrollTrigger: { trigger: target, start: 'top 86%', once: true } }) });
+      const resetAboutPhoneX = page === 'about' && isPhoneViewport && target.matches('[data-reveal="left"], [data-reveal="right"]');
+      if (resetAboutPhoneX) gsap.set(target, { x: 0 });
+      const revealFrom = { autoAlpha: 0, y: revealOffset, ...(resetAboutPhoneX ? { x: 0 } : {}) };
+      const revealTo = {
+        autoAlpha: 1,
+        y: 0,
+        ...(resetAboutPhoneX ? { x: 0 } : {}),
+        duration: isPhoneViewport ? 0.34 : 0.6,
+        ease: 'power2.out',
+        immediateRender: false,
+        ...(isAboutHero ? {} : { scrollTrigger: { trigger: target, start: 'top 86%', once: true } }),
+      };
+      gsap.fromTo(target, revealFrom, revealTo);
     });
     gsap.utils.toArray<HTMLElement>('[data-stagger]').forEach((group) => {
       const children = Array.from(group.children) as HTMLElement[];
@@ -346,7 +358,7 @@ export function PageInteractions({ page }: { page: 'home' | 'about' | 'services'
       gallery?.querySelectorAll<HTMLElement>('[data-strip]').forEach(strip => {
         const isMobileLayout = window.matchMedia('(max-width: 900px)').matches;
         const hasCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
-        // Mobile uses static, full-width photo rows; keep desktop flex expansion out of this layout.
+        // Mobile uses native horizontal scroll-snap galleries; keep desktop flex expansion out of this layout.
         if (isMobileLayout || hasCoarsePointer) return;
         const cards = [...strip.querySelectorAll<HTMLElement>('.wg-card')];
         const lockHeight = () => { const height = strip.getBoundingClientRect().height; if (!height) return; strip.style.height = `${height}px`; cards.forEach(card => { card.style.height = `${height}px`; }); };

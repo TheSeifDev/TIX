@@ -56,17 +56,25 @@ test.describe('mobile and locale regressions', () => {
     await expect(menu).toBeHidden();
   });
 
-  test('mobile Work photos use static full-width vertical rows', async ({ page }) => {
+  test('mobile Work galleries are horizontal snap carousels with per-section hints and no expansion animation', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/work', { waitUntil: 'domcontentloaded' });
 
-    for (const category of ['realestate', 'events']) {
-      const strip = page.locator(`.wg-cat[data-category="${category}"] [data-strip]`);
+    const categoryKeys = ['realestate', 'events', 'food', 'beauty', 'jewelry', 'workgallery'];
+    const categories = page.locator('.wg-cat');
+    await expect(categories).toHaveCount(categoryKeys.length);
+    for (const categoryKey of categoryKeys) {
+      const category = page.locator(`.wg-cat[data-category="${categoryKey}"]`);
+      const hint = category.locator('.wg-strip__hint');
+      const strip = category.locator('[data-strip]');
       const cards = strip.locator('.wg-card');
+      await expect(hint).toBeVisible();
+      await expect(hint).toHaveText('Scroll horizontally to explore');
       await expect(cards).toHaveCount(5);
       await strip.scrollIntoViewIfNeeded();
       const layout = await strip.evaluate((element) => ({
         direction: getComputedStyle(element).flexDirection,
+        overflowX: getComputedStyle(element).overflowX,
         clientWidth: element.clientWidth,
         scrollWidth: element.scrollWidth,
         bounds: element.getBoundingClientRect().toJSON(),
@@ -77,7 +85,6 @@ test.describe('mobile and locale regressions', () => {
             left: rect.left,
             right: rect.right,
             top: rect.top,
-            bottom: rect.bottom,
             width: rect.width,
             transitionDuration: getComputedStyle(card).transitionDuration,
             imageTransitionDuration: image ? getComputedStyle(image).transitionDuration : '',
@@ -85,17 +92,17 @@ test.describe('mobile and locale regressions', () => {
           };
         }),
       }));
-      expect(layout.direction).toBe('column');
-      expect(layout.scrollWidth).toBeLessThanOrEqual(layout.clientWidth + 1);
-      for (let index = 0; index < layout.cards.length; index += 1) {
-        const card = layout.cards[index];
-        expect(card.width).toBeGreaterThan(layout.bounds.width * 0.95);
-        expect(card.left).toBeGreaterThanOrEqual(layout.bounds.left - 1);
-        expect(card.right).toBeLessThanOrEqual(layout.bounds.right + 1);
+      expect(layout.direction).toBe('row');
+      expect(layout.overflowX).toBe('auto');
+      expect(layout.scrollWidth).toBeGreaterThan(layout.clientWidth + 1);
+      expect(layout.cards[0].width).toBeGreaterThan(layout.clientWidth * 0.7);
+      expect(layout.cards[0].width).toBeLessThan(layout.clientWidth);
+      expect(Math.abs(layout.cards[0].top - layout.cards[1].top)).toBeLessThan(2);
+      expect(await hint.evaluate((element) => element.getBoundingClientRect().bottom <= element.parentElement!.querySelector('[data-strip]')!.getBoundingClientRect().top + 1)).toBe(true);
+      for (const card of layout.cards) {
         expect(card.transitionDuration).toBe('0s');
         expect(card.imageTransitionDuration).toBe('0s');
         expect(card.imageTransform).toBe('none');
-        if (index > 0) expect(card.top).toBeGreaterThanOrEqual(layout.cards[index - 1].bottom);
       }
 
       const firstCard = cards.first();
@@ -108,6 +115,49 @@ test.describe('mobile and locale regressions', () => {
       await page.mouse.move(5, 5);
       await expect.poll(() => firstCard.evaluate((element) => element.getBoundingClientRect().width)).toBe(widthBeforeHover);
       await expect.poll(() => firstImage.evaluate((image) => getComputedStyle(image).transform)).toBe('none');
+      const beforeScroll = await strip.evaluate((element) => element.scrollLeft);
+      await strip.evaluate((element) => { element.scrollLeft = element.scrollWidth; });
+      await expect.poll(() => strip.evaluate((element) => element.scrollLeft)).toBeGreaterThan(beforeScroll + 1);
+      await strip.evaluate((element) => { element.scrollLeft = 0; });
+    }
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+
+  test('mobile About copy and imagery stay inside the viewport in English and Arabic', async ({ page }) => {
+    for (const route of ['/about', '/ar/about'] as const) {
+      for (const width of [390, 467]) {
+        await page.setViewportSize({ width, height: 900 });
+        await page.goto(route, { waitUntil: 'domcontentloaded' });
+        await page.locator('.connection').scrollIntoViewIfNeeded();
+        const layout = await page.evaluate(() => {
+          const getBox = (element: Element) => {
+            const rect = element.getBoundingClientRect();
+            return { left: rect.left, right: rect.right };
+          };
+          const content = [
+            '.connection__label', '.connection__title', '.connection__body',
+            '.connection .btn', '.connection__watch', '.connection__watch img',
+          ].map((selector) => getBox(document.querySelector(selector)!));
+          const directionalReveals = [...document.querySelectorAll('main [data-reveal="left"], main [data-reveal="right"]')].map(getBox);
+          return {
+            width: window.innerWidth,
+            documentWidth: document.documentElement.scrollWidth,
+            language: document.documentElement.lang,
+            direction: document.documentElement.dir,
+            content,
+            directionalReveals,
+          };
+        });
+        expect(layout.documentWidth).toBeLessThanOrEqual(layout.width);
+        for (const box of [...layout.content, ...layout.directionalReveals]) {
+          expect(box.left).toBeGreaterThanOrEqual(-1);
+          expect(box.right).toBeLessThanOrEqual(layout.width + 1);
+        }
+        if (route.startsWith('/ar')) {
+          expect(layout.language).toBe('ar');
+          expect(layout.direction).toBe('rtl');
+        }
+      }
     }
   });
 
@@ -214,7 +264,11 @@ test.describe('mobile and locale regressions', () => {
     await expect(track.locator('.wg-cat__name')).toHaveText([
       'العقارات والشركات', 'الفعاليات والحفلات', 'الطعام والمشروبات', 'العطور والجمال', 'المجوهرات والفخامة', 'معرض الأعمال',
     ]);
-    for (const category of await categories.all()) await expect(category.locator('.wg-panel')).toBeVisible();
+    for (const category of await categories.all()) {
+      await expect(category.locator('.wg-panel')).toBeVisible();
+      await expect(category.locator('.wg-strip__hint')).toBeVisible();
+      await expect(category.locator('.wg-strip__hint')).toHaveText('Scroll horizontally to explore');
+    }
     const geometry = await track.evaluate((element) => ({
       clientWidth: element.clientWidth,
       scrollWidth: element.scrollWidth,

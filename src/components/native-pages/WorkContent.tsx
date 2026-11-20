@@ -138,6 +138,7 @@ export function WorkContent() {
             <h4 className="wg-panel__eyebrow">{t('eyebrows.realestate')}</h4>
             <p className="wg-panel__desc">{t('descriptions.realestate')}</p>
             </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="INTERIOR">
                 <div className="wg-card__media"><img src="/assets/images/r1.webp" alt="Real estate 01" loading="lazy" /></div>
@@ -199,6 +200,7 @@ export function WorkContent() {
               <h4 className="wg-panel__eyebrow">{t('eyebrows.events')}</h4>
               <p className="wg-panel__desc">{t('descriptions.events')}</p>
             </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="LIVE STAGE">
                 <div className="wg-card__media"><img src="/assets/images/sherien.webp" alt="Event 01" loading="lazy" /></div>
@@ -261,6 +263,7 @@ export function WorkContent() {
               <h4 className="wg-panel__eyebrow">{t('eyebrows.food')}</h4>
               <p className="wg-panel__desc">{t('descriptions.food')}</p>
             </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="PLATING">
                 <div className="wg-card__media"><img src="/assets/images/f1.webp" alt="Food 01" loading="lazy" /></div>
@@ -322,6 +325,7 @@ export function WorkContent() {
               <h4 className="wg-panel__eyebrow">{t('eyebrows.beauty')}</h4>
               <p className="wg-panel__desc">{t('descriptions.beauty')}</p>
             </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="BOTTLE STILLS">
                 <div className="wg-card__media"><img src="/assets/images/b1.webp" alt="Beauty 01" loading="lazy" /></div>
@@ -385,6 +389,7 @@ export function WorkContent() {
               <h4 className="wg-panel__eyebrow">{t('eyebrows.jewelry')}</h4>
               <p className="wg-panel__desc">{t('descriptions.jewelry')}</p>
             </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="FINE JEWELRY">
                 <div className="wg-card__media"><img src="/assets/images/je1.webp" alt="Jewelry 01" loading="lazy" /></div>
@@ -450,6 +455,7 @@ export function WorkContent() {
             <h4 className="wg-panel__eyebrow">{t('story')}</h4>
               <p className="wg-panel__desc">{t('subtitle')}</p>
             </div>
+            <p className="wg-strip__hint" lang="en" dir="ltr">Scroll horizontally to explore</p>
             <div className="wg-strip" data-strip>
               <button type="button" className="wg-card is-active" data-label="REAL ESTATE & CORPORATES">
                 <div className="wg-card__media"><img src="/assets/images/r1.webp" alt="Real estate project" loading="lazy" /></div>

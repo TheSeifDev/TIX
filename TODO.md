@@ -12,7 +12,7 @@
 - [x] Implement a natural scroll-driven progression through all five brand entries, without letting photos or names disappear behind clipping containers. Keep it smooth on desktop and sensible and performant on mobile. On mobile, place “Scroll horizontally to explore” above the gallery, not below it.
 
 ## 3. Work page: category presentation
-- [x] Replace only the six accordion/category interactions—Real Estate, Event and Concert, Food and Beverage, Perfume and Beauty, Jewelry and Luxury, and Work Gallery—with a lightweight vertical stack. Show each category under the previous one, not side by side; visitors should reach all categories by normal page scrolling. On mobile, show every category photo as a full-width card stacked one per row, with no horizontal swipe ribbon, hover expansion, or image-transform animation. Keep the desktop photo-strip animation separate and unchanged.
+- [x] Replace only the six accordion/category interactions—Real Estate, Event and Concert, Food and Beverage, Perfume and Beauty, Jewelry and Luxury, and Work Gallery—with a lightweight vertical stack. Show each category under the previous one, not side by side; visitors should reach all categories by normal page scrolling. On mobile, give every category a simple horizontal photo carousel with the visible instruction “Scroll horizontally to explore” above it; keep native swipe/scroll-snap and avoid hover expansion or image-transform animation. Keep the desktop photo-strip animation separate and unchanged.
 - [x] Preserve the approved Work page design, content, spacing, heights, transitions, existing main page scrolling behavior, and Arabic version; avoid nested accordion animations and excessive transitions.
 
 ## 4. Services page
@@ -25,6 +25,7 @@
 - [x] Keep “For brands that need” stable and animate all six words in order: Attention, Impact, Presence, Movement, Direction, Culture. Use the specified colors: Attention—dark red; Impact—beige; Presence—dark red; Movement—beige; Direction—beige; Culture—dark red. Keep the movement smooth and legible without overlap, clipping, or layout jumps.
 - [x] Translate the stable phrase and all six changing words into Arabic, preserve the concepts/color sequence, and make the Arabic composition and animation RTL.
 - [x] Mirror “The Signal” composition in Arabic so the paragraph is on the left; reposition the other visual/text elements as needed. Keep “The Connection Isn’t Optional” and do not restore “Creative Forces Behind Modern Brands” or other cancelled sections.
+- [x] On mobile widths of 390–467px, keep About headings, body copy, CTA buttons, and imagery within the viewport without persistent reveal offsets clipping content to the left; preserve Arabic RTL and the desktop layout/reveal behavior.
 
 ## 6. Contact page
 - [x] Preserve the current contact animation, overall composition, and photographs behind the “Let’s Get in Touch” heading; keep the heading and supporting content readable on desktop and mobile.

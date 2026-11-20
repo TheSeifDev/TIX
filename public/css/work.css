@@ -623,6 +623,10 @@
   flex-shrink: 0;
 }
 
+.wg-strip__hint {
+  display: none;
+}
+
 /* ── Responsive ── */
 @media (max-width: 900px) {
   .wg-cat__name {
@@ -655,28 +659,41 @@
     max-width: none;
   }
 
-  .wg-strip {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.9rem;
-    min-height: 0;
-    height: auto !important;
-    overflow: visible;
-    padding: 0;
-    scroll-snap-type: none;
-    touch-action: pan-y;
+  .wg-strip__hint {
+    display: block;
+    margin: -0.1rem 0 -0.35rem;
+    color: rgba(255, 255, 255, 0.62);
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    line-height: 1.4;
+    text-align: center;
   }
 
-  /* Mobile gallery: simple full-width photo rows, independent from desktop expansion. */
+  .wg-strip {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0.75rem;
+    min-height: 0;
+    height: auto !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0 0 0.65rem;
+    scroll-padding-inline: 0.15rem;
+    scroll-snap-type: x mandatory;
+    overscroll-behavior-x: contain;
+    touch-action: auto;
+  }
+
+  /* Mobile gallery: native horizontal swipe, independent from desktop expansion. */
   .wg-card,
   .wg-card.is-active {
-    flex: 0 0 auto !important;
-    width: 100%;
+    flex: 0 0 min(76vw, 360px) !important;
+    width: min(76vw, 360px);
     min-width: 0;
     height: auto !important;
     cursor: default;
-    scroll-snap-align: none;
+    scroll-snap-align: start;
     transition: none !important;
     animation: none !important;
     transform: none !important;
@@ -686,15 +703,14 @@
     flex: none;
     width: 100%;
     min-height: 0;
-    height: auto !important;
-    aspect-ratio: auto;
+    height: clamp(220px, 62vw, 340px) !important;
   }
 
   .wg-card__media img {
     width: 100%;
-    height: auto !important;
+    height: 100% !important;
     max-width: 100%;
-    object-fit: contain;
+    object-fit: cover;
     transition: none !important;
     transform: none !important;
   }
