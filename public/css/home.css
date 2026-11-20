@@ -2814,7 +2814,7 @@ html[lang="ar"] .trust-section__ribbon--crimson {
     padding-top: calc(var(--nav-height, 65px) + 0.8rem);
     max-width: 60%;
     z-index: 1;
-    transform: translateY(clamp(-3rem, -6vh, -1.5rem));
+    transform: none;
   }
 
   .disrupt__girl {
@@ -3326,10 +3326,10 @@ html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
     justify-items: stretch;
-    gap: 1rem;
+    gap: 0;
     overflow: visible !important;
-    padding: clamp(2.2rem, 7vw, 3.5rem) clamp(1rem, 4vw, 1.6rem) 2rem;
-    background: #080506;
+    padding: clamp(1.4rem, 4.5vw, 2.2rem) clamp(1rem, 3.5vw, 1.4rem) 2rem;
+    background: transparent;
   }
 
   .disrupt__bg { position: absolute; inset: 0; opacity: .45; }
@@ -3339,45 +3339,54 @@ html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
     position: relative;
     top: auto;
     left: auto;
-    width: min(150px, 36vw);
-    margin: 0 auto -.7rem;
+    width: min(120px, 30vw);
+    margin: 0 auto 0.25rem 0;
     transform: none;
     opacity: .95;
   }
   .disrupt__left {
+    position: relative;
     display: flex;
-    width: 100%;
-    height: auto;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row;
+    align-items: flex-start;
     justify-content: flex-start;
+    width: 100%;
+    min-height: clamp(320px, 50vh, 420px);
     margin: 0;
+    overflow: visible;
   }
   .disrupt__tagline {
-    width: 100%;
-    max-width: 12ch;
-    margin: 0 auto;
+    position: relative;
+    width: min(64vw, 260px);
+    max-width: 64vw;
+    margin: 0.15rem 0 0;
     padding: 0;
-    font-size: clamp(2rem, 8vw, 3.3rem);
-    line-height: 1;
-    text-align: center;
+    transform: none !important;
+    font-size: clamp(2.1rem, 8.4vw, 2.9rem);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    text-align: left;
     text-wrap: balance;
+    z-index: 1;
   }
   .disrupt__girl {
-    position: relative;
-    inset: auto;
-    display: block;
-    width: min(80vw, 340px);
-    max-width: 100%;
-    max-height: none;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    width: min(66vw, 290px);
+    max-width: 66vw;
+    max-height: 100%;
     height: auto;
-    margin: -.5rem auto 0;
+    margin: 0;
+    transform: none;
     object-fit: contain;
-    object-position: center bottom;
+    object-position: bottom right;
     mix-blend-mode: normal;
     filter: drop-shadow(0 16px 28px rgba(0,0,0,.62));
+    z-index: 7;
   }
-  .disrupt__right { width: 100%; height: auto; margin: 0; display: block; align-items: stretch; }
+  .disrupt__right { width: 100%; height: auto; margin: 1.5rem 0 0; display: block; align-items: stretch; }
   .disrupt__viewport {
     width: 100%;
     height: auto;
@@ -3386,26 +3395,37 @@ html[lang="ar"] .trust-section .marquee__group[lang="en"] .marquee__item {
     -webkit-mask-image: none;
   }
   .disrupt__track {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: .85rem;
-    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1.5rem, 4vh, 2.5rem);
+    padding: 0 0 clamp(4rem, 10vh, 8rem);
     transform: none !important;
     will-change: auto;
   }
   .disrupt__card {
+    position: sticky;
+    top: calc(clamp(60px, 11vh, 85px) + var(--stack-offset, 0px));
     width: 100%;
     max-width: none;
+    min-height: clamp(380px, 58vh, 480px);
     height: auto !important;
-    min-height: 0;
     margin: 0;
-    padding: 1.1rem 1rem;
+    padding: clamp(1.4rem, 4vw, 1.8rem) clamp(1.1rem, 3.5vw, 1.5rem);
     border: 6px solid #610000;
     border-radius: 0 54px 0 54px;
-    background: #fff;
-    color: #111;
-    box-shadow: 0 16px 36px rgba(0, 0, 0, .55), 0 0 24px rgba(97, 0, 0, .2);
+    background: #ffffff;
+    color: #111111;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(97, 0, 0, 0.25);
+    transform-origin: top center;
+    will-change: transform, opacity;
   }
+  .disrupt__card:nth-child(1) { z-index: 1; --stack-offset: 0px; }
+  .disrupt__card:nth-child(2) { z-index: 2; --stack-offset: 8px; }
+  .disrupt__card:nth-child(3) { z-index: 3; --stack-offset: 16px; }
+  .disrupt__card:nth-child(4) { z-index: 4; --stack-offset: 24px; }
+  .disrupt__card:nth-child(5) { z-index: 5; --stack-offset: 32px; }
+  .disrupt__card:nth-child(6) { z-index: 6; --stack-offset: 40px; }
   .disrupt__num { margin-bottom: .35rem; color: #111; font-size: 1.5rem; }
   .disrupt__card-title { color: #610000; border-color: #610000; font-size: .98rem; }
   .disrupt__card-desc { color: #333; font-size: .82rem; }
